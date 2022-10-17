@@ -2,7 +2,7 @@ package services;
 
 import models.Student;
 
-public class StudentServices {
+public class StudentService {
 
     public Student createStudent() {
         return new Student();
