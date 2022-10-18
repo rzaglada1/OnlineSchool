@@ -11,6 +11,10 @@ public class Main {
         LectureService lectureServiceThird = new LectureService();
         lectureServiceThird.createLecture();
 
+        // added object for git commit main
+        LectureService lectureServiceFourth = new LectureService();
+        lectureServiceFourth.createLecture();
+
         System.out.println(Lecture.CREATE_COUNT_LECTURE + " objects created");
 
     }
