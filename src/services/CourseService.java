@@ -8,7 +8,7 @@ public class CourseService {
         return new Course();
     }
 
-    public Course createCurse(Integer idCourse, String nameCourse) {
-        return new Course(idCourse, nameCourse);
+    public Course createCurse(String nameCourse) {
+        return new Course(nameCourse);
     }
 }

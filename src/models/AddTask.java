@@ -1,12 +1,26 @@
 package models;
 
 public class AddTask {
-    private Integer idAddTask;
+    private final Integer idAddTask;
     private String nameAddTask;
-    public static Long CREATE_COUNT_ADD_TASK = 0L;
+    public static Integer CREATE_COUNT_ADD_TASK = 0;
 
     public AddTask() {
         CREATE_COUNT_ADD_TASK++;
+        this.idAddTask = CREATE_COUNT_ADD_TASK;
     }
 
+    public AddTask(String nameAddTask) {
+        CREATE_COUNT_ADD_TASK++;
+        this.idAddTask = CREATE_COUNT_ADD_TASK;
+        this.nameAddTask = nameAddTask;
+    }
+
+    public Integer getIdAddTask() {
+        return idAddTask;
+    }
+
+    public String getNameAddTask() {
+        return nameAddTask;
+    }
 }

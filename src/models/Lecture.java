@@ -1,19 +1,19 @@
 package models;
 
 public class Lecture {
-    private Integer idLecture;
+    private final Integer idLecture;
     private String nameLecture;
     public Integer idCourse;
-    public static Long CREATE_COUNT_LECTURE = 0L;
-    private Course course;
+    public static Integer CREATE_COUNT_LECTURE = 0;
 
     public Lecture() {
         CREATE_COUNT_LECTURE++;
+        this.idLecture = CREATE_COUNT_LECTURE;
     }
 
-    public Lecture(Integer idLecture, String nameLecture, Course course) {
+    public Lecture(String nameLecture, Course course) {
         CREATE_COUNT_LECTURE++;
-        this.idLecture = idLecture;
+        this.idLecture = CREATE_COUNT_LECTURE;
         this.nameLecture = nameLecture;
         this.idCourse = course.getIdCourse();
     }
