@@ -13,4 +13,18 @@ public class Course {
     public Course() {
         CREATE_COUNT_COURSE++;
     }
+
+    public Course(Integer idCourse, String nameCourse) {
+        CREATE_COUNT_COURSE++;
+        this.idCourse = idCourse;
+        this.nameCourse = nameCourse;
+    }
+
+    public Integer getIdCourse() {
+        return idCourse;
+    }
+
+    public String getNameCourse() {
+        return nameCourse;
+    }
 }
