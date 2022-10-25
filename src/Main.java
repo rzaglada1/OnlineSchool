@@ -14,9 +14,9 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        //  Homework N7  part 1.
+        //  Homework N8 .
         System.out.println("");
-        System.out.println("========= Homework N7  part 1 ================");
+        System.out.println("========= Homework N8  ================");
         System.out.println("");
 
         TeacherService teacherService = new TeacherService();
@@ -32,65 +32,56 @@ public class Main {
         CourseService courseService = new CourseService();
         Course course = courseService.createCurse("Java course", teacherCourse1, studentCourse1, lectureCourse1);
 
-        System.out.println("Select category:");
-        System.out.println("1 - Course");
-        System.out.println("2 - Lecture");
-        System.out.println("3 - Teacher");
-        System.out.println("4 - Student");
-
-        int category = scanner.nextInt();
-
-        switch (category) {
-            case 1:
-                System.out.println("Selected category  - \"Course\" ");
-                System.out.println(course.toString());
-                break;
-
-            case 2:
-                System.out.println("Selected category  - \"Lecture\" ");
-                System.out.println(lectureCourse1.toString());
-                break;
-
-            case 3:
-                System.out.println("Selected category  - \"Teacher\" ");
-                System.out.println(teacherCourse1.toString());
-                break;
-
-            case 4:
-                System.out.println("Selected category  - \"Student\" ");
-                System.out.println(studentCourse1.toString());
-                break;
-
-            default:
-                System.out.println("Selection error");
-                break;
-        }
-
-        // Homework N7  part 2  and part 3.
-
-        System.out.println("");
-        System.out.println("========= Homework N7  part 2 & part 3 ================");
-        System.out.println("");
-
+        int category = -1;
 
         while (true) {
-            System.out.println("");
-            System.out.println("Creating object lecture.  Enter name lecture:");
-            System.out.println("\"1\" - for exit program");
+            while (category > 5  || category < 1) {
+                System.out.println("");
+                System.out.println("Select category:");
+                System.out.println("1 - Creating course");
+                System.out.println("2 - Creating lecture");
+                System.out.println("3 - Creating teacher");
+                System.out.println("4 - Creating student");
+                System.out.println("5 - exit program");
 
-            String nameLecture = scanner.next();
-
-            if (nameLecture.equals("1")) {
-                System.out.println("Exiting the program...");
-                break;
-            } else {
-                lectureService.createLecture(nameLecture);
-                System.out.println("ID Course = " + course.getIdCourse());
-                System.out.println(Lecture.CREATE_COUNT_LECTURE + " objects lectures created");
+                category = scanner.nextInt();
             }
+
+            switch (category) {
+                case 1:
+                    System.out.println("Selected   - \"Creating course\" ");
+                    courseService.createCurse();
+                    System.out.println(Course.CREATE_COUNT_COURSE + " objects Course created");
+                    break;
+
+                case 2:
+                    System.out.println("Selected  - \"Creating lecture\" ");
+                    lectureService.createLecture();
+                    System.out.println(Lecture.CREATE_COUNT_LECTURE + " objects Lecture created");
+                    break;
+
+                case 3:
+                    System.out.println("Selected  - \"Creating teacher\" ");
+                    teacherService.createTeacher();
+                    System.out.println(Teacher.CREATE_COUNT_TEACHER + " objects Teacher created");
+                    break;
+
+                case 4:
+                    System.out.println("Selected  - \"Creating student\" ");
+                    studentService.createStudent();
+                    System.out.println(Student.CREATE_COUNT_STUDENT + " objects Student created");
+                    break;
+
+//                case 5:
+//                    System.out.println("Exiting program ...");
+//                    break;
+
+            }
+            if (Lecture.CREATE_COUNT_LECTURE == 8 || category == 5) {
+                System.out.println("Exiting program ...");
+                break;
+            }
+            category = -1;
         }
-
-
     }
-
 }
