@@ -14,7 +14,6 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-
         //  Homework N7  part 1.
         System.out.println("");
         System.out.println("========= Homework N7  part 1 ================");
@@ -67,24 +66,19 @@ public class Main {
                 break;
         }
 
-        if (Course.CREATE_COUNT_COURSE == 0) {
-            // Lecture lectureCourse1 = lectureService.createLecture("Java 1");
-        }
-
-
-        //  Homework N7  part 2  and part3.
+        // Homework N7  part 2  and part 3.
 
         System.out.println("");
         System.out.println("========= Homework N7  part 2 & part 3 ================");
         System.out.println("");
 
-        String nameLecture = "";
+
         while (true) {
             System.out.println("");
             System.out.println("Creating object lecture.  Enter name lecture:");
             System.out.println("\"1\" - for exit program");
 
-            nameLecture = scanner.next();
+            String nameLecture = scanner.next();
 
             if (nameLecture.equals("1")) {
                 System.out.println("Exiting the program...");
@@ -92,19 +86,10 @@ public class Main {
             } else {
                 lectureService.createLecture(nameLecture);
                 System.out.println("ID Course = " + course.getIdCourse());
-                System.out.println(Lecture.CREATE_COUNT_LECTURE +  " objects lectures created");
+                System.out.println(Lecture.CREATE_COUNT_LECTURE + " objects lectures created");
             }
         }
 
-
-
-//        if (category == 2) {
-//            System.out.println("Creating object lecture. Enter name lecture");
-//            String nameLecture = scanner.next();
-//            Lecture lectureCourse1 = lectureService.createLecture(nameLecture);
-//        } else {
-//            Lecture lectureCourse1 = lectureService.createLecture("Java 1");
-//        }
 
     }
 
