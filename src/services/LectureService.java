@@ -9,7 +9,8 @@ public class LectureService {
         return new Lecture();
     }
 
-    public Lecture createLecture(String nameLecture, Course course) {
-        return new Lecture(nameLecture, course);
+    public Lecture createLecture(String nameLecture) {
+        return new Lecture(nameLecture);
     }
+
 }

@@ -23,4 +23,12 @@ public class Teacher {
     public String getNameTeacher() {
         return nameTeacher;
     }
+
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "idTeacher=" + idTeacher +
+                ", nameTeacher='" + nameTeacher + '\'' +
+                '}';
+    }
 }

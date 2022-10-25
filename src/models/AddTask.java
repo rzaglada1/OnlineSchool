@@ -23,4 +23,12 @@ public class AddTask {
     public String getNameAddTask() {
         return nameAddTask;
     }
+
+    @Override
+    public String toString() {
+        return "AddTask{" +
+                "idAddTask=" + idAddTask +
+                ", nameAddTask='" + nameAddTask + '\'' +
+                '}';
+    }
 }

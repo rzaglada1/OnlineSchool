@@ -3,7 +3,7 @@ package models;
 public class Lecture {
     private final Integer idLecture;
     private String nameLecture;
-    public Integer idCourse;
+    //public Integer idCourse;
     public static Integer CREATE_COUNT_LECTURE = 0;
 
     public Lecture() {
@@ -11,11 +11,10 @@ public class Lecture {
         this.idLecture = CREATE_COUNT_LECTURE;
     }
 
-    public Lecture(String nameLecture, Course course) {
+    public Lecture(String nameLecture) {
         CREATE_COUNT_LECTURE++;
         this.idLecture = CREATE_COUNT_LECTURE;
         this.nameLecture = nameLecture;
-        this.idCourse = course.getIdCourse();
     }
 
     public Integer getIdLecture() {
@@ -26,7 +25,11 @@ public class Lecture {
         return nameLecture;
     }
 
-    public Integer getIdCourse() {
-        return idCourse;
+    @Override
+    public String toString() {
+        return "Lecture{" +
+                "idLecture=" + idLecture +
+                ", nameLecture='" + nameLecture + '\'' +
+                '}';
     }
 }

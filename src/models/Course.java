@@ -21,11 +21,33 @@ public class Course {
         this.nameCourse = nameCourse;
     }
 
+    public Course(String nameCourse, Teacher teacher, Student student, Lecture lecture) {
+        CREATE_COUNT_COURSE++;
+        this.idCourse = CREATE_COUNT_COURSE;
+        this.nameCourse = nameCourse;
+        this.teacher = teacher;
+        this.student = student;
+        this.lecture = lecture;
+    }
+
     public Integer getIdCourse() {
         return idCourse;
     }
 
     public String getNameCourse() {
         return nameCourse;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "idCourse=" + idCourse +
+                ", nameCourse='" + nameCourse + '\'' +
+                ", teacher=" + teacher +
+                ", student=" + student +
+                ", lecture=" + lecture +
+                ", homework=" + homework +
+                ", addTask=" + addTask +
+                '}';
     }
 }

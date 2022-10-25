@@ -23,4 +23,12 @@ public class Homework {
     public String getNameHomework() {
         return nameHomework;
     }
+
+    @Override
+    public String toString() {
+        return "Homework{" +
+                "idHomeWork=" + idHomeWork +
+                ", nameHomework='" + nameHomework + '\'' +
+                '}';
+    }
 }
