@@ -3,7 +3,7 @@ package models;
 public class AddTask {
     private final Integer idAddTask;
     private String nameAddTask;
-    public static Integer CREATE_COUNT_ADD_TASK = 0;
+    private static Integer CREATE_COUNT_ADD_TASK = 0;
 
     public AddTask() {
         CREATE_COUNT_ADD_TASK++;
@@ -22,6 +22,10 @@ public class AddTask {
 
     public String getNameAddTask() {
         return nameAddTask;
+    }
+
+    public static Integer getCreateCountAddTask() {
+        return CREATE_COUNT_ADD_TASK;
     }
 
     @Override

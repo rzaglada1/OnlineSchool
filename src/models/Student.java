@@ -3,7 +3,7 @@ package models;
 public class Student {
     private final Integer idStudent;
     private String nameStudent;
-    public static Integer CREATE_COUNT_STUDENT = 0;
+    private static Integer CREATE_COUNT_STUDENT = 0;
 
     public Student() {
         CREATE_COUNT_STUDENT++;
@@ -22,6 +22,10 @@ public class Student {
 
     public String getNameStudent() {
         return nameStudent;
+    }
+
+    public static Integer getCreateCountStudent() {
+        return CREATE_COUNT_STUDENT;
     }
 
     @Override

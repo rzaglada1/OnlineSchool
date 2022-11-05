@@ -8,7 +8,7 @@ public class Course {
     private Lecture lecture;
     private Homework homework;
     private AddTask addTask;
-    public static Integer CREATE_COUNT_COURSE = 0;
+    private static Integer CREATE_COUNT_COURSE = 0;
 
     public Course() {
         CREATE_COUNT_COURSE++;
@@ -36,6 +36,14 @@ public class Course {
 
     public String getNameCourse() {
         return nameCourse;
+    }
+
+    public static Integer getCreateCountCourse() {
+        return CREATE_COUNT_COURSE;
+    }
+
+    public void setNameCourse(String nameCourse) {
+        this.nameCourse = nameCourse;
     }
 
     @Override

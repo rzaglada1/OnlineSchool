@@ -3,7 +3,7 @@ package models;
 public class Homework {
     private final Integer idHomeWork;
     private String nameHomework;
-    public static Integer CREATE_COUNT_HOMEWORK = 0;
+    private static Integer CREATE_COUNT_HOMEWORK = 0;
 
     public Homework() {
         CREATE_COUNT_HOMEWORK++;
@@ -22,6 +22,10 @@ public class Homework {
 
     public String getNameHomework() {
         return nameHomework;
+    }
+
+    public static Integer getCreateCountHomework() {
+        return CREATE_COUNT_HOMEWORK;
     }
 
     @Override

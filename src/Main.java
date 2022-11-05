@@ -1,87 +1,148 @@
+
+
 import models.Course;
 import models.Lecture;
 import models.Student;
 import models.Teacher;
-import services.CourseService;
-import services.LectureService;
-import services.StudentService;
-import services.TeacherService;
+import repositories.*;
+import services.*;
 
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
-
-        //  Homework N8 .
+        //  Homework N9 .
         System.out.println("");
-        System.out.println("========= Homework N8  ================");
+        System.out.println("========= Homework N9  ================");
         System.out.println("");
 
-        TeacherService teacherService = new TeacherService();
-        Teacher teacherCourse1 = teacherService.createTeacher("Anna");
-
-        StudentService studentService = new StudentService();
-        Student studentCourse1 = studentService.createStudent("Roman");
+        CourseService courseService = new CourseService();
+        CourseRepository courseRepository = new CourseRepository();
 
         LectureService lectureService = new LectureService();
-        Lecture lectureCourse1 = lectureService.createLecture("Java 1");
+        LectureRepository lectureRepository = new LectureRepository();
 
-        // creating a course with teacher, student, lecture
-        CourseService courseService = new CourseService();
-        Course course = courseService.createCurse("Java course", teacherCourse1, studentCourse1, lectureCourse1);
+        TeacherService teacherService = new TeacherService();
+        TeacherRepository teacherRepository = new TeacherRepository();
 
-        int category = -1;
+        StudentService studentService = new StudentService();
+        StudentRepository studentRepository = new StudentRepository();
+
+        HomeworkService homeworkService = new HomeworkService();
+        HomeworkRepository homeworkRepository = new HomeworkRepository();
+
+        AddTaskService addTaskService = new AddTaskService();
+        AddTaskRepository addTaskRepository = new AddTaskRepository();
+
+
+        // creating Course
+        courseRepository.add(courseService.createCurse("Java course"));
+
+        // creating three Lectures
+        int idCourse = courseRepository.getCourseRepository()[0].getIdCourse();
+        System.out.println("idCourse  " + idCourse);
+
+        for (int i = 0; i < 3; i++) {
+            lectureRepository.add(lectureService.createLecture("Lecture " + String.valueOf(i), idCourse));
+        }
+
+        System.out.println("Created " + Lecture.getCreateCountLecture() + " lecture objects ");
+
+        // printing repository objects
+        lectureService.printObjectsRepository(lectureRepository);
+
 
         while (true) {
-            while (category > 5  || category < 1) {
-                System.out.println("");
-                System.out.println("Select category:");
-                System.out.println("1 - Creating course");
-                System.out.println("2 - Creating lecture");
-                System.out.println("3 - Creating teacher");
-                System.out.println("4 - Creating student");
-                System.out.println("5 - exit program");
 
-                category = scanner.nextInt();
-            }
+            int category = checkCorrect();
 
             switch (category) {
                 case 1:
-                    System.out.println("Selected   - \"Creating course\" ");
-                    courseService.createCurse();
-                    System.out.println(Course.CREATE_COUNT_COURSE + " objects Course created");
+                    System.out.println("Selected   - \"1 - Number of objects course\" ");
+                    System.out.println("");
+                    // printing repository objects
+                    courseService.printObjectsRepository(courseRepository);
                     break;
 
                 case 2:
-                    System.out.println("Selected  - \"Creating lecture\" ");
-                    lectureService.createLecture();
-                    System.out.println(Lecture.CREATE_COUNT_LECTURE + " objects Lecture created");
+                    System.out.println("Selected   - \"2 - Number of objects lecture\" ");
+                    System.out.println("");
+                    // printing repository objects
+                    lectureService.printObjectsRepository(lectureRepository);
                     break;
 
                 case 3:
-                    System.out.println("Selected  - \"Creating teacher\" ");
-                    teacherService.createTeacher();
-                    System.out.println(Teacher.CREATE_COUNT_TEACHER + " objects Teacher created");
+                    System.out.println("Selected   - \"3 - Creating course\" ");
+                    courseRepository.add( courseService.createCurse(nameObject()) );
+                    System.out.println("Total of " + Course.getCreateCountCourse() + " Course objects created");
                     break;
 
                 case 4:
-                    System.out.println("Selected  - \"Creating student\" ");
-                    studentService.createStudent();
-                    System.out.println(Student.CREATE_COUNT_STUDENT + " objects Student created");
+                    System.out.println("Selected   - \"4 - Creating lecture\" ");
+                    lectureRepository.add( lectureService.createLecture(nameObject()) );
+                    System.out.println("Total of " + Lecture.getCreateCountLecture() + " Lecture objects created");
                     break;
 
-//                case 5:
-//                    System.out.println("Exiting program ...");
-//                    break;
+                case 5:
+                    System.out.println("Selected   - \"5 - Creating teacher\" ");
+                    teacherRepository.add( teacherService.createTeacher(nameObject()) );
+                    System.out.println("Total of " + Teacher.getCreateCountTeacher() + " Teacher objects created");
+
+                    break;
+
+                case 6:
+                    System.out.println("Selected   - \"6 - Creating student\" ");
+                    studentRepository.add( studentService.createStudent(nameObject()) );
+                    System.out.println("Total of " + Student.getCreateCountStudent() + " Student objects created");
+                    break;
+
 
             }
-            if (Lecture.CREATE_COUNT_LECTURE == 8 || category == 5) {
+            if (category == 7) {
                 System.out.println("Exiting program ...");
                 break;
             }
-            category = -1;
+
         }
     }
+
+    private static int checkCorrect() {
+        Scanner scanner = new Scanner(System.in);
+        boolean isFirstRun = false;
+        int category = -1;
+        while (category > 7 || category < 1 ) {
+            if (isFirstRun) {
+                System.out.println("Something went wrong ... Try again. ");
+            }
+            isFirstRun = true;
+
+            System.out.println("");
+            System.out.println("Select category:");
+            System.out.println("1 - Number of objects course");
+            System.out.println("2 - Number of objects lecture");
+            System.out.println("3 - Creating course");
+            System.out.println("4 - Creating lecture");
+            System.out.println("5 - Creating teacher");
+            System.out.println("6 - Creating student");
+            System.out.println("7 - exit program");
+
+            if (scanner.hasNextInt()) {
+                category = scanner.nextInt();
+            } else {
+                scanner.next();
+            }
+
+      }
+
+        return category;
+    }
+
+    private static String nameObject () {
+        System.out.println("Enter the name of the object:");
+        return   new Scanner(System.in).next();
+    }
+
+
 }
+
