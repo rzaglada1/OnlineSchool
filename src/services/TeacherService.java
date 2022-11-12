@@ -9,19 +9,19 @@ public class TeacherService {
         return new Teacher();
     }
 
-    public Teacher createTeacher(String nameTeacher) {
-        return new Teacher(nameTeacher);
+    public Teacher createTeacher(String name) {
+        return new Teacher(name);
     }
 
     public void printObjectsRepository(TeacherRepository teacherRepository) {
 
-        Teacher[] teacherArray = teacherRepository.getTeacherRepository();
+        Teacher[] teacherArray = teacherRepository.getRepository();
 
         for (Teacher teacher : teacherArray) {
             if (teacher == null) {
                 break;
             }
-            System.out.println("Name teacher - \"" + teacher.getNameTeacher() + "\". Teacher id = " + teacher.getIdTeacher());
+            System.out.println("Name teacher - \"" + teacher.getName () + "\". Teacher id = " + teacher.getId () );
 
         }
     }

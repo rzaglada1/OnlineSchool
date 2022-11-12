@@ -1,45 +1,45 @@
 package models;
 
 public class Lecture {
-    private final Integer idLecture;
+    private final Integer id;
     private Integer idCourse;
-    private String nameLecture;
+    private String name;
 
-    private static Integer CREATE_COUNT_LECTURE = 0;
+    private static Integer CREATE_COUNT = 0;
 
     public Lecture() {
-        CREATE_COUNT_LECTURE++;
-        this.idLecture = CREATE_COUNT_LECTURE;
+        CREATE_COUNT ++;
+        this.id = CREATE_COUNT;
     }
 
-    public Lecture(String nameLecture) {
-        CREATE_COUNT_LECTURE++;
-        this.idLecture = CREATE_COUNT_LECTURE;
-        this.nameLecture = nameLecture;
+    public Lecture(String name) {
+        CREATE_COUNT++;
+        this.id = CREATE_COUNT;
+        this.name = name;
     }
 
-    public Lecture(String nameLecture, int idCourse) {
-        CREATE_COUNT_LECTURE++;
-        this.idLecture = CREATE_COUNT_LECTURE;
-        this.nameLecture = nameLecture;
+    public Lecture(String name, int idCourse) {
+        CREATE_COUNT++;
+        this.id = CREATE_COUNT;
+        this.name = name;
         this.idCourse = idCourse;
     }
 
-    public Integer getIdLecture() {
-        return idLecture;
+    public Integer getId() {
+        return id;
     }
 
     public Integer getIdCourse() {
         return idCourse;
     }
 
-    public String getNameLecture() {
-        return nameLecture;
+    public String getName() {
+        return name;
     }
 
 
-    public static Integer getCreateCountLecture() {
-        return CREATE_COUNT_LECTURE;
+    public static Integer getCreateCount() {
+        return CREATE_COUNT;
     }
 
     public void setIdCourse(Integer idCourse) {
@@ -49,8 +49,8 @@ public class Lecture {
     @Override
     public String toString() {
         return "Lecture{" +
-                "idLecture=" + idLecture +
-                ", nameLecture='" + nameLecture + '\'' +
+                "idLecture=" + id +
+                ", nameLecture='" + name + '\'' +
                 '}';
     }
 }

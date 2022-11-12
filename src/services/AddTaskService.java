@@ -9,19 +9,19 @@ public class AddTaskService {
         return new AddTask();
     }
 
-    public AddTask createAddTask(String nameAddTask) {
-        return new AddTask(nameAddTask);
+    public AddTask createAddTask(String name) {
+        return new AddTask(name);
     }
 
     public void printObjectsRepository(AddTaskRepository addTaskRepository) {
 
-        AddTask[] addTasksArray = addTaskRepository.getAddTaskRepository();
+        AddTask[] addTasksArray = addTaskRepository.getRepository();
 
         for (AddTask addTask : addTasksArray) {
             if (addTask == null) {
                 break;
             }
-            System.out.println("Name addTask - \"" + addTask.getNameAddTask() + "\". addTask id = " + addTask.getIdAddTask());
+            System.out.println("Name addTask - \"" + addTask.getName () + "\". addTask id = " + addTask.getId ());
 
         }
     }

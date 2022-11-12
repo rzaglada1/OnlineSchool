@@ -5,31 +5,28 @@ import models.Student;
 public class StudentRepository {
     private int capacity = 5;
     private int capacityOld = 0;
-    private Student[] studentRepository = new Student[capacity];
+    private Student[] repository = new Student[capacity];
 
     public void add(Student student) {
-        //System.out.println("studentRepository.length = " + studentRepository.length);
-        for (int i = 0; i < studentRepository.length; i++) {
-            if (studentRepository[i] == null) {
-                studentRepository[i] = student;
-                //System.out.println("added in array");
+        for (int i = 0; i < repository.length; i++) {
+            if (repository[i] == null) {
+                repository[i] = student;
                 return;
             }
         }
         expandArray();
-        System.out.println("expanded array to " + studentRepository.length);
-        studentRepository[capacityOld] = student;
+        repository[capacityOld] = student;
     }
 
     private void expandArray() {
         capacityOld = capacity;
         capacity = (capacity * 3) / 2 + 1;
-        Student[] tmpStudentRepository = new Student[capacity];
-        System.arraycopy(studentRepository, 0, tmpStudentRepository, 0, capacityOld);
-        studentRepository = tmpStudentRepository;
+        Student[] tmpRepository = new Student[capacity];
+        System.arraycopy(repository, 0, tmpRepository, 0, capacityOld);
+        repository = tmpRepository;
     }
 
-    public Student[] getStudentRepository() {
-        return studentRepository;
+    public Student[] getRepository() {
+        return repository;
     }
 }

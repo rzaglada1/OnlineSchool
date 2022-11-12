@@ -11,23 +11,23 @@ public class LectureService {
         return new Lecture();
     }
 
-    public Lecture createLecture(String nameLecture) {
-        return new Lecture(nameLecture);
+    public Lecture createLecture(String name) {
+        return new Lecture(name);
     }
 
-    public Lecture createLecture(String nameLecture, int idCourse) {
-        return new Lecture(nameLecture, idCourse);
+    public Lecture createLecture(String name, int idCourse) {
+        return new Lecture(name, idCourse);
     }
 
     public void printObjectsRepository(LectureRepository lectureRepository) {
 
-        Lecture[] lectureArray = lectureRepository.getLectureRepository();
+        Lecture[] lectureArray = lectureRepository.getRepository();
 
         for (Lecture lecture : lectureArray) {
             if (lecture == null) {
                 break;
             }
-            System.out.println("Name lecture - \"" + lecture.getNameLecture() + "\". Lecture id = " + lecture.getIdLecture());
+            System.out.println("Name lecture - \"" + lecture.getName () + "\". Lecture id = " + lecture.getId () );
 
         }
     }

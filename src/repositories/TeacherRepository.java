@@ -6,31 +6,28 @@ import models.Teacher;
 public class TeacherRepository {
     private int capacity = 5;
     private int capacityOld = 0;
-    private Teacher[] teacherRepository = new Teacher[capacity];
+    private Teacher[] repository = new Teacher[capacity];
 
     public void add(Teacher teacher) {
-        //System.out.println("teacherRepository.length = " + teacherRepository.length);
-        for (int i = 0; i < teacherRepository.length; i++) {
-            if (teacherRepository[i] == null) {
-                teacherRepository[i] = teacher;
-                //System.out.println("added in array");
+        for (int i = 0; i < repository.length; i++) {
+            if (repository[i] == null) {
+                repository[i] = teacher;
                 return;
             }
         }
         expandArray();
-        System.out.println("expanded array to " + teacherRepository.length);
-        teacherRepository[capacityOld] = teacher;
+        repository[capacityOld] = teacher;
     }
 
     private void expandArray() {
         capacityOld = capacity;
         capacity = (capacity * 3) / 2 + 1;
-        Teacher[] tmpTeacherRepository = new Teacher[capacity];
-        System.arraycopy(teacherRepository, 0, tmpTeacherRepository, 0, capacityOld);
-        teacherRepository = tmpTeacherRepository;
+        Teacher[] tmpRepository = new Teacher[capacity];
+        System.arraycopy(repository, 0, tmpRepository, 0, capacityOld);
+        repository = tmpRepository;
     }
 
-    public Teacher[] getTeacherRepository() {
-        return teacherRepository;
+    public Teacher[] getRepository() {
+        return repository;
     }
 }

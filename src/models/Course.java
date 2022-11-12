@@ -1,56 +1,56 @@
 package models;
 
 public class Course {
-    private final Integer idCourse;
-    private String nameCourse;
+    private final Integer id;
+    private String name;
     private Teacher teacher;
     private Student student;
     private Lecture lecture;
     private Homework homework;
     private AddTask addTask;
-    private static Integer CREATE_COUNT_COURSE = 0;
+    private static Integer CREATE_COUNT = 0;
 
     public Course() {
-        CREATE_COUNT_COURSE++;
-        this.idCourse = CREATE_COUNT_COURSE;
+        CREATE_COUNT ++;
+        this.id = CREATE_COUNT;
     }
 
-    public Course(String nameCourse) {
-        CREATE_COUNT_COURSE++;
-        this.idCourse = CREATE_COUNT_COURSE;
-        this.nameCourse = nameCourse;
+    public Course(String name) {
+        CREATE_COUNT ++;
+        this.id = CREATE_COUNT;
+        this.name = name;
     }
 
-    public Course(String nameCourse, Teacher teacher, Student student, Lecture lecture) {
-        CREATE_COUNT_COURSE++;
-        this.idCourse = CREATE_COUNT_COURSE;
-        this.nameCourse = nameCourse;
+    public Course(String name, Teacher teacher, Student student, Lecture lecture) {
+        CREATE_COUNT ++;
+        this.id = CREATE_COUNT;
+        this.name = name;
         this.teacher = teacher;
         this.student = student;
         this.lecture = lecture;
     }
 
-    public Integer getIdCourse() {
-        return idCourse;
+    public Integer getId () {
+        return id;
     }
 
-    public String getNameCourse() {
-        return nameCourse;
+    public String getName () {
+        return name;
     }
 
-    public static Integer getCreateCountCourse() {
-        return CREATE_COUNT_COURSE;
+    public static Integer getCreateCount () {
+        return CREATE_COUNT;
     }
 
-    public void setNameCourse(String nameCourse) {
-        this.nameCourse = nameCourse;
+    public void setName (String name) {
+        this.name = name;
     }
 
     @Override
     public String toString() {
         return "Course{" +
-                "idCourse=" + idCourse +
-                ", nameCourse='" + nameCourse + '\'' +
+                "idCourse=" + id +
+                ", nameCourse='" + name + '\'' +
                 ", teacher=" + teacher +
                 ", student=" + student +
                 ", lecture=" + lecture +

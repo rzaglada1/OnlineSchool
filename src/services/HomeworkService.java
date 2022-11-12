@@ -9,19 +9,19 @@ public class HomeworkService {
         return new Homework();
     }
 
-    public Homework createHomework(String nameHomework) {
-        return new Homework(nameHomework);
+    public Homework createHomework(String name) {
+        return new Homework(name);
     }
 
     public void printObjectsRepository(HomeworkRepository homeworkRepository) {
 
-        Homework[] homeworkArray = homeworkRepository.getHomeworkRepository();
+        Homework[] homeworkArray = homeworkRepository.getRepository();
 
         for (Homework homework : homeworkArray) {
             if (homework == null) {
                 break;
             }
-            System.out.println("Name homeWork - \"" + homework.getNameHomework() + "\". HomeWork id = " + homework.getIdHomeWork());
+            System.out.println("Name homeWork - \"" + homework.getName () + "\". HomeWork id = " + homework.getId () );
 
         }
     }

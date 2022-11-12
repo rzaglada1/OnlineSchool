@@ -1,38 +1,38 @@
 package models;
 
 public class Teacher {
-    private final Integer idTeacher;
-    private String nameTeacher;
-    private static Integer CREATE_COUNT_TEACHER = 0;
+    private final Integer id;
+    private String name;
+    private static Integer CREATE_COUNT = 0;
 
     public Teacher() {
-        CREATE_COUNT_TEACHER++;
-        this.idTeacher = CREATE_COUNT_TEACHER;
+        CREATE_COUNT ++;
+        this.id = CREATE_COUNT;
     }
 
-    public Teacher(String nameTeacher) {
-        CREATE_COUNT_TEACHER++;
-        this.idTeacher = CREATE_COUNT_TEACHER;
-        this.nameTeacher = nameTeacher;
+    public Teacher(String name) {
+        CREATE_COUNT++;
+        this.id = CREATE_COUNT;
+        this.name = name;
     }
 
-    public Integer getIdTeacher() {
-        return idTeacher;
+    public Integer getId () {
+        return id;
     }
 
-    public String getNameTeacher() {
-        return nameTeacher;
+    public String getName () {
+        return name;
     }
 
-    public static Integer getCreateCountTeacher() {
-        return CREATE_COUNT_TEACHER;
+    public static Integer getCreateCount () {
+        return CREATE_COUNT;
     }
 
     @Override
     public String toString() {
         return "Teacher{" +
-                "idTeacher=" + idTeacher +
-                ", nameTeacher='" + nameTeacher + '\'' +
+                "id = " + id +
+                ", name ='" + name + '\'' +
                 '}';
     }
 }

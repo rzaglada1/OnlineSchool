@@ -5,32 +5,29 @@ import models.Course;
 public class CourseRepository {
     private int capacity = 10;
     private int capacityOld = 0;
-    private Course[] courseRepository = new Course[capacity];
+    private Course[] repository = new Course[capacity];
 
     public void add(Course course) {
-        //System.out.println(courseRepository.length);
-        for (int i = 0; i < courseRepository.length; i++) {
-            if (courseRepository[i] == null) {
-                courseRepository[i] = course;
-                //System.out.println("added in array");
+        for (int i = 0; i < repository.length; i++) {
+            if (repository[i] == null) {
+                repository[i] = course;
                 return;
             }
         }
         expandArray();
-        System.out.println("expanding array to " + courseRepository.length);
-        courseRepository[capacityOld] = course;
+        repository[capacityOld] = course;
     }
 
     private void expandArray() {
         capacityOld = capacity;
         capacity = (capacity * 3) / 2 + 1;
-        Course[] tmpCourseRepository = new Course[capacity];
-        System.arraycopy(courseRepository, 0, tmpCourseRepository, 0, capacityOld);
-        courseRepository = tmpCourseRepository;
+        Course[] tmpRepository = new Course[capacity];
+        System.arraycopy(repository, 0, tmpRepository, 0, capacityOld);
+        repository = tmpRepository;
     }
 
-    public Course[] getCourseRepository() {
-        return courseRepository;
+    public Course[] getRepository() {
+        return repository;
     }
 
 

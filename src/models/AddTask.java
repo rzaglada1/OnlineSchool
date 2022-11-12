@@ -1,38 +1,38 @@
 package models;
 
 public class AddTask {
-    private final Integer idAddTask;
-    private String nameAddTask;
-    private static Integer CREATE_COUNT_ADD_TASK = 0;
+    private final Integer id;
+    private String name;
+    private static Integer CREATE_COUNT = 0;
 
     public AddTask() {
-        CREATE_COUNT_ADD_TASK++;
-        this.idAddTask = CREATE_COUNT_ADD_TASK;
+        CREATE_COUNT ++;
+        this.id = CREATE_COUNT;
     }
 
-    public AddTask(String nameAddTask) {
-        CREATE_COUNT_ADD_TASK++;
-        this.idAddTask = CREATE_COUNT_ADD_TASK;
-        this.nameAddTask = nameAddTask;
+    public AddTask(String name) {
+        CREATE_COUNT ++;
+        this.id = CREATE_COUNT;
+        this.name = name;
     }
 
-    public Integer getIdAddTask() {
-        return idAddTask;
+    public Integer getId() {
+        return id;
     }
 
-    public String getNameAddTask() {
-        return nameAddTask;
+    public String getName() {
+        return name;
     }
 
-    public static Integer getCreateCountAddTask() {
-        return CREATE_COUNT_ADD_TASK;
+    public static Integer getCreateCount() {
+        return CREATE_COUNT;
     }
 
     @Override
     public String toString() {
         return "AddTask{" +
-                "idAddTask=" + idAddTask +
-                ", nameAddTask='" + nameAddTask + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

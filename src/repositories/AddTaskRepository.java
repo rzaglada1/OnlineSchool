@@ -5,31 +5,30 @@ import models.AddTask;
 public class AddTaskRepository {
     private int capacity = 5;
     private int capacityOld = 0;
-    private AddTask[] addTaskRepository = new AddTask[capacity];
+    private AddTask[] repository = new AddTask[capacity];
 
     public void add(AddTask addTask) {
-        //System.out.println("addTaskRepository.length = " + addTaskRepository.length);
-        for (int i = 0; i < addTaskRepository.length; i++) {
-            if (addTaskRepository[i] == null) {
-                addTaskRepository[i] = addTask;
-                //System.out.println("added in array");
+
+        for (int i = 0; i < repository.length; i++) {
+            if (repository[i] == null) {
+                repository[i] = addTask;
                 return;
             }
         }
         expandArray();
-        System.out.println("expanded array to " + addTaskRepository.length);
-        addTaskRepository[capacityOld] = addTask;
+
+        repository[capacityOld] = addTask;
     }
 
     private void expandArray() {
         capacityOld = capacity;
         capacity = (capacity * 3) / 2 + 1;
-        AddTask[] tmpAddTaskRepository = new AddTask[capacity];
-        System.arraycopy(addTaskRepository, 0, tmpAddTaskRepository, 0, capacityOld);
-        addTaskRepository = tmpAddTaskRepository;
+        AddTask[] tmpRepository = new AddTask[capacity];
+        System.arraycopy(repository, 0, tmpRepository, 0, capacityOld);
+        repository = tmpRepository;
     }
 
-    public AddTask[] getAddTaskRepository() {
-        return addTaskRepository;
+    public AddTask[] getRepository() {
+        return repository;
     }
 }
