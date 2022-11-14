@@ -2,6 +2,7 @@ package services;
 
 
 import models.Lecture;
+import models.Model;
 import repositories.LectureRepository;
 
 
@@ -21,13 +22,13 @@ public class LectureService {
 
     public void printObjectsRepository(LectureRepository lectureRepository) {
 
-        Lecture[] lectureArray = lectureRepository.getRepository();
+        Model[] lectureArray = lectureRepository.getAll();
 
-        for (Lecture lecture : lectureArray) {
-            if (lecture == null) {
-                break;
+        for (Model lecture : lectureArray) {
+            if (lecture != null) {
+                System.out.println("Name lecture - \"" + lecture.getName() + "\". Lecture id = " + lecture.getID());
             }
-            System.out.println("Name lecture - \"" + lecture.getName () + "\". Lecture id = " + lecture.getId () );
+
 
         }
     }

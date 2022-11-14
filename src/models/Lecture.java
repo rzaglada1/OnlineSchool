@@ -1,42 +1,28 @@
 package models;
 
-public class Lecture {
-    private final Integer id;
-    private Integer idCourse;
-    private String name;
+public class Lecture extends Model {
 
     private static Integer CREATE_COUNT = 0;
+    private Integer idCourse;
 
     public Lecture() {
-        CREATE_COUNT ++;
-        this.id = CREATE_COUNT;
+        CREATE_COUNT++;
+        setID(CREATE_COUNT);
     }
 
     public Lecture(String name) {
-        CREATE_COUNT++;
-        this.id = CREATE_COUNT;
-        this.name = name;
+        this();
+        setName(name);
     }
 
     public Lecture(String name, int idCourse) {
-        CREATE_COUNT++;
-        this.id = CREATE_COUNT;
-        this.name = name;
-        this.idCourse = idCourse;
-    }
-
-    public Integer getId() {
-        return id;
+        this(name);
+        setIdCourse(idCourse);
     }
 
     public Integer getIdCourse() {
         return idCourse;
     }
-
-    public String getName() {
-        return name;
-    }
-
 
     public static Integer getCreateCount() {
         return CREATE_COUNT;
@@ -48,9 +34,9 @@ public class Lecture {
 
     @Override
     public String toString() {
-        return "Lecture{" +
-                "idLecture=" + id +
-                ", nameLecture='" + name + '\'' +
+        return "Object lecture{" +
+                "id = " + getID() +
+                ", name = '" + getName() + '\'' +
                 '}';
     }
 }

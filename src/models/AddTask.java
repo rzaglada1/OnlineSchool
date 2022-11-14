@@ -1,27 +1,16 @@
 package models;
 
-public class AddTask {
-    private final Integer id;
-    private String name;
+public class AddTask extends Model {
     private static Integer CREATE_COUNT = 0;
 
     public AddTask() {
-        CREATE_COUNT ++;
-        this.id = CREATE_COUNT;
+        CREATE_COUNT++;
+        setID(CREATE_COUNT);
     }
 
     public AddTask(String name) {
-        CREATE_COUNT ++;
-        this.id = CREATE_COUNT;
-        this.name = name;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
+        this();
+        setName(name);
     }
 
     public static Integer getCreateCount() {
@@ -31,8 +20,8 @@ public class AddTask {
     @Override
     public String toString() {
         return "AddTask{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "id=" + getID() +
+                ", name='" + getName() + '\'' +
                 '}';
     }
 }

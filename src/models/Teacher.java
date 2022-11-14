@@ -1,38 +1,30 @@
 package models;
 
-public class Teacher {
-    private final Integer id;
-    private String name;
+public class Teacher extends Model {
+
     private static Integer CREATE_COUNT = 0;
 
     public Teacher() {
-        CREATE_COUNT ++;
-        this.id = CREATE_COUNT;
+        CREATE_COUNT++;
+        setID(CREATE_COUNT);
     }
 
     public Teacher(String name) {
-        CREATE_COUNT++;
-        this.id = CREATE_COUNT;
-        this.name = name;
+        this();
+        setName(name);
     }
 
-    public Integer getId () {
-        return id;
-    }
 
-    public String getName () {
-        return name;
-    }
-
-    public static Integer getCreateCount () {
+    public static Integer getCreateCount() {
         return CREATE_COUNT;
     }
+
 
     @Override
     public String toString() {
         return "Teacher{" +
-                "id = " + id +
-                ", name ='" + name + '\'' +
+                "id = " + getID() +
+                ", name ='" + getName() + '\'' +
                 '}';
     }
 }

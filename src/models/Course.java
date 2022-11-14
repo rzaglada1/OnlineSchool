@@ -1,8 +1,6 @@
 package models;
 
-public class Course {
-    private final Integer id;
-    private String name;
+public class Course extends Model {
     private Teacher teacher;
     private Student student;
     private Lecture lecture;
@@ -11,46 +9,71 @@ public class Course {
     private static Integer CREATE_COUNT = 0;
 
     public Course() {
-        CREATE_COUNT ++;
-        this.id = CREATE_COUNT;
+        CREATE_COUNT++;
+        setID(CREATE_COUNT);
     }
 
     public Course(String name) {
-        CREATE_COUNT ++;
-        this.id = CREATE_COUNT;
-        this.name = name;
+        this();
+        setName(name);
     }
 
     public Course(String name, Teacher teacher, Student student, Lecture lecture) {
-        CREATE_COUNT ++;
-        this.id = CREATE_COUNT;
-        this.name = name;
+        this(name);
         this.teacher = teacher;
         this.student = student;
         this.lecture = lecture;
     }
 
-    public Integer getId () {
-        return id;
+    public Teacher getTeacher() {
+        return teacher;
     }
 
-    public String getName () {
-        return name;
+    public Student getStudent() {
+        return student;
     }
 
-    public static Integer getCreateCount () {
+    public Lecture getLecture() {
+        return lecture;
+    }
+
+    public Homework getHomework() {
+        return homework;
+    }
+
+    public AddTask getAddTask() {
+        return addTask;
+    }
+
+    public static Integer getCreateCount() {
         return CREATE_COUNT;
     }
 
-    public void setName (String name) {
-        this.name = name;
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public void setLecture(Lecture lecture) {
+        this.lecture = lecture;
+    }
+
+    public void setHomework(Homework homework) {
+        this.homework = homework;
+    }
+
+    public void setAddTask(AddTask addTask) {
+        this.addTask = addTask;
     }
 
     @Override
     public String toString() {
         return "Course{" +
-                "idCourse=" + id +
-                ", nameCourse='" + name + '\'' +
+                "idCourse=" + getID() +
+                ", nameCourse='" + getName() + '\'' +
                 ", teacher=" + teacher +
                 ", student=" + student +
                 ", lecture=" + lecture +

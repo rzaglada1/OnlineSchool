@@ -1,33 +1,28 @@
 package repositories;
 
 
-import models.Teacher;
+import models.Model;
 
-public class TeacherRepository {
-    private int capacity = 5;
-    private int capacityOld = 0;
-    private Teacher[] repository = new Teacher[capacity];
 
-    public void add(Teacher teacher) {
-        for (int i = 0; i < repository.length; i++) {
-            if (repository[i] == null) {
-                repository[i] = teacher;
-                return;
-            }
-        }
-        expandArray();
-        repository[capacityOld] = teacher;
+public class TeacherRepository extends ModelRepository {
+
+    @Override
+    public void add(Model model) {
+        super.add(model);
     }
 
-    private void expandArray() {
-        capacityOld = capacity;
-        capacity = (capacity * 3) / 2 + 1;
-        Teacher[] tmpRepository = new Teacher[capacity];
-        System.arraycopy(repository, 0, tmpRepository, 0, capacityOld);
-        repository = tmpRepository;
+    @Override
+    public Model[] getAll() {
+        return super.getAll();
     }
 
-    public Teacher[] getRepository() {
-        return repository;
+    @Override
+    public Model getById(int ID) {
+        return super.getById(ID);
+    }
+
+    @Override
+    public void deleteById(int ID) {
+        super.deleteById(ID);
     }
 }

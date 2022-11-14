@@ -1,6 +1,7 @@
 package services;
 
 import models.AddTask;
+import models.Model;
 import repositories.AddTaskRepository;
 
 public class AddTaskService {
@@ -15,13 +16,13 @@ public class AddTaskService {
 
     public void printObjectsRepository(AddTaskRepository addTaskRepository) {
 
-        AddTask[] addTasksArray = addTaskRepository.getRepository();
+        Model[] addTasksArray = addTaskRepository.getAll();
 
-        for (AddTask addTask : addTasksArray) {
-            if (addTask == null) {
-                break;
+        for (Model addTask : addTasksArray) {
+            if (addTask != null) {
+                System.out.println("Name addTask - \"" + addTask.getName() + "\". addTask id = " + addTask.getID());
             }
-            System.out.println("Name addTask - \"" + addTask.getName () + "\". addTask id = " + addTask.getId ());
+
 
         }
     }

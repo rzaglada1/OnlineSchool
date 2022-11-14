@@ -1,6 +1,7 @@
 package services;
 
 
+import models.Model;
 import models.Student;
 import repositories.StudentRepository;
 
@@ -16,13 +17,13 @@ public class StudentService {
 
     public void printObjectsRepository(StudentRepository studentRepository) {
 
-        Student[] studentArray = studentRepository.getRepository();
+        Model[] studentArray = studentRepository.getAll();
 
-        for (Student student : studentArray) {
-            if (student == null) {
-                break;
+        for (Model student : studentArray) {
+            if (student != null) {
+                System.out.println("Name student - \"" + student.getName() + "\". Student id = " + student.getID());
             }
-            System.out.println("Name student - \"" + student.getName () + "\". Student id = " + student.getId () );
+
 
         }
     }

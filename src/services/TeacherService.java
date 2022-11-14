@@ -1,5 +1,6 @@
 package services;
 
+import models.Model;
 import models.Teacher;
 import repositories.TeacherRepository;
 
@@ -15,13 +16,13 @@ public class TeacherService {
 
     public void printObjectsRepository(TeacherRepository teacherRepository) {
 
-        Teacher[] teacherArray = teacherRepository.getRepository();
+        Model[] teacherArray = teacherRepository.getAll();
 
-        for (Teacher teacher : teacherArray) {
-            if (teacher == null) {
-                break;
+        for (Model teacher : teacherArray) {
+            if (teacher != null) {
+                System.out.println("Name teacher - \"" + teacher.getName() + "\". Teacher id = " + teacher.getID());
             }
-            System.out.println("Name teacher - \"" + teacher.getName () + "\". Teacher id = " + teacher.getId () );
+
 
         }
     }

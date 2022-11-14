@@ -1,6 +1,7 @@
 package services;
 
 import models.Homework;
+import models.Model;
 import repositories.HomeworkRepository;
 
 public class HomeworkService {
@@ -15,13 +16,13 @@ public class HomeworkService {
 
     public void printObjectsRepository(HomeworkRepository homeworkRepository) {
 
-        Homework[] homeworkArray = homeworkRepository.getRepository();
+        Model[] homeworkArray = homeworkRepository.getAll();
 
-        for (Homework homework : homeworkArray) {
-            if (homework == null) {
-                break;
+        for (Model homework : homeworkArray) {
+            if (homework != null) {
+                System.out.println("Name homeWork - \"" + homework.getName() + "\". HomeWork id = " + homework.getID());
             }
-            System.out.println("Name homeWork - \"" + homework.getName () + "\". HomeWork id = " + homework.getId () );
+
 
         }
     }

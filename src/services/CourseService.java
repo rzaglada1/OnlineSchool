@@ -1,9 +1,6 @@
 package services;
 
-import models.Course;
-import models.Lecture;
-import models.Student;
-import models.Teacher;
+import models.*;
 import repositories.CourseRepository;
 
 
@@ -23,13 +20,13 @@ public class CourseService {
 
     public void printObjectsRepository(CourseRepository courseRepository) {
 
-        Course[] courseArray = courseRepository.getRepository();
+        Model[] courseArray = courseRepository.getAll();
 
-        for (Course course : courseArray) {
-            if (course == null) {
-                break;
+        for (Model course : courseArray) {
+            if (course != null) {
+                System.out.println("Name course - \"" + course.getName() + "\". Course id = " + course.getID());
             }
-            System.out.println("Name course - \"" + course.getName () + "\". Course id = " + course.getId ());
+
 
         }
     }

@@ -1,34 +1,26 @@
 package repositories;
 
-import models.AddTask;
+import models.Model;
 
-public class AddTaskRepository {
-    private int capacity = 5;
-    private int capacityOld = 0;
-    private AddTask[] repository = new AddTask[capacity];
+public class AddTaskRepository extends ModelRepository {
 
-    public void add(AddTask addTask) {
-
-        for (int i = 0; i < repository.length; i++) {
-            if (repository[i] == null) {
-                repository[i] = addTask;
-                return;
-            }
-        }
-        expandArray();
-
-        repository[capacityOld] = addTask;
+    @Override
+    public void add(Model model) {
+        super.add(model);
     }
 
-    private void expandArray() {
-        capacityOld = capacity;
-        capacity = (capacity * 3) / 2 + 1;
-        AddTask[] tmpRepository = new AddTask[capacity];
-        System.arraycopy(repository, 0, tmpRepository, 0, capacityOld);
-        repository = tmpRepository;
+    @Override
+    public Model[] getAll() {
+        return super.getAll();
     }
 
-    public AddTask[] getRepository() {
-        return repository;
+    @Override
+    public Model getById(int ID) {
+        return super.getById(ID);
+    }
+
+    @Override
+    public void deleteById(int ID) {
+        super.deleteById(ID);
     }
 }
