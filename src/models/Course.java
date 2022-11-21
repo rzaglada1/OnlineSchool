@@ -1,8 +1,8 @@
 package models;
 
 public class Course extends Model {
-    private Teacher teacher;
-    private Student student;
+
+    private Person person;
     private Lecture lecture;
     private Homework homework;
     private AddTask addTask;
@@ -18,19 +18,14 @@ public class Course extends Model {
         setName(name);
     }
 
-    public Course(String name, Teacher teacher, Student student, Lecture lecture) {
+    public Course(String name, Person person, Lecture lecture) {
         this(name);
-        this.teacher = teacher;
-        this.student = student;
+        this.person = person;
         this.lecture = lecture;
     }
 
-    public Teacher getTeacher() {
-        return teacher;
-    }
-
-    public Student getStudent() {
-        return student;
+    public Person getPerson() {
+        return person;
     }
 
     public Lecture getLecture() {
@@ -49,12 +44,8 @@ public class Course extends Model {
         return CREATE_COUNT;
     }
 
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     public void setLecture(Lecture lecture) {
@@ -74,8 +65,7 @@ public class Course extends Model {
         return "Course{" +
                 "idCourse=" + getID() +
                 ", nameCourse='" + getName() + '\'' +
-                ", teacher=" + teacher +
-                ", student=" + student +
+                ", person=" + person +
                 ", lecture=" + lecture +
                 ", homework=" + homework +
                 ", addTask=" + addTask +

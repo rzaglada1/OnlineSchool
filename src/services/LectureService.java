@@ -16,8 +16,8 @@ public class LectureService {
         return new Lecture(name);
     }
 
-    public Lecture createLecture(String name, int idCourse) {
-        return new Lecture(name, idCourse);
+    public Lecture createLecture(String name, Model course) {
+        return new Lecture(name, course);
     }
 
     public void printObjectsRepository(LectureRepository lectureRepository) {
@@ -26,10 +26,23 @@ public class LectureService {
 
         for (Model lecture : lectureArray) {
             if (lecture != null) {
-                System.out.println("Name lecture - \"" + lecture.getName() + "\". Lecture id = " + lecture.getID());
+                if (((Lecture) lecture).getPerson() != null) {
+                    System.out.println(
+                            "Name lecture - \"" + lecture.getName()
+                                    + "\". Lecture id = " + lecture.getID()
+                                    + "\". Person id = " + ((Lecture) lecture).getPersonID()
+                                    + "\". Person Name = " + ((Lecture) lecture).getPerson().getName()
+                                    + "\". Person Role = " + ((Lecture) lecture).getPerson().getRole()
+                    );
+
+                } else {
+                    System.out.println(
+                            "Name lecture - \"" + lecture.getName()
+                                    + "\". Lecture id = " + lecture.getID()
+                    );
+                }
             }
-
-
         }
     }
+
 }

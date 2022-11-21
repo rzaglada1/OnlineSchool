@@ -43,6 +43,7 @@ public class ModelRepository {
                 return model;
             }
         }
+        System.out.println("Object with ID = " + ID + " not found");
         return null;
     }
 

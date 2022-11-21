@@ -14,8 +14,8 @@ public class CourseService {
         return new Course(name);
     }
 
-    public Course createCurse(String name, Teacher teacher, Student student, Lecture lecture) {
-        return new Course(name, teacher, student, lecture);
+    public Course createCurse(String name, Person person, Lecture lecture) {
+        return new Course(name, person, lecture);
     }
 
     public void printObjectsRepository(CourseRepository courseRepository) {
