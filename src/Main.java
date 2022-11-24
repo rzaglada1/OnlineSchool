@@ -3,16 +3,18 @@
 import models.*;
 import repositories.*;
 import services.*;
+import utils.*;
 
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
-        //  Homework N9 .
+        //  Homework N12 .
         System.out.println("");
-        System.out.println("========= Homework N11  ================");
+        System.out.println("========= Homework N12  ================");
         System.out.println("");
+
+        MenuUtils menuUtils = new MenuUtils();
 
         CourseService courseService = new CourseService();
         CourseRepository courseRepository = new CourseRepository();
@@ -54,7 +56,7 @@ public class Main {
 
         while (true) {
 
-            int category = checkCorrect();
+            int category = menuUtils.checkCorrect();
 
             switch (category) {
                 case 1:
@@ -71,7 +73,7 @@ public class Main {
                     System.out.println("Selected   - \"2 - Objects lecture\" ");
                     System.out.println("");
                     // printing repository objects
-                    for (Model lecture: lectureRepository.getAll()) {
+                    for (Model lecture : lectureRepository.getAll()) {
                         if (lecture != null) {
                             System.out.println(lecture);
                         }
@@ -84,7 +86,8 @@ public class Main {
 
                 case 3:
                     System.out.println("Selected   - \"3 - Creating course\" ");
-                    courseRepository.add(courseService.createCurse(nameObject()));
+                    System.out.println("Enter name Course");
+                    courseRepository.add(courseService.createCurse(menuUtils.inputString()));
                     System.out.println("================================");
                     System.out.println(Course.getCreateCount() + " Course objects created since beginning");
                     System.out.println("Total " + courseRepository.objectsTotal() + " Course objects");
@@ -92,52 +95,69 @@ public class Main {
 
                 case 4:
                     System.out.println("Selected   - \"4 - Creating lecture\" ");
-                    lectureRepository.add(lectureService.createLecture(nameObject()));
+                    System.out.println("Enter name Lecture");
+                    String nameLecture = menuUtils.inputString();
+                    System.out.println("Enter description Lecture");
+                    String descriptionLecture = menuUtils.inputString();
+                    lectureRepository.add(lectureService.createLecture(nameLecture, descriptionLecture));
                     System.out.println("================================");
                     System.out.println(Lecture.getCreateCount() + " Lecture objects created since beginning");
                     System.out.println("Total " + lectureRepository.objectsTotal() + " Lecture objects");
                     break;
 
                 case 5:
-                    System.out.println("Selected   - \"5 - Creating teacher and adding in Lecture\" ");
-                    System.out.print("Enter lecture");
-                    int enterLectureID = enterID();
+                    System.out.println("Selected   - \"5 - Creating teacher and adding in lecture");
+                    System.out.print("Enter lecture ID: ");
+                    int enterLectureID = menuUtils.inputDigit();
                     if (lectureRepository.getById(enterLectureID) == null) {
                         break;
                     }
-
-                    System.out.println("Creating Teacher");
-                    Person personTeacher = personService.createPerson(nameObject(), Role.TEACHER, courseRepository.getAll()[0]);
+                    Person personTeacher = personService.createPerson(menuUtils.personAttribute(),
+                            Role.TEACHER, courseRepository.getAll()[0]);
                     personRepository.add(personTeacher);
+
                     System.out.println("================================");
                     System.out.println("Total " + personRepository.objectsTotalTeacher() + " Teacher objects");
 
                     // set Teacher in Lecture
-
                     lectureRepository.setTeacher(lectureRepository.getById(enterLectureID), personTeacher);
 
-
+                    // printing repository objects
+                    for (Model teacher : personRepository.getAll()) {
+                        if (teacher != null && ((Person) teacher).getRole() == Role.TEACHER) {
+                            System.out.println(teacher.toString());
+                        }
+                    }
                     break;
 
                 case 6:
                     System.out.println("Selected   - \"6 - Creating student\" ");
-                    personRepository.add(personService.createPerson(nameObject(), Role.STUDENT, courseRepository.getAll()[0]));
+                    Person personStudent = personService.createPerson(menuUtils.personAttribute(),
+                            Role.STUDENT, courseRepository.getAll()[0]);
+                    personRepository.add(personStudent);
                     System.out.println("================================");
                     System.out.println("Total " + personRepository.objectsTotalStudent() + " Student objects");
+
+                    // printing repository objects
+                    for (Model teacher : personRepository.getAll()) {
+                        if (teacher != null && ((Person) teacher).getRole() == Role.STUDENT) {
+                            System.out.println(teacher.toString());
+                        }
+                    }
                     break;
 
                 case 7:
                     System.out.println("Selected   - \"7 - Open Lecture by ID\" ");
-                    System.out.print("Enter");
-                    int enterID = enterID();
+                    System.out.print("Enter ID: ");
+                    int enterID = menuUtils.inputDigit();
                     if (lectureRepository.getById(enterID) != null) {
                         System.out.println(lectureRepository.getById(enterID).toString());
                     }
                     break;
                 case 8:
                     System.out.println("Selected   - \"8 - Delete Lecture by ID\" ");
-                    System.out.print("Enter lecture");
-                    lectureRepository.deleteById(enterID());
+                    System.out.println("Enter lecture ID");
+                    lectureRepository.deleteById(menuUtils.inputDigit());
                     break;
 
 
@@ -146,61 +166,10 @@ public class Main {
                 System.out.println("Exiting program ...");
                 break;
             }
-
-        }
-    }
-
-    private static int checkCorrect() {
-        Scanner scanner = new Scanner(System.in);
-        boolean isFirstRun = false;
-        int category = -1;
-        while (category > 8 || category < 0) {
-            if (isFirstRun) {
-                System.out.println("Something went wrong ... Try again. ");
-            }
-            isFirstRun = true;
-
-            System.out.println("");
-            System.out.println("Select category:");
-            System.out.println("0 - exit program");
-            System.out.println("1 - Objects course");
-            System.out.println("2 - Objects lecture");
-            System.out.println("3 - Creating course");
-            System.out.println("4 - Creating lecture");
-            System.out.println("5 - Creating teacher and adding in Lecture");
-            System.out.println("6 - Creating student");
-            System.out.println("7 - Open Lecture by ID");
-            System.out.println("8 - Delete Lecture by ID");
-
-            if (scanner.hasNextInt()) {
-                category = scanner.nextInt();
-            } else {
-                scanner.next();
-            }
-
-        }
-
-        return category;
-    }
-
-    private static String nameObject() {
-        System.out.println("Enter the name of the object:");
-        return new Scanner(System.in).next();
-    }
-
-    private static int enterID() {
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-            System.out.println(" object id:");
-            if (scanner.hasNextInt()) {
-                return scanner.nextInt();
-            } else {
-                System.out.println("Please enter ID");
-                scanner.next();
-            }
         }
     }
 
 
 }
+
 

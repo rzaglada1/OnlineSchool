@@ -11,8 +11,8 @@ public class PersonService {
         return new Person();
     }
 
-    public Person createPerson(String name, Role role, Model course) {
-        return new Person(name, role, course);
+    public Person createPerson(String[] personAttribute, Role role, Model course) {
+        return new Person(personAttribute, role, course);
     }
 
 

@@ -16,9 +16,14 @@ public class LectureService {
         return new Lecture(name);
     }
 
+    public Lecture createLecture(String name, String description) {
+        return new Lecture(name, description);
+    }
+
     public Lecture createLecture(String name, Model course) {
         return new Lecture(name, course);
     }
+
 
     public void printObjectsRepository(LectureRepository lectureRepository) {
 

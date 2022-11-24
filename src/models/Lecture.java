@@ -17,10 +17,16 @@ public class Lecture extends Model {
         setName(name);
     }
 
+    public Lecture(String name, String description) {
+        this(name);
+        setDescription(description);
+    }
+
     public Lecture(String name, Model course) {
         this(name);
         this.idCourse = course.getID();
     }
+
 
     public Lecture(String name, Model course, Model person) {
         this(name, course);
@@ -66,7 +72,8 @@ public class Lecture extends Model {
                     "LectureName=" + getName() +
                     "idLecture=" + getID() +
                     ", personID=" + personID +
-                    ", personName=" + person.getName() +
+                    ", personFirstName=" + person.getFirstName() +
+                    ", personLastName=" + person.getLastName() +
                     ", personRole=" + person.getRole() +
                     ", idCourse=" + idCourse +
                     '}';
