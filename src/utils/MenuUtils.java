@@ -8,7 +8,7 @@ public class MenuUtils {
         Scanner scanner = new Scanner(System.in);
         boolean isFirstRun = false;
         int category = -1;
-        while (category > 6 || category < 0) {
+        while (category > 7 || category < 0) {
             if (isFirstRun) {
                 System.out.println("Something went wrong ... Try again. ");
             }
@@ -23,6 +23,7 @@ public class MenuUtils {
             System.out.println("4 - Creating lecture");
             System.out.println("5 - Creating teacher");
             System.out.println("6 - Creating student");
+            System.out.println("7 - Creating homework");
 
             if (scanner.hasNextInt()) {
                 category = scanner.nextInt();

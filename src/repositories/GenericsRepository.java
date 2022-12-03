@@ -4,7 +4,7 @@ import models.Model;
 
 import java.util.Arrays;
 
-public class GenericsRepository<E extends Model> {
+public class GenericsRepository<E extends Model> implements  InterfaceRepository<E> {
 
     private E[] arrayGenericRepository;
 
@@ -102,6 +102,15 @@ public class GenericsRepository<E extends Model> {
                     '}';
         }
         return "GenericsRepository is null";
+    }
+
+    public E getById (int id) {
+        for (E element: arrayGenericRepository) {
+            if (element.getID() == id) {
+                return element;
+            }
+        }
+        throw new NullPointerException("id not found");
     }
 }
 

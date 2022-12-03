@@ -1,29 +1,15 @@
 package services;
 
-import models.AddTask;
-import models.Model;
-import repositories.AddTaskRepository;
+import models.Task;
 
 public class AddTaskService {
 
-    public AddTask createAddTask() {
-        return new AddTask();
+    public Task create() {
+        return new Task();
     }
 
-    public AddTask createAddTask(String name) {
-        return new AddTask(name);
+    public Task create(String name) {
+        return new Task(name);
     }
 
-    public void printObjectsRepository(AddTaskRepository addTaskRepository) {
-
-        Model[] addTasksArray = addTaskRepository.getAll();
-
-        for (Model addTask : addTasksArray) {
-            if (addTask != null) {
-                System.out.println("Name addTask - \"" + addTask.getName() + "\". addTask id = " + addTask.getID());
-            }
-
-
-        }
-    }
 }

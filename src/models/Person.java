@@ -4,6 +4,10 @@ import utils.RegexUtil;
 
 
 public class Person extends Model {
+
+    private Integer ID;
+    private String name;
+
     private static Integer CREATE_COUNT = 0;
 
 
@@ -115,4 +119,25 @@ public class Person extends Model {
                 ", email='" + email + '\'' +
                 '}';
     }
+
+    @Override
+    public Integer getID() {
+        return ID;
+    }
+
+    @Override
+    public void setID(Integer ID) {
+        this.ID = ID;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }

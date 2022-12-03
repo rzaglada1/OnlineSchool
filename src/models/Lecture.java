@@ -1,6 +1,13 @@
 package models;
 
+import java.util.Arrays;
+
 public class Lecture extends Model {
+
+    private Integer ID;
+    private String name;
+
+    private Homework[] homework;
 
     private static Integer CREATE_COUNT = 0;
     private int idCourse;
@@ -17,10 +24,6 @@ public class Lecture extends Model {
         setName(name);
     }
 
-    public Lecture(String name, String description) {
-        this(name);
-        setDescription(description);
-    }
 
     public Lecture(String name, Model course) {
         this(name);
@@ -65,12 +68,21 @@ public class Lecture extends Model {
         this.personID = person.getID();
     }
 
+    public Homework[] getHomework() {
+        return homework;
+    }
+
+    public void setHomework(Homework[] homework) {
+        this.homework = homework;
+    }
+
     @Override
     public String toString() {
         if (person != null) {
             return "Lecture{" +
                     "LectureName=" + getName() +
-                    "idLecture=" + getID() +
+                    ", idLecture=" + getID() +
+                    ", arrayHomework=" + Arrays.toString(homework) +
                     ", personID=" + personID +
                     ", personFirstName=" + person.getFirstName() +
                     ", personLastName=" + person.getLastName() +
@@ -80,11 +92,31 @@ public class Lecture extends Model {
         } else {
             return "Lecture{" +
                     "LectureName=" + getName() +
-                    "idLecture=" + getID() +
+                    ", idLecture=" + getID() +
+                    ", arrayHomework=" + Arrays.toString(homework) +
                     ", idCourse=" + idCourse +
                     '}';
         }
     }
 
+    @Override
+    public Integer getID() {
+        return ID;
+    }
+
+    @Override
+    public void setID(Integer ID) {
+        this.ID = ID;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
 
 }

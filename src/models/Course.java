@@ -2,10 +2,13 @@ package models;
 
 public class Course extends Model {
 
+    private Integer ID;
+    private String name;
+
     private Person person;
     private Lecture lecture;
     private Homework homework;
-    private AddTask addTask;
+    private Task task;
     private static Integer CREATE_COUNT = 0;
 
     public Course() {
@@ -36,8 +39,8 @@ public class Course extends Model {
         return homework;
     }
 
-    public AddTask getAddTask() {
-        return addTask;
+    public Task getAddTask() {
+        return task;
     }
 
     public static Integer getCreateCount() {
@@ -56,8 +59,8 @@ public class Course extends Model {
         this.homework = homework;
     }
 
-    public void setAddTask(AddTask addTask) {
-        this.addTask = addTask;
+    public void setAddTask(Task task) {
+        this.task = task;
     }
 
     @Override
@@ -68,7 +71,27 @@ public class Course extends Model {
                 ", person=" + person +
                 ", lecture=" + lecture +
                 ", homework=" + homework +
-                ", addTask=" + addTask +
+                ", addTask=" + task +
                 '}';
+    }
+
+    @Override
+    public Integer getID() {
+        return ID;
+    }
+
+    @Override
+    public void setID(Integer ID) {
+        this.ID = ID;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 }
