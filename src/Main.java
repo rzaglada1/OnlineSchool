@@ -1,5 +1,7 @@
 
 
+import exceptions.EntityNotFoundException;
+import exceptions.ValidationException;
 import models.*;
 import repositories.*;
 import services.*;
@@ -24,6 +26,8 @@ public class Main {
 
 
         GenericsRepository<Course> courseGenericRepository = new GenericsRepository<>(new Course[]{new Course()});
+        System.out.println("");
+
         GenericsRepository<Lecture> lectureGenericRepository = new GenericsRepository<>(new Lecture[]{new Lecture()});
         GenericsRepository<Person> personGenericRepository = new GenericsRepository<>(new Person[]{new Person()});
         GenericsRepository<Homework> homeworkGenericRepository = new GenericsRepository<>(new Homework[]{new Homework()});
@@ -37,7 +41,9 @@ public class Main {
         }
 
         // creating Lecture
-        lectureGenericRepository.add(lectureService.create("Lecture 1"));
+        for (int i = 0; i < 3; i++) {
+            lectureGenericRepository.add(lectureService.create("Lecture " + i));
+        }
 
         // printing repository objects
         for (Lecture lecture : lectureGenericRepository.getArrayGenericRepository()) {
@@ -105,10 +111,13 @@ public class Main {
                 case 5:
                     System.out.println("Selected   - \"5 - Creating teacher");
 
-                    Person personTeacher = personService.create(regexUtil.personAttribute(),
-                            Role.TEACHER, courseGenericRepository.getArrayGenericRepository()[0]);
-
-                    personGenericRepository.add(personTeacher);
+                    try {
+                        Person personTeacher = personService.create(regexUtil.personAttribute(),
+                                Role.TEACHER, courseGenericRepository.getArrayGenericRepository()[0]);
+                        personGenericRepository.add(personTeacher);
+                    } catch (ValidationException e) {
+                        System.out.println("Something wrong, try again");
+                    }
 
                     System.out.println("================================");
                     System.out.println("Total " + personGenericRepository.objectsTotal() + " Person objects");
@@ -123,9 +132,14 @@ public class Main {
 
                 case 6:
                     System.out.println("Selected   - \"6 - Creating student\" ");
-                    Person personStudent = personService.create(regexUtil.personAttribute(),
-                            Role.STUDENT, courseGenericRepository.getArrayGenericRepository()[0]);
-                    personGenericRepository.add(personStudent);
+                    try {
+                        Person personStudent = personService.create(regexUtil.personAttribute(),
+                                Role.STUDENT, courseGenericRepository.getArrayGenericRepository()[0]);
+                        personGenericRepository.add(personStudent);
+                    } catch (ValidationException e) {
+                        System.out.println("Something wrong, try again");
+                    }
+
                     System.out.println("================================");
                     System.out.println("Total " + personGenericRepository.objectsTotal() + " Person objects");
 
@@ -148,7 +162,8 @@ public class Main {
                     // adding  array homework in lecture
                     try {
                         lectureGenericRepository.get(0).setHomework(homeworkGenericRepository.getArrayGenericRepository());
-                    } catch (Exception e) {
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        //e.printStackTrace();
                         System.out.println("Lecture not found");
                     }
 
@@ -160,6 +175,19 @@ public class Main {
                         }
                     }
                     break;
+
+                case 8:
+                    System.out.println("Selected   - \"8 - Get lecture by ID\" ");
+
+                    System.out.print("Enter lecture ID ");
+                    int inputID = menuUtils.inputDigit();
+                    try {
+                        System.out.println(lectureGenericRepository.getById(inputID).toString());
+                    } catch (EntityNotFoundException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+
 
             }
             if (category == 0) {

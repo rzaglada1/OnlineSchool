@@ -1,5 +1,6 @@
 package repositories;
 
+import exceptions.EntityNotFoundException;
 import models.Model;
 
 import java.util.Arrays;
@@ -104,13 +105,13 @@ public class GenericsRepository<E extends Model> implements  InterfaceRepository
         return "GenericsRepository is null";
     }
 
-    public E getById (int id) {
+    public E getById (int id) throws EntityNotFoundException {
         for (E element: arrayGenericRepository) {
             if (element.getID() == id) {
                 return element;
             }
         }
-        throw new NullPointerException("id not found");
+        throw new EntityNotFoundException("id object not found");
     }
 }
 

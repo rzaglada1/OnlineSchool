@@ -1,5 +1,7 @@
 package utils;
 
+import exceptions.ValidationException;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,7 +17,7 @@ public class RegexUtil {
         return matcher.matches();
     }
 
-    public String[] personAttribute() {
+    public String[] personAttribute() throws ValidationException {
 
         String firstName = "";
         String lastName = "";

@@ -5,14 +5,13 @@ import java.util.Scanner;
 public class MenuUtils {
 
     public int checkCorrect() {
+
+        int menuItemStart = 0;
+        int menuItemFinish = 8;
+
         Scanner scanner = new Scanner(System.in);
-        boolean isFirstRun = false;
-        int category = -1;
-        while (category > 7 || category < 0) {
-            if (isFirstRun) {
-                System.out.println("Something went wrong ... Try again. ");
-            }
-            isFirstRun = true;
+
+        while (true) {
 
             System.out.println("");
             System.out.println("Select category:");
@@ -24,15 +23,18 @@ public class MenuUtils {
             System.out.println("5 - Creating teacher");
             System.out.println("6 - Creating student");
             System.out.println("7 - Creating homework");
+            System.out.println("8 - Get lecture by ID");
 
-            if (scanner.hasNextInt()) {
-                category = scanner.nextInt();
-            } else {
-                scanner.next();
+            try {
+                String item = scanner.next();
+                if (Integer.parseInt(item) >= menuItemStart && Integer.parseInt(item) <= menuItemFinish) {
+                    return Integer.parseInt(item);
+                } else throw new NumberFormatException ();
+            } catch (NumberFormatException e) {
+                //e.printStackTrace();
+                System.out.println("Something went wrong ... Try again. ");
             }
         }
-
-        return category;
     }
 
     public String inputString() {
