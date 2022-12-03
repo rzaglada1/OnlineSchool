@@ -11,47 +11,65 @@ public class Main {
 
         //  Homework N12 .
         System.out.println("");
-        System.out.println("========= Homework N12  ================");
+        System.out.println("========= Homework N13  ================");
         System.out.println("");
 
         MenuUtils menuUtils = new MenuUtils();
+        RegexUtil regexUtil = new RegexUtil();
 
         CourseService courseService = new CourseService();
-        CourseRepository courseRepository = new CourseRepository();
+        //CourseRepository courseRepository = new CourseRepository();
 
         LectureService lectureService = new LectureService();
-        LectureRepository lectureRepository = new LectureRepository();
+        //LectureRepository lectureRepository = new LectureRepository();
 
         PersonService personService = new PersonService();
-        PersonRepository personRepository = new PersonRepository();
+        //PersonRepository personRepository = new PersonRepository();
 
-        HomeworkService homeworkService = new HomeworkService();
-        HomeworkRepository homeworkRepository = new HomeworkRepository();
 
-        AddTaskService addTaskService = new AddTaskService();
-        AddTaskRepository addTaskRepository = new AddTaskRepository();
-
+        GenericsRepository<Course> courseGenericRepository = new GenericsRepository<>(new Course[]{new Course()});
+        GenericsRepository<Lecture> lectureGenericRepository = new GenericsRepository<>(new Lecture[]{new Lecture()});
+        GenericsRepository<Person> personGenericRepository = new GenericsRepository<>(new Person[]{new Person()});
 
         // creating Course
-        courseRepository.add(courseService.createCurse("Java course"));
-
-        // creating three Lectures
-        int idCourse = courseRepository.getAll()[0].getID();
-        System.out.println("idCourse  " + idCourse);
-
-        for (int i = 0; i < 3; i++) {
-            lectureRepository.add(lectureService.createLecture("Lecture " + (i + 1), courseRepository.getAll()[0]));
-        }
-
-        System.out.println("Created " + Lecture.getCreateCount() + " lecture objects ");
+        courseGenericRepository.add(courseService.createCurse("Java course"));
 
         // printing repository objects
-        lectureService.printObjectsRepository(lectureRepository);
+        for (Course course : courseGenericRepository.getArrayGenericRepository()) {
+            System.out.println(course.toString());
+        }
 
-        //===============================
+        System.out.println("");
+        System.out.println("===========adding 3 objects and remove  index 2=========================");
+
+        courseGenericRepository.add(new Course("Test1"));
+        courseGenericRepository.add(new Course("Test2"));
+        courseGenericRepository.add(new Course("Test3"));
+        courseGenericRepository.remove(2);
+        for (Course course : courseGenericRepository.getArrayGenericRepository()) {
+            System.out.println(course.toString());
+        }
+        System.out.println("");
+        System.out.println("===============adding object in index 1=====================");
+        courseGenericRepository.add(new Course("Test4"), 1);
+        for (Course course : courseGenericRepository.getArrayGenericRepository()) {
+            System.out.println(course.toString());
+        }
+        System.out.println("");
+        System.out.println("=============Is empty, size, get index 2, get index 4 =======================");
+        try {
+            System.out.println("Get index 2  " + courseGenericRepository.get(2).toString());
+            System.out.println("Get index 2  " + courseGenericRepository.get(4).toString());
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds");
+        }
+
+        System.out.println("is empty " + courseGenericRepository.isEmpty());
+        System.out.println("Size " + courseGenericRepository.size());
 
 
-        //================================
+        System.out.println("");
+        System.out.println("====================================");
 
 
         while (true) {
@@ -63,34 +81,35 @@ public class Main {
                     System.out.println("Selected   - \"1 - Objects course\" ");
                     System.out.println("");
                     // printing repository objects
-                    courseService.printObjectsRepository(courseRepository);
+                    //courseService.printObjectsRepository(courseRepository);
+                    for (Course course : courseGenericRepository.getArrayGenericRepository()) {
+                        System.out.println(course.toString());
+                    }
                     System.out.println("================================");
                     System.out.println(Course.getCreateCount() + " Course objects created since beginning");
-                    System.out.println("Total " + courseRepository.objectsTotal() + " Course objects");
+                    System.out.println("Total " + courseGenericRepository.objectsTotal() + " Course objects");
                     break;
 
                 case 2:
                     System.out.println("Selected   - \"2 - Objects lecture\" ");
                     System.out.println("");
                     // printing repository objects
-                    for (Model lecture : lectureRepository.getAll()) {
-                        if (lecture != null) {
-                            System.out.println(lecture);
-                        }
+                    for (Lecture lecture : lectureGenericRepository.getArrayGenericRepository()) {
+                        System.out.println(lecture.toString());
                     }
 
                     System.out.println("================================");
                     System.out.println(Lecture.getCreateCount() + " Lecture objects created since beginning");
-                    System.out.println("Total " + lectureRepository.objectsTotal() + " Lecture objects");
+                    System.out.println("Total " + lectureGenericRepository.objectsTotal() + " Lecture objects");
                     break;
 
                 case 3:
                     System.out.println("Selected   - \"3 - Creating course\" ");
                     System.out.println("Enter name Course");
-                    courseRepository.add(courseService.createCurse(menuUtils.inputString()));
+                    courseGenericRepository.add(courseService.createCurse(menuUtils.inputString()));
                     System.out.println("================================");
                     System.out.println(Course.getCreateCount() + " Course objects created since beginning");
-                    System.out.println("Total " + courseRepository.objectsTotal() + " Course objects");
+                    System.out.println("Total " + courseGenericRepository.objectsTotal() + " Course objects");
                     break;
 
                 case 4:
@@ -99,32 +118,26 @@ public class Main {
                     String nameLecture = menuUtils.inputString();
                     System.out.println("Enter description Lecture");
                     String descriptionLecture = menuUtils.inputString();
-                    lectureRepository.add(lectureService.createLecture(nameLecture, descriptionLecture));
+                    lectureGenericRepository.add(lectureService.createLecture(nameLecture, descriptionLecture));
                     System.out.println("================================");
                     System.out.println(Lecture.getCreateCount() + " Lecture objects created since beginning");
-                    System.out.println("Total " + lectureRepository.objectsTotal() + " Lecture objects");
+                    System.out.println("Total " + lectureGenericRepository.objectsTotal() + " Lecture objects");
                     break;
 
                 case 5:
-                    System.out.println("Selected   - \"5 - Creating teacher and adding in lecture");
-                    System.out.print("Enter lecture ID: ");
-                    int enterLectureID = menuUtils.inputDigit();
-                    if (lectureRepository.getById(enterLectureID) == null) {
-                        break;
-                    }
-                    Person personTeacher = personService.createPerson(menuUtils.personAttribute(),
-                            Role.TEACHER, courseRepository.getAll()[0]);
-                    personRepository.add(personTeacher);
+                    System.out.println("Selected   - \"5 - Creating teacher");
+
+                    Person personTeacher = personService.createPerson(regexUtil.personAttribute(),
+                            Role.TEACHER, courseGenericRepository.getArrayGenericRepository()[0]);
+
+                    personGenericRepository.add(personTeacher);
 
                     System.out.println("================================");
-                    System.out.println("Total " + personRepository.objectsTotalTeacher() + " Teacher objects");
-
-                    // set Teacher in Lecture
-                    lectureRepository.setTeacher(lectureRepository.getById(enterLectureID), personTeacher);
+                    System.out.println("Total " + personGenericRepository.objectsTotal() + " Person objects");
 
                     // printing repository objects
-                    for (Model teacher : personRepository.getAll()) {
-                        if (teacher != null && ((Person) teacher).getRole() == Role.TEACHER) {
+                    for (Person teacher : personGenericRepository.getArrayGenericRepository()) {
+                        if (teacher != null && teacher.getRole() == Role.TEACHER) {
                             System.out.println(teacher.toString());
                         }
                     }
@@ -132,34 +145,19 @@ public class Main {
 
                 case 6:
                     System.out.println("Selected   - \"6 - Creating student\" ");
-                    Person personStudent = personService.createPerson(menuUtils.personAttribute(),
-                            Role.STUDENT, courseRepository.getAll()[0]);
-                    personRepository.add(personStudent);
+                    Person personStudent = personService.createPerson(regexUtil.personAttribute(),
+                            Role.STUDENT, courseGenericRepository.getArrayGenericRepository()[0]);
+                    personGenericRepository.add(personStudent);
                     System.out.println("================================");
-                    System.out.println("Total " + personRepository.objectsTotalStudent() + " Student objects");
+                    System.out.println("Total " + personGenericRepository.objectsTotal() + " Person objects");
 
                     // printing repository objects
-                    for (Model teacher : personRepository.getAll()) {
-                        if (teacher != null && ((Person) teacher).getRole() == Role.STUDENT) {
-                            System.out.println(teacher.toString());
+                    for (Person student : personGenericRepository.getArrayGenericRepository()) {
+                        if (student != null && student.getRole() == Role.STUDENT) {
+                            System.out.println(student.toString());
                         }
                     }
                     break;
-
-                case 7:
-                    System.out.println("Selected   - \"7 - Open Lecture by ID\" ");
-                    System.out.print("Enter ID: ");
-                    int enterID = menuUtils.inputDigit();
-                    if (lectureRepository.getById(enterID) != null) {
-                        System.out.println(lectureRepository.getById(enterID).toString());
-                    }
-                    break;
-                case 8:
-                    System.out.println("Selected   - \"8 - Delete Lecture by ID\" ");
-                    System.out.println("Enter lecture ID");
-                    lectureRepository.deleteById(menuUtils.inputDigit());
-                    break;
-
 
             }
             if (category == 0) {

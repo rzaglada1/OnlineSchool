@@ -1,9 +1,6 @@
 package models;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import utils.MenuUtils;
+import utils.RegexUtil;
 
 
 public class Person extends Model {
@@ -71,7 +68,7 @@ public class Person extends Model {
     }
 
     public boolean setFirstName(String firstName) {
-        if (isCorrect(firstName, MenuUtils.REGEX_FIRST_NAME)) {
+        if (new RegexUtil().isCorrect(firstName, RegexUtil.REGEX_FIRST_NAME)) {
             this.firstName = firstName;
             return true;
         }
@@ -79,7 +76,7 @@ public class Person extends Model {
     }
 
     public boolean setLastName(String lastName) {
-        if (isCorrect(lastName, MenuUtils.REGEX_LAST_NAME)) {
+        if (new RegexUtil().isCorrect(lastName, RegexUtil.REGEX_LAST_NAME)) {
             this.lastName = lastName;
             return true;
         }
@@ -88,7 +85,7 @@ public class Person extends Model {
     }
 
     public boolean setPhone(String phone) {
-        if (isCorrect(phone, MenuUtils.REGEX_PHONE)) {
+        if (new RegexUtil().isCorrect(phone, RegexUtil.REGEX_PHONE)) {
             this.phone = phone;
             return true;
         }
@@ -97,18 +94,12 @@ public class Person extends Model {
     }
 
     public boolean setEmail(String email) {
-        if (isCorrect(email, MenuUtils.REGEX_EMAIL)) {
+        if (new RegexUtil().isCorrect(email, RegexUtil.REGEX_EMAIL)) {
             this.email = email;
             return true;
         }
         return false;
 
-    }
-
-    private boolean isCorrect(String str, String regex) {
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(str);
-        return matcher.matches();
     }
 
 
