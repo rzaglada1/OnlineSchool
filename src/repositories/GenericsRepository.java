@@ -5,12 +5,13 @@ import models.Model;
 
 import java.util.Arrays;
 
-public class GenericsRepository<E extends Model> implements  InterfaceRepository<E> {
+public class GenericsRepository<E extends Model> implements InterfaceRepository<E> {
 
     private E[] arrayGenericRepository;
 
 
     public GenericsRepository(E[] arrayGenericRepository) {
+
         this.arrayGenericRepository = arrayGenericRepository;
         remove(0);
     }
@@ -59,20 +60,15 @@ public class GenericsRepository<E extends Model> implements  InterfaceRepository
     }
 
     public void remove(int index) {
-        if (arrayGenericRepository.length != 0 && arrayGenericRepository.length > index) {
-            E tmp = arrayGenericRepository[index];
-
-            if (index != 0) {
-                arrayGenericRepository[index] = arrayGenericRepository[arrayGenericRepository.length - 1];
-                arrayGenericRepository[arrayGenericRepository.length - 1] = tmp;
-                arrayGenericRepository = Arrays.copyOfRange(arrayGenericRepository, 0, arrayGenericRepository.length - 1);
-            } else {
-                arrayGenericRepository = Arrays.copyOfRange(arrayGenericRepository, 0, 0);
-            }
-
+        if (index >= arrayGenericRepository.length && arrayGenericRepository.length != 0) {
+            throw new ArrayIndexOutOfBoundsException();
         } else {
-
-            System.out.println("Index out of bounds");
+            for (int i = index; i < arrayGenericRepository.length - 1; i++) {
+                arrayGenericRepository[i] = arrayGenericRepository[i + 1];
+                arrayGenericRepository[i + 1] = null;
+            }
+            arrayGenericRepository = Arrays
+                    .copyOfRange(arrayGenericRepository, 0, arrayGenericRepository.length - 1);
         }
 
     }
@@ -105,13 +101,60 @@ public class GenericsRepository<E extends Model> implements  InterfaceRepository
         return "GenericsRepository is null";
     }
 
-    public E getById (int id) throws EntityNotFoundException {
-        for (E element: arrayGenericRepository) {
+    public E getById(int id) throws EntityNotFoundException {
+        for (E element : arrayGenericRepository) {
             if (element.getID() == id) {
                 return element;
             }
         }
         throw new EntityNotFoundException("id object not found");
     }
+
+
+    // ==================== homework 16 ================
+    public SimpleIterator<E> simpleIterator() {
+        return new SimpleIterator<E>(arrayGenericRepository) {
+
+            public int cursor = -1;
+
+            @Override
+            public boolean hasNext() {
+                if (arrayGenericRepository.length - 1 > cursor && arrayGenericRepository.length != 0) {
+                    return true;
+                }
+                return false;
+            }
+
+            @Override
+            public E next() throws ArrayIndexOutOfBoundsException {
+                cursor++;
+                return arrayGenericRepository[cursor];
+            }
+
+            @Override
+            public void remove() throws ArrayIndexOutOfBoundsException {
+                if (cursor > arrayGenericRepository.length || cursor == -1) {
+                    throw new ArrayIndexOutOfBoundsException();
+                } else {
+                    for (int i = cursor; i < arrayGenericRepository.length - 1; i++) {
+                        arrayGenericRepository[i] = arrayGenericRepository[i + 1];
+                        arrayGenericRepository[i + 1] = null;
+                    }
+                    arrayGenericRepository = Arrays
+                            .copyOfRange(arrayGenericRepository, 0, arrayGenericRepository.length - 1);
+                }
+            }
+        };
+    }
+
+
+    public void findAll() throws ArrayIndexOutOfBoundsException {
+        SimpleIterator<E> iteratorFindAll = simpleIterator();
+        while (iteratorFindAll.hasNext()) {
+            System.out.println(iteratorFindAll.next());
+        }
+    }
+
+
 }
 

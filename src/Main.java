@@ -11,11 +11,6 @@ import utils.*;
 public class Main {
     public static void main(String[] args) {
 
-        //  Homework N12 .
-        System.out.println("");
-        System.out.println("========= Homework N14  ================");
-        System.out.println("");
-
         MenuUtils menuUtils = new MenuUtils();
         RegexUtil regexUtil = new RegexUtil();
 
@@ -32,6 +27,9 @@ public class Main {
         GenericsRepository<Person> personGenericRepository = new GenericsRepository<>(new Person[]{new Person()});
         GenericsRepository<Homework> homeworkGenericRepository = new GenericsRepository<>(new Homework[]{new Homework()});
 
+
+        System.out.println("What is in the repository?");
+        System.out.println("================================");
         // creating Course
         courseGenericRepository.add(courseService.create("Java course"));
 
@@ -41,7 +39,7 @@ public class Main {
         }
 
         // creating Lecture
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 5; i++) {
             lectureGenericRepository.add(lectureService.create("Lecture " + i));
         }
 
@@ -51,6 +49,36 @@ public class Main {
         }
 
 
+        System.out.println("");
+
+        System.out.println("=============== Homework 16 =====================");
+
+        SimpleIterator<Lecture> simpleIteratorLecture = lectureGenericRepository.simpleIterator();
+
+        System.out.println("");
+        System.out.println("Remove object Lecture from index 2");
+
+        try {
+            simpleIteratorLecture.next();
+            simpleIteratorLecture.next();
+            simpleIteratorLecture.next();
+            simpleIteratorLecture.remove();
+
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Array index out");
+            System.out.println("");
+        }
+
+
+        System.out.println("");
+        System.out.println("Printing objects from method findAll()");
+        lectureGenericRepository.findAll();
+
+//        System.out.println("");
+//        System.out.println("Printing all remaining objects from simpleIterator ");
+//        while (simpleIteratorLecture.hasNext()) {
+//            System.out.println(simpleIteratorLecture.next() );
+//        }
         System.out.println("");
         System.out.println("====================================");
 
