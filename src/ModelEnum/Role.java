@@ -1,4 +1,4 @@
-package models;
+package ModelEnum;
 
 public enum Role {
     STUDENT, TEACHER;

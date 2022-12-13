@@ -1,8 +1,7 @@
 package services;
 
-import models.Model;
 import models.Person;
-import models.Role;
+import ModelEnum.Role;
 
 public class PersonService {
 
@@ -10,8 +9,8 @@ public class PersonService {
         return new Person();
     }
 
-    public Person create(String[] personAttribute, Role role, Model course) {
-        return new Person(personAttribute, role, course);
+    public Person create(String[] personAttribute, Role role) {
+        return new Person(personAttribute, role);
     }
 
 

@@ -1,5 +1,6 @@
 package models;
 
+import ModelEnum.Role;
 import utils.RegexUtil;
 
 
@@ -22,6 +23,16 @@ public class Person extends Model {
     public Person() {
         CREATE_COUNT++;
         setID(CREATE_COUNT);
+    }
+
+    public Person(String[] personAttribute, Role role) {
+        this();
+        this.firstName = personAttribute[0];
+        this.lastName = personAttribute[1];
+        this.phone = personAttribute[2];
+        this.email = personAttribute[3];
+        this.role = role;
+
     }
 
     public Person(String[] personAttribute, Role role, Model course) {
