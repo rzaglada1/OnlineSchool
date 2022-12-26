@@ -10,7 +10,7 @@ public class MenuUtils {
     public int checkCorrect() {
 
         int menuItemStart = 0;
-        int menuItemFinish = 9;
+        int menuItemFinish = 12;
 
         Scanner scanner = new Scanner(System.in);
 
@@ -28,6 +28,9 @@ public class MenuUtils {
             System.out.println("7 - Creating homework");
             System.out.println("8 - Creating addMaterials");
             System.out.println("9 - Get lecture by ID");
+            System.out.println("10 - Sort Course by name");
+            System.out.println("11 - Sort Teacher and Student by last name");
+            System.out.println("12 - Sort add materials...");
 
             try {
                 String item = scanner.next();
@@ -79,7 +82,7 @@ public class MenuUtils {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("");
-            System.out.println("Select resurce type:");
+            System.out.println("Select resource type:");
 
             System.out.println("1 - URL");
             System.out.println("2 - VIDEO");
@@ -88,6 +91,30 @@ public class MenuUtils {
             try {
                 String item = scanner.next();
                 if (Integer.parseInt(item) >= menuItemStart && Integer.parseInt(item) <= menuItemFinish) {
+                    return Integer.parseInt(item);
+                } else throw new NumberFormatException();
+            } catch (NumberFormatException e) {
+                //e.printStackTrace();
+                System.out.println("Something went wrong ... Try again. ");
+            }
+        }
+    }
+
+    public int resourceTypeMenuSorting() {
+        int menuSortingItemStart = 1;
+        int menuSortingItemFinish = 3;
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("");
+
+            System.out.println("Sorting add materials by: ");
+            System.out.println("1 - ID");
+            System.out.println("2 - ID Lecture");
+            System.out.println("3 - type of add materials");
+
+            try {
+                String item = scanner.next();
+                if (Integer.parseInt(item) >= menuSortingItemStart && Integer.parseInt(item) <= menuSortingItemFinish) {
                     return Integer.parseInt(item);
                 } else throw new NumberFormatException();
             } catch (NumberFormatException e) {

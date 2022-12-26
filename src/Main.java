@@ -9,6 +9,9 @@ import repositories.*;
 import services.*;
 import utils.*;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -36,6 +39,41 @@ public class Main {
         System.out.println("================================");
         // creating Course
         courseRepository.getRepository().add(courseService.create("Java course"));
+        courseRepository.getRepository().add(courseService.create("C++ course"));
+        courseRepository.getRepository().add(courseService.create("C# course"));
+        courseRepository.getRepository().add(courseService.create("Python course"));
+
+        personRepository.getRepository().add(personService.create(new String[]{"Олена", "Романенко", "+380989584545", "Dasdasd@sdf.sdf"}
+                , Role.STUDENT));
+        personRepository.getRepository().add(personService.create(new String[]{"Олена", "Водерацький", "+380989584545", "Dasdasd@sdf.sdf"}
+                , Role.TEACHER));
+        personRepository.getRepository().add(personService.create(new String[]{"Олена", "Ломачевський", "+380989584545", "Dasdasd@sdf.sdf"}
+                , Role.STUDENT));
+        personRepository.getRepository().add(personService.create(new String[]{"Олена", "Андрієнко", "+380989584545", "Dasdasd@sdf.sdf"}
+                , Role.STUDENT));
+        personRepository.getRepository().add(personService.create(new String[]{"Олена", "Командний", "+380989584545", "Dasdasd@sdf.sdf"}
+                , Role.TEACHER));
+        personRepository.getRepository().add(personService.create(new String[]{"Олена", "Солітер", "+380989584545", "Dasdasd@sdf.sdf"}
+                , Role.STUDENT));
+
+        addMaterialsRepository.getRepository().add(addMaterialsService.create("Video", ResourceType.VIDEO,1) );
+        addMaterialsRepository.getRepository().add(addMaterialsService.create("Text", ResourceType.URL,3) );
+        addMaterialsRepository.getRepository().add(addMaterialsService.create("Text", ResourceType.URL,2) );
+        addMaterialsRepository.getRepository().add(addMaterialsService.create("Book", ResourceType.BOOK,4) );
+        addMaterialsRepository.getRepository().add(addMaterialsService.create("Video", ResourceType.VIDEO,2) );
+        addMaterialsRepository.getRepository().add(addMaterialsService.create("Text", ResourceType.URL,1) );
+
+
+        // printing repository objects
+        for (AddMaterials addMaterials : addMaterialsRepository.getRepository()) {
+            System.out.println(addMaterials.toString());
+        }
+
+
+        // printing repository objects
+        for (Person person : personRepository.getRepository()) {
+            System.out.println(person.toString());
+        }
 
         // printing repository objects
         for (Course course : courseRepository.getRepository()) {
@@ -56,8 +94,7 @@ public class Main {
         System.out.println("");
 
 
-
-        System.out.println("=============== Homework 17 =====================");
+        System.out.println("=============== Homework 18 =====================");
 
         System.out.println("");
         System.out.println("====================================");
@@ -222,6 +259,86 @@ public class Main {
                     } catch (EntityNotFoundException e) {
                         System.out.println(e.getMessage());
                     }
+                    break;
+
+                case 10:
+                    System.out.println("Selected   - \"10 - Sort Course by name\" ");
+                    Comparator<Course> courseComparator = new Comparator<Course>() {
+                        @Override
+                        public int compare(Course o1, Course o2) {
+                            return o1.getName().compareTo(o2.getName());
+                        }
+                    };
+
+                    Collections.sort(courseRepository.getRepository(), courseComparator);
+
+                    // printing repository objects
+                    for (Course course : courseRepository.getRepository()) {
+                        System.out.println(course.toString());
+                    }
+                    System.out.println("================================");
+                    System.out.println("Total " + courseRepository.getRepository().size() + " Course objects");
+                    break;
+
+                case 11:
+                    System.out.println("Selected   - \"11 - Sort Teacher and Student by last name\" ");
+
+                    Comparator<Person> personComparator = new Comparator<Person>() {
+                        @Override
+                        public int compare(Person o1, Person o2) {
+                            return o1.getLastName().compareTo(o2.getLastName());
+                        }
+                    };
+
+                    Collections.sort(personRepository.getRepository(), personComparator);
+                    // printing repository objects
+                    for (Person person : personRepository.getRepository()) {
+                        System.out.println(person.toString());
+                    }
+                    System.out.println("================================");
+                    System.out.println("Total " + personRepository.getRepository().size() + " Person objects");
+
+                    break;
+
+                case 12:
+                    System.out.println("Selected   - \"12 - Sort add materials...\" ");
+                    int sort = menuUtils.resourceTypeMenuSorting();
+                    Comparator<AddMaterials> addMaterialsComparator;
+
+
+                    addMaterialsComparator = new Comparator<AddMaterials>() {
+                        @Override
+                        public int compare(AddMaterials o1, AddMaterials o2) {
+                            return o1.getID() - o2.getID();
+                        }
+                    };
+
+
+                    if (sort == 2) {
+                        addMaterialsComparator = new Comparator<AddMaterials>() {
+                            @Override
+                            public int compare(AddMaterials o1, AddMaterials o2) {
+                                return o1.getLectureId() - o2.getLectureId();
+                            }
+                        };
+                    }
+
+                    if (sort == 3) {
+                        addMaterialsComparator = new Comparator<AddMaterials>() {
+                            @Override
+                            public int compare(AddMaterials o1, AddMaterials o2) {
+                                return o1.getResourceType().compareTo(o2.getResourceType());
+                            }
+                        };
+                    }
+                    Collections.sort(addMaterialsRepository.getRepository(), addMaterialsComparator);
+
+                    // printing repository objects
+                    for (AddMaterials addMaterials1 : addMaterialsRepository.getRepository()) {
+                        System.out.println(addMaterials1.toString());
+                    }
+                    System.out.println("================================");
+                    System.out.println("Total " + addMaterialsRepository.getRepository().size() + " AddMaterials objects");
                     break;
 
 
