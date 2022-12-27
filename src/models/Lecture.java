@@ -1,6 +1,7 @@
 package models;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Lecture extends Model {
 
@@ -119,4 +120,18 @@ public class Lecture extends Model {
         this.name = name;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Lecture lecture = (Lecture) o;
+        return idCourse == lecture.idCourse && personID == lecture.personID && Objects.equals(ID, lecture.ID) && Objects.equals(name, lecture.name) && Arrays.equals(homework, lecture.homework) && Objects.equals(person, lecture.person);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(ID, name, idCourse, personID, person);
+        result = 31 * result + Arrays.hashCode(homework);
+        return result;
+    }
 }

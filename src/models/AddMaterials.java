@@ -2,6 +2,8 @@ package models;
 
 import ModelEnum.ResourceType;
 
+import java.util.Objects;
+
 public class AddMaterials extends Model {
 
     private Integer ID;
@@ -83,4 +85,16 @@ public class AddMaterials extends Model {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AddMaterials that = (AddMaterials) o;
+        return Objects.equals(ID, that.ID) && Objects.equals(name, that.name) && Objects.equals(lectureId, that.lectureId) && resourceType == that.resourceType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ID, name, lectureId, resourceType);
+    }
 }

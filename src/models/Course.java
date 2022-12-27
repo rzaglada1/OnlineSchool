@@ -1,5 +1,7 @@
 package models;
 
+import java.util.Objects;
+
 public class Course extends Model {
 
     private Integer ID;
@@ -93,5 +95,18 @@ public class Course extends Model {
     @Override
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Course course = (Course) o;
+        return Objects.equals(ID, course.ID) && Objects.equals(name, course.name) && Objects.equals(person, course.person) && Objects.equals(lecture, course.lecture) && Objects.equals(homework, course.homework) && Objects.equals(task, course.task);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ID, name, person, lecture, homework, task);
     }
 }

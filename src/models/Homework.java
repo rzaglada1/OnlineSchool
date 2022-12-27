@@ -1,5 +1,7 @@
 package models;
 
+import java.util.Objects;
+
 public class Homework extends Model {
 
     private Integer ID;
@@ -68,5 +70,18 @@ public class Homework extends Model {
     @Override
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Homework homework = (Homework) o;
+        return Objects.equals(ID, homework.ID) && Objects.equals(name, homework.name) && Objects.equals(lectureID, homework.lectureID) && Objects.equals(task, homework.task);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ID, name, lectureID, task);
     }
 }

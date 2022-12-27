@@ -3,6 +3,8 @@ package models;
 import ModelEnum.Role;
 import utils.RegexUtil;
 
+import java.util.Objects;
+
 
 public class Person extends Model {
 
@@ -151,4 +153,16 @@ public class Person extends Model {
         this.name = name;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return courseID == person.courseID && Objects.equals(ID, person.ID) && Objects.equals(name, person.name) && role == person.role && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(phone, person.phone) && Objects.equals(email, person.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ID, name, courseID, role, firstName, lastName, phone, email);
+    }
 }
