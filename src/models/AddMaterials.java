@@ -1,6 +1,6 @@
 package models;
 
-import ModelEnum.ResourceType;
+import models.model_enum.ResourceType;
 
 import java.util.Objects;
 

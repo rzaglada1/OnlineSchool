@@ -21,6 +21,10 @@ public class Homework extends Model {
         this();
         setName(name);
     }
+    public Homework(String name, Integer lectureID) {
+        this(name);
+        setLectureID(lectureID);
+    }
 
     public static Integer getCreateCount() {
         return CREATE_COUNT;

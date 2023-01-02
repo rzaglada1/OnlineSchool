@@ -1,7 +1,7 @@
 package services;
 
 import models.Person;
-import ModelEnum.Role;
+import models.model_enum.Role;
 
 public class PersonService {
 

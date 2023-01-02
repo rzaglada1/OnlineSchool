@@ -1,6 +1,6 @@
 package services;
 
-import ModelEnum.ResourceType;
+import models.model_enum.ResourceType;
 import models.AddMaterials;
 
 public class AddMaterialsService {

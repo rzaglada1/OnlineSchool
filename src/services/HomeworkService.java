@@ -13,4 +13,8 @@ public class HomeworkService {
         return new Homework(name);
     }
 
+    public Homework create(String name, Integer id) {
+        return new Homework(name, id);
+    }
+
 }

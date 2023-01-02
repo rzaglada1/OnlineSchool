@@ -1,6 +1,6 @@
 package models;
 
-import ModelEnum.Role;
+import models.model_enum.Role;
 import utils.RegexUtil;
 
 import java.util.Objects;

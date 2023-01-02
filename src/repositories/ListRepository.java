@@ -14,10 +14,6 @@ public class ListRepository<E extends Model> {
         return repository;
     }
 
-    public void setRepository(List<E> repository) {
-        this.repository = repository;
-    }
-
     public E getById(int id) throws EntityNotFoundException {
         for (E element : repository) {
             if (element.getID() == id) {

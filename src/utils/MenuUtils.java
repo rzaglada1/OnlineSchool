@@ -1,6 +1,6 @@
 package utils;
 
-import ModelEnum.ResourceType;
+import models.model_enum.ResourceType;
 import exceptions.ValidationException;
 
 import java.util.Scanner;
@@ -9,15 +9,13 @@ public class MenuUtils {
 
     public int checkCorrect() {
 
-        int menuItemStart = 0;
-        int menuItemFinish = 12;
+       final int MENU_ITEM_START = 0;
+       final int MENU_ITEM_FINISH = 11;
 
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-
-            System.out.println("");
-            System.out.println("Select category:");
+            System.out.println('\n' + "Select category:");
             System.out.println("0 - exit program");
             System.out.println("1 - Objects course");
             System.out.println("2 - Objects lecture");
@@ -27,18 +25,18 @@ public class MenuUtils {
             System.out.println("6 - Creating student");
             System.out.println("7 - Creating homework");
             System.out.println("8 - Creating addMaterials");
-            System.out.println("9 - Get lecture by ID");
+            System.out.println("9 - Get homework and add task by ID lecture");
             System.out.println("10 - Sort Course by name");
             System.out.println("11 - Sort Teacher and Student by last name");
-            System.out.println("12 - Sort add materials...");
+
 
             try {
                 String item = scanner.next();
-                if (Integer.parseInt(item) >= menuItemStart && Integer.parseInt(item) <= menuItemFinish) {
+                if (Integer.parseInt(item) >= MENU_ITEM_START && Integer.parseInt(item) <= MENU_ITEM_FINISH) {
                     return Integer.parseInt(item);
                 } else throw new NumberFormatException();
             } catch (NumberFormatException e) {
-                //e.printStackTrace();
+
                 System.out.println("Something went wrong ... Try again. ");
             }
         }
@@ -70,19 +68,19 @@ public class MenuUtils {
 
             case 3:
                 return ResourceType.BOOK;
-
+            default:
+                System.out.println("Try again...");
+                throw new ValidationException("id object not found");
         }
-        throw new ValidationException("id object not found");
     }
 
 
     public int resourceTypeMenu() {
-        int menuItemStart = 1;
-        int menuItemFinish = 3;
+        final int MENU_RESOURCE_ITEM_START = 1;
+        final int MENU_RESOURCE_ITEM_FINISH = 3;
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.println("");
-            System.out.println("Select resource type:");
+            System.out.println('\n' + "Select resource type:");
 
             System.out.println("1 - URL");
             System.out.println("2 - VIDEO");
@@ -90,35 +88,35 @@ public class MenuUtils {
 
             try {
                 String item = scanner.next();
-                if (Integer.parseInt(item) >= menuItemStart && Integer.parseInt(item) <= menuItemFinish) {
+                if (Integer.parseInt(item) >= MENU_RESOURCE_ITEM_START && Integer.parseInt(item) <= MENU_RESOURCE_ITEM_FINISH) {
                     return Integer.parseInt(item);
                 } else throw new NumberFormatException();
             } catch (NumberFormatException e) {
-                //e.printStackTrace();
+
                 System.out.println("Something went wrong ... Try again. ");
             }
         }
     }
 
-    public int resourceTypeMenuSorting() {
-        int menuSortingItemStart = 1;
-        int menuSortingItemFinish = 3;
+    public int addRemoveHomework() {
+        final int MENU_SORTING_ITEM_START = 0;
+        final int MENU_SORTING_ITEM_FINISH = 4;
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.println("");
 
-            System.out.println("Sorting add materials by: ");
-            System.out.println("1 - ID");
-            System.out.println("2 - ID Lecture");
-            System.out.println("3 - type of add materials");
+            System.out.println('\n' + "Add or remove: ");
+            System.out.println("0 - Exit");
+            System.out.println("1 - Add homework");
+            System.out.println("2 - Add addMaterials");
+            System.out.println("3 - Remove homework");
+            System.out.println("4 - Remove addMaterials");
 
             try {
                 String item = scanner.next();
-                if (Integer.parseInt(item) >= menuSortingItemStart && Integer.parseInt(item) <= menuSortingItemFinish) {
+                if (Integer.parseInt(item) >= MENU_SORTING_ITEM_START && Integer.parseInt(item) <= MENU_SORTING_ITEM_FINISH) {
                     return Integer.parseInt(item);
                 } else throw new NumberFormatException();
             } catch (NumberFormatException e) {
-                //e.printStackTrace();
                 System.out.println("Something went wrong ... Try again. ");
             }
         }
