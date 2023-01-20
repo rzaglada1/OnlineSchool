@@ -10,14 +10,14 @@ public class Lecture extends Model {
 
     private Homework[] homework;
 
-    private static Integer CREATE_COUNT = 0;
+    private static Integer createCount = 0;
     private int idCourse;
     private int personID;
     private Person person;
 
     public Lecture() {
-        CREATE_COUNT++;
-        setID(CREATE_COUNT);
+        createCount++;
+        setID(createCount);
     }
 
     public Lecture(String name) {
@@ -44,7 +44,7 @@ public class Lecture extends Model {
     }
 
     public static Integer getCreateCount() {
-        return CREATE_COUNT;
+        return createCount;
     }
 
     public void setIdCourse(Integer idCourse) {
@@ -85,7 +85,7 @@ public class Lecture extends Model {
                     ", idLecture=" + getID() +
                     ", arrayHomework=" + Arrays.toString(homework) +
                     ", personID=" + personID +
-                    ", personFirstName=" + person.getFirstName() +
+                    ", personName=" + person.getName() +
                     ", personLastName=" + person.getLastName() +
                     ", personRole=" + person.getRole() +
                     ", idCourse=" + idCourse +

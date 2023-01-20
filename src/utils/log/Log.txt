@@ -1,0 +1,14 @@
+2023-01-20T14:48:01.843035700 INFO: Log OnlineSchool: Selected   - "12 - Print log file" 
+2023-01-20T14:48:34.918421300 INFO: Log OnlineSchool: Selected   - "2 - Objects lecture" 
+2023-01-20T14:48:39.145793700 INFO: Log OnlineSchool: Selected   - "12 - Print log file" 
+2023-01-20T14:48:57.460522800 INFO: Log OnlineSchool: Selected   - "8 - Creating addMaterials" 
+2023-01-20T14:49:02.993599400 WARNING: Log OnlineSchool: Lecture id 6 - not found STACKTRACE [repositories.LectureRepository.getById(LectureRepository.java:44), utils.MenuUtils.case8(MenuUtils.java:252), Main.main(Main.java:37)]
+2023-01-20T14:49:05.001236900 INFO: Log OnlineSchool: Selected   - "12 - Print log file" 
+2023-01-20T14:50:31.815831700 INFO: Log OnlineSchool: Selected   - "11 - Sort Teacher and Student by last name" 
+2023-01-20T14:50:39.306959600 INFO: Log OnlineSchool: Selected   - "12 - Print log file" 
+2023-01-20T14:53:19.359706800 INFO: Log OnlineSchool: =============== Homework 20 =====================
+2023-01-20T14:54:26.424352300 INFO: Log OnlineSchool: Selected   - "9 - Get homework and add task by ID lecture" 
+2023-01-20T14:54:28.790662400 WARNING: Log OnlineSchool: Something wrong STACKTRACE [repositories.LectureRepository.getById(LectureRepository.java:44), utils.MenuUtils.case9(MenuUtils.java:281), Main.main(Main.java:37)]
+2023-01-20T14:54:31.034224900 INFO: Log OnlineSchool: Selected   - "9 - Get homework and add task by ID lecture" 
+2023-01-20T14:54:45.112434600 INFO: Log OnlineSchool: Selected   - "12 - Print log file" 
+2023-01-20T14:55:20.636192600 INFO: Log OnlineSchool: Exiting program ...

@@ -8,15 +8,15 @@ public class AddMaterials extends Model {
 
     private Integer ID;
     private String name;
-    private static Integer CREATE_COUNT = 0;
+    private static Integer createCount = 0;
 
-    private Integer lectureId;
+    private Integer lectureID;
     private ResourceType resourceType;
 
 
     public AddMaterials() {
-        CREATE_COUNT++;
-        setID(CREATE_COUNT);
+        createCount++;
+        setID(createCount);
     }
 
     public AddMaterials(String name) {
@@ -30,20 +30,20 @@ public class AddMaterials extends Model {
         this.resourceType = resourceType;
     }
 
-    public AddMaterials(String name, ResourceType resourceType, Integer lectureId) {
+    public AddMaterials(String name, ResourceType resourceType, Integer lectureID) {
         this();
         this.name = name;
         this.resourceType = resourceType;
-        this.lectureId = lectureId;
+        this.lectureID = lectureID;
     }
 
 
-    public Integer getLectureId() {
-        return lectureId;
+    public Integer getLectureID() {
+        return lectureID;
     }
 
-    public void setLectureId(Integer lectureId) {
-        this.lectureId = lectureId;
+    public void setLectureID(Integer lectureID) {
+        this.lectureID = lectureID;
     }
 
     public ResourceType getResourceType() {
@@ -81,7 +81,7 @@ public class AddMaterials extends Model {
                 "name =" + getName() +
                 ", addMaterialsId=" + getID() +
                 ", ResourceType =" + resourceType +
-                ", lectureID=" + lectureId +
+                ", lectureID=" + lectureID +
                 '}';
     }
 
@@ -90,11 +90,11 @@ public class AddMaterials extends Model {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AddMaterials that = (AddMaterials) o;
-        return Objects.equals(ID, that.ID) && Objects.equals(name, that.name) && Objects.equals(lectureId, that.lectureId) && resourceType == that.resourceType;
+        return Objects.equals(ID, that.ID) && Objects.equals(name, that.name) && Objects.equals(lectureID, that.lectureID) && resourceType == that.resourceType;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ID, name, lectureId, resourceType);
+        return Objects.hash(ID, name, lectureID, resourceType);
     }
 }

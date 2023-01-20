@@ -17,8 +17,8 @@ public class AddMaterialsService {
         return new AddMaterials(name, resourceType);
     }
 
-    public AddMaterials create(String name, ResourceType resourceType, Integer lectureId) {
-        return new AddMaterials(name, resourceType, lectureId);
+    public AddMaterials create(String name, ResourceType resourceType, Integer lectureID) {
+        return new AddMaterials(name, resourceType, lectureID);
     }
 
 }

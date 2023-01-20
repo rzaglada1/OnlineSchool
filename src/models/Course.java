@@ -11,11 +11,11 @@ public class Course extends Model {
     private Lecture lecture;
     private Homework homework;
     private Task task;
-    private static Integer CREATE_COUNT = 0;
+    private static Integer createCount = 0;
 
     public Course() {
-        CREATE_COUNT++;
-        setID(CREATE_COUNT);
+        createCount++;
+        setID(createCount);
     }
 
     public Course(String name) {
@@ -46,7 +46,7 @@ public class Course extends Model {
     }
 
     public static Integer getCreateCount() {
-        return CREATE_COUNT;
+        return createCount;
     }
 
     public void setPerson(Person person) {

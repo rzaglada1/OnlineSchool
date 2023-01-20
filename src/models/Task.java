@@ -3,15 +3,15 @@ package models;
 import java.util.Objects;
 
 public class Task extends Model {
-    private static Integer CREATE_COUNT = 0;
+    private static Integer createCount = 0;
 
     private Integer ID;
     private String name;
 
 
     public Task() {
-        CREATE_COUNT++;
-        setID(CREATE_COUNT);
+        createCount++;
+        setID(createCount);
     }
 
     public Task(String name) {
@@ -20,7 +20,7 @@ public class Task extends Model {
     }
 
     public static Integer getCreateCount() {
-        return CREATE_COUNT;
+        return createCount;
     }
 
     @Override

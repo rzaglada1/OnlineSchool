@@ -10,11 +10,11 @@ public class Homework extends Model {
     private Integer lectureID;
     private Task task;
 
-    private static Integer CREATE_COUNT = 0;
+    private static Integer createCount = 0;
 
     public Homework() {
-        CREATE_COUNT++;
-        setID(CREATE_COUNT);
+        createCount++;
+        setID(createCount);
     }
 
     public Homework(String name) {
@@ -27,7 +27,7 @@ public class Homework extends Model {
     }
 
     public static Integer getCreateCount() {
-        return CREATE_COUNT;
+        return createCount;
     }
 
     public Integer getLectureID() {

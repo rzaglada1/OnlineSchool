@@ -11,25 +11,25 @@ public class Person extends Model {
     private Integer ID;
     private String name;
 
-    private static Integer CREATE_COUNT = 0;
+    private static Integer createCount = 0;
 
 
     private int courseID;
     private Role role;
 
-    private String firstName;
+
     private String lastName;
     private String phone;
     private String email;
 
     public Person() {
-        CREATE_COUNT++;
-        setID(CREATE_COUNT);
+        createCount++;
+        setID(createCount);
     }
 
     public Person(String[] personAttribute, Role role) {
         this();
-        this.firstName = personAttribute[0];
+        this.name = personAttribute[0];
         this.lastName = personAttribute[1];
         this.phone = personAttribute[2];
         this.email = personAttribute[3];
@@ -39,7 +39,7 @@ public class Person extends Model {
 
     public Person(String[] personAttribute, Role role, Model course) {
         this();
-        this.firstName = personAttribute[0];
+        this.name = personAttribute[0];
         this.lastName = personAttribute[1];
         this.phone = personAttribute[2];
         this.email = personAttribute[3];
@@ -49,7 +49,7 @@ public class Person extends Model {
 
 
     public static Integer getCreateCount() {
-        return CREATE_COUNT;
+        return createCount;
     }
 
     public int getCourseID() {
@@ -68,10 +68,6 @@ public class Person extends Model {
         this.role = role;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
     public String getLastName() {
         return lastName;
     }
@@ -84,13 +80,6 @@ public class Person extends Model {
         return email;
     }
 
-    public boolean setFirstName(String firstName) {
-        if (new RegexUtil().isCorrect(firstName, RegexUtil.REGEX_FIRST_NAME)) {
-            this.firstName = firstName;
-            return true;
-        }
-        return false;
-    }
 
     public boolean setLastName(String lastName) {
         if (new RegexUtil().isCorrect(lastName, RegexUtil.REGEX_LAST_NAME)) {
@@ -126,7 +115,7 @@ public class Person extends Model {
                 "courseID=" + courseID +
                 ", personID=" + getID() +
                 ", role=" + role +
-                ", firstName='" + firstName + '\'' +
+                ", Name='" + name + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
@@ -158,11 +147,11 @@ public class Person extends Model {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Person person = (Person) o;
-        return courseID == person.courseID && Objects.equals(ID, person.ID) && Objects.equals(name, person.name) && role == person.role && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(phone, person.phone) && Objects.equals(email, person.email);
+        return courseID == person.courseID && Objects.equals(ID, person.ID) && Objects.equals(name, person.name) && role == person.role && Objects.equals(lastName, person.lastName) && Objects.equals(phone, person.phone) && Objects.equals(email, person.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ID, name, courseID, role, firstName, lastName, phone, email);
+        return Objects.hash(ID, name, courseID, role, lastName, phone, email);
     }
 }
