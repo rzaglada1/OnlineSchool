@@ -8,10 +8,14 @@ import exceptions.ValidationException;
 import models.model_enum.Role;
 import repositories.*;
 import services.*;
+import student_exam.exam.Exam;
+import student_exam.repo.StudentRepo;
+import student_exam.student.Student;
 import utils.log.Log;
 import utils.log.LogToFile;
 
-import java.util.Scanner;
+import java.util.*;
+import java.util.concurrent.Phaser;
 
 public class MenuUtils {
 
@@ -20,25 +24,24 @@ public class MenuUtils {
     public int checkCorrect() {
 
         final int MENU_ITEM_START = 0;
-        final int MENU_ITEM_FINISH = 12;
+        final int MENU_ITEM_FINISH = 11;
 
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
             System.out.println('\n' + "Select category:");
             System.out.println("0 - exit program");
-            System.out.println("1 - Objects course");
-            System.out.println("2 - Objects lecture");
-            System.out.println("3 - Creating course");
-            System.out.println("4 - Creating lecture");
-            System.out.println("5 - Creating teacher");
-            System.out.println("6 - Creating student");
-            System.out.println("7 - Creating homework");
-            System.out.println("8 - Creating addMaterials");
-            System.out.println("9 - Get homework and add task by ID lecture");
-            System.out.println("10 - Sort Course by name");
-            System.out.println("11 - Sort Teacher and Student by last name");
-            System.out.println("12 - Print log file");
+            System.out.println("1 - Creating course");
+            System.out.println("2 - Creating lecture");
+            System.out.println("3 - Creating teacher");
+            System.out.println("4 - Creating student");
+            System.out.println("5 - Creating homework");
+            System.out.println("6 - Creating addMaterials");
+            System.out.println("7 - Get homework and add task by ID lecture");
+            System.out.println("8 - Sort Course by name");
+            System.out.println("9 - Sort Teacher and Student by last name");
+            System.out.println("10 - Print log file");
+            System.out.println("11 - Students exam");
 
 
             try {
@@ -173,35 +176,23 @@ public class MenuUtils {
     }
 
     public void case1(CourseRepository courseRepository) {
-        Log.info(nameLog, "Selected   - \"1 - Objects course\" ");
-        // printing repository objects
-        courseRepository.printRepository();
-    }
-
-    public void case2(LectureRepository lectureRepository) {
-        Log.info(nameLog, "Selected   - \"2 - Objects lecture\" ");
-        // printing repository objects
-        lectureRepository.printRepository();
-    }
-
-    public void case3(CourseRepository courseRepository) {
-        Log.info(nameLog, "Selected   - \"3 - Creating course\" ");
+        Log.info(nameLog, "Selected   - \"1 - Creating course\" ");
         System.out.println("Enter name Course");
         courseRepository.getRepository().add(new CourseService().create(inputString()));
         // printing repository objects
         courseRepository.printRepository();
     }
 
-    public void case4(LectureRepository lectureRepository) {
-        Log.info(nameLog, "Selected   - \"4 - Creating lecture\" ");
+    public void case2(LectureRepository lectureRepository) {
+        Log.info(nameLog, "Selected   - \"2 - Creating lecture\" ");
         System.out.println("Enter name Lecture");
         lectureRepository.getRepository().add(new LectureService().create(inputString()));
         // printing repository objects
         lectureRepository.printRepository();
     }
 
-    public void case5(PersonRepository personRepository) {
-        Log.info(nameLog, "Selected   - \"5 - Creating teacher");
+    public void case3(PersonRepository personRepository) {
+        Log.info(nameLog, "Selected   - \"3 - Creating teacher");
         try {
             Person personTeacher = new PersonService().create(new RegexUtil().personAttribute(),
                     Role.TEACHER);
@@ -213,8 +204,8 @@ public class MenuUtils {
         personRepository.printRepositoryTeacher();
     }
 
-    public void case6(PersonRepository personRepository) {
-        Log.info(nameLog, "Selected   - \"6 - Creating student");
+    public void case4(PersonRepository personRepository) {
+        Log.info(nameLog, "Selected   - \"4 - Creating student");
         try {
             Person personStudent = new PersonService().create(new RegexUtil().personAttribute(),
                     Role.STUDENT);
@@ -226,8 +217,8 @@ public class MenuUtils {
         personRepository.printRepositoryStudent();
     }
 
-    public void case7(HomeWorkRepository homeworkRepository, LectureRepository lectureRepository) {
-        Log.info(nameLog, "Selected   - \"7 - Creating Homework\" ");
+    public void case5(HomeWorkRepository homeworkRepository, LectureRepository lectureRepository) {
+        Log.info(nameLog, "Selected   - \"5 - Creating Homework\" ");
 
         System.out.println("Enter name Homework");
         String nameHomework = inputString();
@@ -243,8 +234,8 @@ public class MenuUtils {
         homeworkRepository.printRepository();
     }
 
-    public void case8(AddMaterialsRepository addMaterialsRepository, LectureRepository lectureRepository) {
-        Log.info(nameLog, "Selected   - \"8 - Creating addMaterials\" ");
+    public void case6(AddMaterialsRepository addMaterialsRepository, LectureRepository lectureRepository) {
+        Log.info(nameLog, "Selected   - \"6 - Creating addMaterials\" ");
 
         System.out.print("Enter lecture ID ");
         int inputID = inputDigit();
@@ -271,9 +262,9 @@ public class MenuUtils {
         addMaterialsRepository.printRepository();
     }
 
-    public void case9(HomeWorkRepository homeworkRepository
+    public void case7(HomeWorkRepository homeworkRepository
             , AddMaterialsRepository addMaterialsRepository, LectureRepository lectureRepository) {
-        Log.info(nameLog, "Selected   - \"9 - Get homework and add task by ID lecture\" ");
+        Log.info(nameLog, "Selected   - \"7 - Get homework and add task by ID lecture\" ");
 
         System.out.print("Enter lecture ID ");
         int inputLectureID = inputDigit();
@@ -324,19 +315,68 @@ public class MenuUtils {
         }
     }
 
-    public void case10(CourseRepository courseRepository) {
-        Log.info(nameLog, "Selected   - \"10 - Sort Course by name\" ");
+    public void case8(CourseRepository courseRepository) {
+        Log.info(nameLog, "Selected   - \"8 - Sort Course by name\" ");
         courseRepository.sortedByName().forEach(System.out::println);
     }
 
-    public void case11(PersonRepository personRepository) {
-        Log.info(nameLog, "Selected   - \"11 - Sort Teacher and Student by last name\" ");
+    public void case9(PersonRepository personRepository) {
+        Log.info(nameLog, "Selected   - \"9 - Sort Teacher and Student by last name\" ");
         personRepository.sortedByName().forEach(System.out::println);
     }
 
-    public void case12() {
-        Log.info(nameLog, "Selected   - \"12 - Print log file\" ");
+    public void case10() {
+        Log.info(nameLog, "Selected   - \"10 - Print log file\" ");
         LogToFile.getInstance().loadFromFile();
+    }
+
+    public void case11() {
+        Log.info(nameLog, "Selected   - \"11 - Students exam\" ");
+
+        int examTask;
+        int examTime;
+        int students = 10;
+        Set<Integer> examTaskSet = new HashSet<>();
+        StudentRepo.getInstance().getRepoStudent().clear();
+        Phaser phaser = new Phaser();
+        phaser.register();
+
+        for (int i = 1; i < students + 1; i++) {
+            examTime = (int) (Math.random() * 7 + 8);
+            examTask = (int) (Math.random() * students + 1);
+            while (!examTaskSet.add(examTask)) {
+                examTask = (int) (Math.random() * students + 1);
+            }
+            StudentRepo.getInstance().getRepoStudent()
+                    .add(new Student("StudentName" + i, examTask, examTime, phaser));
+            System.out.println("Student " + i + " got the task number " + examTask);
+        }
+
+        System.out.println("=======================================" + '\n');
+        ThreadGroup threadGroupStudents = new ThreadGroup("Students");
+
+        for (Student student : StudentRepo.getInstance().getRepoStudent()) {
+            new Thread(threadGroupStudents, student, student.getName()).start();
+        }
+        examStart(phaser);
+        StudentRepo.getInstance().printRepo();
+
+        Thread[] grp =  new  Thread[threadGroupStudents.activeCount()];
+        threadGroupStudents.enumerate(grp);
+        for (Thread element: grp) {
+            System.out.println( "Time is up: "  + element.getName() );
+        }}
+
+    private void examStart(Phaser phaser) {
+        StudentRepo.getInstance().getBestStudent().clear();
+        phaser.arriveAndAwaitAdvance();
+        Thread exam = new Thread(new Exam(12));
+        exam.start();
+        try {
+            exam.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
