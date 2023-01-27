@@ -1,19 +1,29 @@
 package utils.log;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 
 
 public class LogToFile {
 
-    String path = "./src/utils/log/";
-    String nameFile = "Log.txt";
-    File file = new File(path, nameFile);
     String nameLog = "Log OnlineSchool";
+    public final static String STR_PATH_SERVICE = "./src/utils/log/";
+    public final static String STR_PATH_LOG = "./src/utils/log/";
+    public final static String STR_NAME_LOG = "log.txt";
+    public final static String STR_NAME_SERVICE = "Service.log";
     private static LogToFile instance;
+    private final Path pathServiceFile;
+    private final Path pathLogFile;
+    private LogLevel defaultLogLevel = LogLevel.DEBUG;
 
     private LogToFile() {
-        createFile();
+        pathLogFile = Path.of(STR_PATH_LOG,STR_NAME_LOG);
+        pathServiceFile = Path.of(STR_PATH_SERVICE,STR_NAME_SERVICE);
+        createServiceFile(pathServiceFile);
+        createLogFile(pathLogFile);
     }
 
     public static LogToFile getInstance() {
@@ -23,45 +33,83 @@ public class LogToFile {
         return instance;
     }
 
-
-    private void createFile() {
-
-        if (!file.exists()) {
+    private void createServiceFile(Path path) {
+        if (!Files.exists(path)) {
             try {
-                if (!file.createNewFile()) {
-                    Log.debug(nameLog, "File Log.txt not created");
-                }
+                Files.createFile(path);
+                saveToServiceFile(LogProperty.LOG_LEVEL, LogLevel.DEBUG);
             } catch (IOException e) {
-                Log.error(nameFile, "Error created file Log.txt", e.getStackTrace());
+                System.out.println("Error creation Service file");
+            }
+        }
+    }
+
+    private void createLogFile(Path path) {
+        if (!Files.exists(path)) {
+            try {
+                Files.createFile(path);
+            } catch (IOException e) {
+                System.out.println("Error creation Log file");
+            }
+        }
+    }
+
+    public void saveToLogFile(Log log) {
+        if (Files.exists(pathLogFile)) {
+            try {
+                Files.write(pathLogFile, createStringLog(log).getBytes(), StandardOpenOption.APPEND);
+            } catch (IOException e) {
+                System.out.println("Log file error");
             }
         }
     }
 
 
-    public boolean saveToFile(Log log) {
-        boolean isOk = false;
-        try (FileWriter logWriter = new FileWriter(file, true)) {
-            logWriter.write(createStringLog(log));
-            isOk = true;
-        } catch (IOException e) {
-            Log.error(nameLog, "An error occurred IO", e.getStackTrace());
+    public void saveToServiceFile(LogProperty logProperty, LogLevel logLevel) {
+        Log.setLogLevel(logLevel);
+        if (Files.exists(pathServiceFile)) {
+            try {
+                Files.write(pathServiceFile, (logProperty.name() + " = " + logLevel.name() + "    \n")
+                        .getBytes(), StandardOpenOption.WRITE);
+            } catch (IOException e) {
+                System.out.println("Service file error");
+            }
         }
-        return isOk;
     }
 
-    public void loadFromFile() {
-        if (file.exists()) {
-            try (FileReader logReader = new FileReader(file)) {
-                int c;
-                while ((c = logReader.read()) != -1) {
-                    System.out.print((char) c);
+
+    public void loadFromLogFile() {
+        if (Files.exists(pathLogFile)) {
+            try (BufferedReader reader = Files.newBufferedReader(pathLogFile)) {
+                String value = reader.readLine();
+                while (value != null) {
+                    System.out.println(value);
+                    value = reader.readLine();
                 }
             } catch (IOException e) {
-                Log.error(nameLog, "An error occurred IO", e.getStackTrace());
+                System.out.println("Error reading log file");
             }
-        } else {
-            Log.debug(nameLog, "File " + nameFile + " not found");
         }
+    }
+
+    public LogLevel loadFromServiceFile(LogProperty logProperty)  {
+        LogLevel level = defaultLogLevel;
+            try (BufferedReader reader = Files.newBufferedReader(pathServiceFile)) {
+                String value = reader.readLine();
+                while (value != null) {
+                    if (value.contains(logProperty.name()) && value.contains("=") ) {
+                        level = LogLevel.valueOf(value.substring(value.indexOf("=") + 1).trim());
+                        break;
+                    }
+                    value = reader.readLine();
+                }
+
+        } catch (Exception e) {
+                System.out.println( "File service " + '\"' + STR_NAME_SERVICE  + '\"'
+                    + " reading  error. Default LOG_LEVEL = " + defaultLogLevel );
+
+        }
+        return level;
     }
 
 
@@ -85,4 +133,7 @@ public class LogToFile {
         return result;
     }
 
+    public void setDefaultLogLevel(LogLevel defaultLogLevel) {
+        this.defaultLogLevel = defaultLogLevel;
+    }
 }

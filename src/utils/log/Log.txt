@@ -1,15 +1,6 @@
-2023-01-22T21:57:25.265579300 INFO: Log OnlineSchool: =============== Homework 21 =====================
-2023-01-22T21:57:29.063009800 INFO: Log OnlineSchool: Selected   - "11 - Students exam" 
-2023-01-22T21:58:44.023793900 INFO: Log OnlineSchool: Selected   - "11 - Students exam" 
-2023-01-22T21:59:01.489508700 INFO: Log OnlineSchool: Selected   - "11 - Students exam" 
-2023-01-22T22:00:17.986063100 INFO: Log OnlineSchool: Selected   - "11 - Students exam" 
-2023-01-22T22:01:59.994558200 INFO: Log OnlineSchool: =============== Homework 21 =====================
-2023-01-22T22:02:03.108295200 INFO: Log OnlineSchool: Selected   - "11 - Students exam" 
-2023-01-22T22:02:50.042993600 INFO: Log OnlineSchool: Selected   - "11 - Students exam" 
-2023-01-22T22:04:53.294138600 INFO: Log OnlineSchool: =============== Homework 21 =====================
-2023-01-22T22:04:56.376581500 INFO: Log OnlineSchool: Selected   - "11 - Students exam" 
-2023-01-22T22:05:18.170103100 INFO: Log OnlineSchool: Selected   - "11 - Students exam" 
-2023-01-22T22:07:38.360663800 INFO: Log OnlineSchool: Selected   - "11 - Students exam" 
-2023-01-22T22:11:03.781336700 INFO: Log OnlineSchool: =============== Homework 21 =====================
-2023-01-22T22:11:07.044880600 INFO: Log OnlineSchool: Selected   - "11 - Students exam" 
-2023-01-22T22:11:48.574701200 INFO: Log OnlineSchool: Selected   - "11 - Students exam" 
+2023-01-27T22:36:46.560997200 INFO: Log OnlineSchool: =============== Homework 21 =====================
+2023-01-27T22:37:16.338052100 INFO: Log OnlineSchool: =============== Homework 21 =====================
+2023-01-27T22:37:16.340050300 INFO: Log OnlineSchool: Changed settings LOG_LEVEL = DEBUG
+2023-01-27T22:38:15.245847700 INFO: Log OnlineSchool: =============== Homework 21 =====================
+2023-01-27T22:38:32.203604400 INFO: Log OnlineSchool: Selected   - "10 - Print log file" 
+2023-01-27T22:38:43.278972400 INFO: Log OnlineSchool: Selected   - "12 - Students exam" 

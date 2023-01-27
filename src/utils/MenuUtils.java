@@ -12,6 +12,8 @@ import student_exam.exam.Exam;
 import student_exam.repo.StudentRepo;
 import student_exam.student.Student;
 import utils.log.Log;
+import utils.log.LogLevel;
+import utils.log.LogProperty;
 import utils.log.LogToFile;
 
 import java.util.*;
@@ -24,7 +26,7 @@ public class MenuUtils {
     public int checkCorrect() {
 
         final int MENU_ITEM_START = 0;
-        final int MENU_ITEM_FINISH = 11;
+        final int MENU_ITEM_FINISH = 12;
 
         Scanner scanner = new Scanner(System.in);
 
@@ -41,7 +43,8 @@ public class MenuUtils {
             System.out.println("8 - Sort Course by name");
             System.out.println("9 - Sort Teacher and Student by last name");
             System.out.println("10 - Print log file");
-            System.out.println("11 - Students exam");
+            System.out.println("11 - Change log level");
+            System.out.println("12 - Students exam");
 
 
             try {
@@ -110,6 +113,34 @@ public class MenuUtils {
             }
         }
     }
+
+    public int itemLogLevel() {
+        final int MENU_LOG_LEVEL_ITEM_START = 0;
+        final int MENU_LOG_LEVEL_ITEM_FINISH = 4;
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println('\n' + "Select log level:");
+
+            System.out.println("0 - OFF");
+            System.out.println("1 - DEBUG");
+            System.out.println("2 - INFO");
+            System.out.println("3 - WARNING");
+            System.out.println("4 - ERROR");
+
+
+            try {
+                String item = scanner.next();
+                if (Integer.parseInt(item) >= MENU_LOG_LEVEL_ITEM_START && Integer.parseInt(item) <= MENU_LOG_LEVEL_ITEM_FINISH) {
+                    return Integer.parseInt(item);
+                } else throw new NumberFormatException();
+            } catch (NumberFormatException e) {
+
+                System.out.println("Something went wrong ... Try again. ");
+            }
+        }
+    }
+
+
 
     public int addRemoveHomework() {
         final int MENU_SORTING_ITEM_START = 0;
@@ -327,11 +358,32 @@ public class MenuUtils {
 
     public void case10() {
         Log.info(nameLog, "Selected   - \"10 - Print log file\" ");
-        LogToFile.getInstance().loadFromFile();
+        LogToFile.getInstance().loadFromLogFile();
     }
 
     public void case11() {
-        Log.info(nameLog, "Selected   - \"11 - Students exam\" ");
+        // =========For example===========
+        System.out.println('\n' + "Log_level = " + LogToFile.getInstance().loadFromServiceFile(LogProperty.LOG_LEVEL).name()
+                + ". What log types are being printed now: ");
+        System.out.println("==============================");
+        Log.info(nameLog, "Selected   - \"11 - Change log level\" ");
+        Log.debug(nameLog, "debug");
+        Log.info(nameLog, "info");
+        Log.warning(nameLog, "warning", null);
+        Log.error(nameLog, "error", null);
+        //================================
+
+        switch (itemLogLevel()) {
+            case 1 -> LogToFile.getInstance().saveToServiceFile(LogProperty.LOG_LEVEL, LogLevel.DEBUG);
+            case 2 -> LogToFile.getInstance().saveToServiceFile(LogProperty.LOG_LEVEL, LogLevel.INFO);
+            case 3 -> LogToFile.getInstance().saveToServiceFile(LogProperty.LOG_LEVEL, LogLevel.WARNING);
+            case 4 -> LogToFile.getInstance().saveToServiceFile(LogProperty.LOG_LEVEL, LogLevel.ERROR);
+            default -> LogToFile.getInstance().saveToServiceFile(LogProperty.LOG_LEVEL, LogLevel.OFF);
+        }
+    }
+
+    public void case12() {
+        Log.info(nameLog, "Selected   - \"12 - Students exam\" ");
 
         int examTask;
         int examTime;

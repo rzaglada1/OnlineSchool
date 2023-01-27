@@ -15,7 +15,10 @@ public class Log {
 
 
 
+    private static String nameLog = "Log OnlineSchool";
     private static Log log;
+    private static final LogLevel logLevelDefault = LogLevel.INFO;
+    private static LogLevel logLevel;
 
     private Log (String name, LogLevel level, String message, LocalDateTime date, StackTraceElement[] stacktrace) {
         this.name = name;
@@ -26,31 +29,42 @@ public class Log {
     }
 
     public static void debug(String name, String message) {
-        LocalDateTime localDateTime = LocalDateTime.now();
-        System.out.println(localDateTime + " " + LogLevel.DEBUG + " " + name + ":" + " " + message);
-        log = new Log(name, LogLevel.DEBUG, message, LocalDateTime.now(), null);
-        logSave(log);
+        if (checkLevelLog(LogLevel.DEBUG)) {
+            LocalDateTime localDateTime = LocalDateTime.now();
+            System.out.println(localDateTime + " " + LogLevel.DEBUG + " " + name + ":" + " " + message);
+            log = new Log(name, LogLevel.DEBUG, message, LocalDateTime.now(), null);
+            logSave(log);
+        }
     }
 
     public static void info(String name, String message) {
-        LocalDateTime localDateTime = LocalDateTime.now();
-        System.out.println(localDateTime + " " + LogLevel.INFO + " " + name + ":" + " " + message);
-        log = new Log(name, LogLevel.INFO, message, LocalDateTime.now(), null);
-        logSave(log);
+        if (checkLevelLog(LogLevel.INFO)) {
+            LocalDateTime localDateTime = LocalDateTime.now();
+            System.out.println(localDateTime + " " + LogLevel.INFO + " " + name + ":" + " " + message);
+            log = new Log(name, LogLevel.INFO, message, LocalDateTime.now(), null);
+            logSave(log);
+        }
+
     }
 
     public static void error(String name, String message, StackTraceElement[] stacktrace) {
-        LocalDateTime localDateTime = LocalDateTime.now();
-        System.out.println(localDateTime + " " + LogLevel.ERROR + " " + name + ":" + " " + message);
-        log = new Log(name, LogLevel.ERROR, message, LocalDateTime.now(), stacktrace);
-        logSave(log);
+        if (checkLevelLog(LogLevel.ERROR)) {
+            LocalDateTime localDateTime = LocalDateTime.now();
+            System.out.println(localDateTime + " " + LogLevel.ERROR + " " + name + ":" + " " + message);
+            log = new Log(name, LogLevel.ERROR, message, LocalDateTime.now(), stacktrace);
+            logSave(log);
+        }
+
     }
 
     public static void warning(String name, String message, StackTraceElement[] stacktrace) {
-        LocalDateTime localDateTime = LocalDateTime.now();
-        System.out.println(localDateTime + " " + LogLevel.WARNING + " " + name + ":" + " " + message);
-        log = new Log(name, LogLevel.WARNING, message, LocalDateTime.now(), stacktrace);
-        logSave(log);
+        if (checkLevelLog(LogLevel.WARNING)) {
+            LocalDateTime localDateTime = LocalDateTime.now();
+            System.out.println(localDateTime + " " + LogLevel.WARNING + " " + name + ":" + " " + message);
+            log = new Log(name, LogLevel.WARNING, message, LocalDateTime.now(), stacktrace);
+            logSave(log);
+        }
+
     }
 
     private static void logSave (Log log) {
@@ -58,8 +72,25 @@ public class Log {
             logStorage.getLogList().add(log);
         }
         if (logToFile != null) {
-            logToFile.saveToFile(log);
+            logToFile.saveToLogFile(log);
         }
+    }
+
+    public static boolean checkLevelLog (LogLevel lg) {
+        boolean checkLevel = false;
+        if (getLogLevel() == null) {
+            try {
+                logLevel = LogToFile.getInstance().loadFromServiceFile(LogProperty.LOG_LEVEL);
+            } catch (Exception e) {
+                System.out.println("Data service file error");
+                logLevel = logLevelDefault;
+            }
+        }
+
+        if (lg.getCheckNumber() <= logLevel.getCheckNumber() && logLevel.getCheckNumber() != 5) {
+            checkLevel = true;
+        }
+        return checkLevel;
     }
 
     public String getName() {
@@ -68,6 +99,15 @@ public class Log {
 
     public LogLevel getLevel() {
         return level;
+    }
+
+    public static void setLogLevel(LogLevel logLevel) {
+        Log.logLevel = logLevel;
+        Log.info( nameLog,"Changed settings LOG_LEVEL = " + logLevel);
+    }
+
+    public static LogLevel getLogLevel() {
+        return logLevel;
     }
 
     public String getMessage() {

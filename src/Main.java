@@ -2,6 +2,7 @@
 import repositories.*;
 import utils.*;
 import utils.log.Log;
+import utils.log.LogToFile;
 
 public class Main {
 
@@ -9,6 +10,9 @@ public class Main {
 
         String nameLog = "Log OnlineSchool";
         MenuUtils menuUtils = new MenuUtils();
+
+        Thread watchTread = new Thread(new WatchDir(LogToFile.STR_PATH_SERVICE));
+        watchTread.start();
 
         CourseRepository courseRepository = CourseRepository.getInstance();
         LectureRepository lectureRepository = LectureRepository.getInstance();
@@ -21,7 +25,7 @@ public class Main {
 
 
         System.out.println('\n');
-        Log.info(nameLog, "=============== Homework 21 =====================");
+        Log.info(nameLog, "=============== Homework 22 =====================");
 
 
 
@@ -39,6 +43,7 @@ public class Main {
                 case 9 -> menuUtils.case9(personRepository);
                 case 10 -> menuUtils.case10();
                 case 11 -> menuUtils.case11();
+                case 12 -> menuUtils.case12();
                 default -> System.out.println("Try again...");
             }
         }
