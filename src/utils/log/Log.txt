@@ -1,6 +1,13 @@
-2023-01-27T22:36:46.560997200 INFO: Log OnlineSchool: =============== Homework 21 =====================
-2023-01-27T22:37:16.338052100 INFO: Log OnlineSchool: =============== Homework 21 =====================
-2023-01-27T22:37:16.340050300 INFO: Log OnlineSchool: Changed settings LOG_LEVEL = DEBUG
-2023-01-27T22:38:15.245847700 INFO: Log OnlineSchool: =============== Homework 21 =====================
-2023-01-27T22:38:32.203604400 INFO: Log OnlineSchool: Selected   - "10 - Print log file" 
-2023-01-27T22:38:43.278972400 INFO: Log OnlineSchool: Selected   - "12 - Students exam" 
+2023-01-30T10:07:56.983536500 INFO: Log OnlineSchool: =============== Homework 22 =====================
+2023-01-30T10:08:20.364260700 INFO: Log OnlineSchool: Selected   - "13 - Start server" 
+2023-01-30T10:08:23.447982500 INFO: Log OnlineSchool: Selected   - "14 - Start client" 
+2023-01-30T10:08:23.465969700 DEBUG: Log OnlineSchool: Client IP 127.0.0.1 connected
+2023-01-30T10:08:23.467968500 DEBUG: Log OnlineSchool client: Client finish 
+2023-01-30T10:08:23.469968900 DEBUG: Log OnlineSchool: server socket close
+2023-01-30T10:09:16.416819500 INFO: Log OnlineSchool: Selected   - "14 - Start client" 
+2023-01-30T10:09:16.419814800 DEBUG: Log OnlineSchool server: IP 127.0.0.1 in blackList!!!
+2023-01-30T10:09:16.421812500 WARNING: Log OnlineSchool: Client disconnected STACKTRACE [java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:394), java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:426), server_client.MyClient.startMyClient(MyClient.java:27), utils.MenuUtils.case14(MenuUtils.java:438), Main.main(Main.java:48)]
+2023-01-30T10:09:31.336969700 INFO: Log OnlineSchool: Selected   - "14 - Start client" 
+2023-01-30T10:09:31.339966700 DEBUG: Log OnlineSchool: Client IP 127.0.0.1 connected
+2023-01-30T10:09:31.341965200 DEBUG: Log OnlineSchool client: Client finish 
+2023-01-30T10:09:31.343964800 DEBUG: Log OnlineSchool: server socket close

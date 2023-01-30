@@ -7,6 +7,8 @@ import models.model_enum.ResourceType;
 import exceptions.ValidationException;
 import models.model_enum.Role;
 import repositories.*;
+import server_client.MyClient;
+import server_client.MyServer;
 import services.*;
 import student_exam.exam.Exam;
 import student_exam.repo.StudentRepo;
@@ -16,6 +18,7 @@ import utils.log.LogLevel;
 import utils.log.LogProperty;
 import utils.log.LogToFile;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.Phaser;
 
@@ -26,7 +29,7 @@ public class MenuUtils {
     public int checkCorrect() {
 
         final int MENU_ITEM_START = 0;
-        final int MENU_ITEM_FINISH = 12;
+        final int MENU_ITEM_FINISH = 14;
 
         Scanner scanner = new Scanner(System.in);
 
@@ -45,6 +48,8 @@ public class MenuUtils {
             System.out.println("10 - Print log file");
             System.out.println("11 - Change log level");
             System.out.println("12 - Students exam");
+            System.out.println("13 - Start server");
+            System.out.println("14 - Start client");
 
 
             try {
@@ -139,7 +144,6 @@ public class MenuUtils {
             }
         }
     }
-
 
 
     public int addRemoveHomework() {
@@ -413,11 +417,30 @@ public class MenuUtils {
         examStart(phaser);
         StudentRepo.getInstance().printRepo();
 
-        Thread[] grp =  new  Thread[threadGroupStudents.activeCount()];
+        Thread[] grp = new Thread[threadGroupStudents.activeCount()];
         threadGroupStudents.enumerate(grp);
-        for (Thread element: grp) {
-            System.out.println( "Time is up: "  + element.getName() );
-        }}
+        for (Thread element : grp) {
+            System.out.println("Time is up: " + element.getName());
+        }
+    }
+
+    public void case13() {
+        Log.info(nameLog, "Selected   - \"13 - Start server\" ");
+
+        new Thread(new MyServer()).start();
+
+    }
+
+    public void case14() {
+        Log.info(nameLog, "Selected   - \"14 - Start client\" ");
+
+        try {
+            new MyClient().startMyClient();
+        } catch (IOException e) {
+            Log.warning(nameLog, "Client disconnected", e.getStackTrace());
+        }
+
+    }
 
     private void examStart(Phaser phaser) {
         StudentRepo.getInstance().getBestStudent().clear();

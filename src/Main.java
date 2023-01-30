@@ -1,5 +1,6 @@
 
 import repositories.*;
+import server_client.StorageBlackList;
 import utils.*;
 import utils.log.Log;
 import utils.log.LogToFile;
@@ -11,8 +12,8 @@ public class Main {
         String nameLog = "Log OnlineSchool";
         MenuUtils menuUtils = new MenuUtils();
 
-        Thread watchTread = new Thread(new WatchDir(LogToFile.STR_PATH_SERVICE));
-        watchTread.start();
+        new Thread(new WatchDir(LogToFile.STR_PATH_SERVICE, LogToFile.STR_NAME_SERVICE)).start();
+        new Thread(new WatchDir(StorageBlackList.STR_DIR_BLACK_LIST, StorageBlackList.STR_NAME_BLACK_LIST)).start();
 
         CourseRepository courseRepository = CourseRepository.getInstance();
         LectureRepository lectureRepository = LectureRepository.getInstance();
@@ -25,8 +26,7 @@ public class Main {
 
 
         System.out.println('\n');
-        Log.info(nameLog, "=============== Homework 22 =====================");
-
+        Log.info(nameLog, "=============== Homework 23 =====================");
 
 
         int item;
@@ -44,6 +44,8 @@ public class Main {
                 case 10 -> menuUtils.case10();
                 case 11 -> menuUtils.case11();
                 case 12 -> menuUtils.case12();
+                case 13 -> menuUtils.case13();
+                case 14 -> menuUtils.case14();
                 default -> System.out.println("Try again...");
             }
         }

@@ -1,5 +1,6 @@
 package utils;
 
+import server_client.StorageBlackList;
 import utils.log.Log;
 import utils.log.LogProperty;
 import utils.log.LogToFile;
@@ -8,14 +9,16 @@ import java.nio.file.*;
 
 public class WatchDir implements Runnable {
     Path pathDir;
+    String stringName;
     private boolean isActive = true;
 
     void disable() {
         isActive = false;
     }
 
-    public WatchDir(String stringPath) {
+    public WatchDir(String stringPath, String stringName) {
         pathDir = Paths.get(stringPath);
+        this.stringName = stringName;
     }
 
     private void toDo() throws Exception {
@@ -23,12 +26,21 @@ public class WatchDir implements Runnable {
         WatchKey watchKey = pathDir.register(watchService, StandardWatchEventKinds.ENTRY_MODIFY);
 
         while (isActive) {
+            Thread.sleep(1);
             for (WatchEvent<?> event : watchKey.pollEvents()) {
                 Path fileName = (Path) event.context();
 
-                if (fileName.endsWith(LogToFile.STR_NAME_SERVICE)) {
+                if (fileName.endsWith(stringName) && stringName.equals(LogToFile.STR_NAME_SERVICE)) {
                     setFromFile(LogProperty.LOG_LEVEL);
                 }
+
+                if (fileName.endsWith(stringName) && stringName.equals(StorageBlackList.STR_NAME_BLACK_LIST)) {
+                    StorageBlackList.getInstance()
+                            .loadBlackListFile(Path.of(StorageBlackList.STR_DIR_BLACK_LIST
+                                    , StorageBlackList.STR_NAME_BLACK_LIST));
+
+                }
+
             }
             if (!watchKey.reset()) {
                 disable();

@@ -10,6 +10,8 @@ public class RegexUtil {
     public static final String REGEX_LAST_NAME = "^[А-ЯІЇ][а-яії']+$";
     public static final String REGEX_PHONE = "^\\+\\d{12}$";
     public static final String REGEX_EMAIL = "^[A-Za-z0-9+_.-]+@.+\\..+";
+    public static final String REGEX_IP_ADDRESS = "^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\.(?!$)|$)){4}$";
+
 
     public boolean isCorrect(String str, String regex) {
         Pattern pattern = Pattern.compile(regex);
@@ -53,6 +55,5 @@ public class RegexUtil {
 
         return new String[]{firstName, lastName, phone, email};
     }
-
 
 }
