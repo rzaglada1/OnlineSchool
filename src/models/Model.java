@@ -1,6 +1,8 @@
 package models;
 
-public abstract class Model {
+import java.io.Serializable;
+
+public abstract class Model implements Serializable {
 
     public abstract Integer getID() ;
     public abstract void setID(Integer ID) ;
@@ -8,5 +10,7 @@ public abstract class Model {
     public abstract String getName() ;
 
     public abstract void setName(String name) ;
+
+    public abstract Model getCourse() ;
 
 }

@@ -10,6 +10,8 @@ public class AddMaterials extends Model {
     private String name;
     private static Integer createCount = 0;
 
+    private Model course;
+
     private Integer lectureID;
     private ResourceType resourceType;
 
@@ -24,6 +26,11 @@ public class AddMaterials extends Model {
         this.name = name;
     }
 
+    public AddMaterials(String name, Model course) {
+        this(name);
+        this.course = course;
+    }
+
     public AddMaterials(String name, ResourceType resourceType) {
         this();
         this.name = name;
@@ -35,6 +42,14 @@ public class AddMaterials extends Model {
         this.name = name;
         this.resourceType = resourceType;
         this.lectureID = lectureID;
+    }
+
+    public AddMaterials(String name, ResourceType resourceType, Integer lectureID, Model course) {
+        this();
+        this.name = name;
+        this.resourceType = resourceType;
+        this.lectureID = lectureID;
+        this.course = course;
     }
 
 
@@ -74,6 +89,11 @@ public class AddMaterials extends Model {
         this.name = name;
     }
 
+    @Override
+    public Model getCourse() {
+        return course;
+    }
+
 
     @Override
     public String toString() {
@@ -82,6 +102,7 @@ public class AddMaterials extends Model {
                 ", addMaterialsId=" + getID() +
                 ", ResourceType =" + resourceType +
                 ", lectureID=" + lectureID +
+                ", courseName=" + course.getName() +
                 '}';
     }
 

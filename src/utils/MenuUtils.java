@@ -1,13 +1,14 @@
 package utils;
 
+import backup.ServiceBackupFile;
 import exceptions.EntityNotFoundException;
 import models.AddMaterials;
+import models.Course;
 import models.Person;
 import models.model_enum.ResourceType;
 import exceptions.ValidationException;
 import models.model_enum.Role;
 import repositories.*;
-import server_client.MyClient;
 import server_client.MyServer;
 import services.*;
 import student_exam.exam.Exam;
@@ -18,7 +19,6 @@ import utils.log.LogLevel;
 import utils.log.LogProperty;
 import utils.log.LogToFile;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.Phaser;
 
@@ -29,7 +29,7 @@ public class MenuUtils {
     public int checkCorrect() {
 
         final int MENU_ITEM_START = 0;
-        final int MENU_ITEM_FINISH = 14;
+        final int MENU_ITEM_FINISH = 16;
 
         Scanner scanner = new Scanner(System.in);
 
@@ -50,6 +50,8 @@ public class MenuUtils {
             System.out.println("12 - Students exam");
             System.out.println("13 - Start server");
             System.out.println("14 - Start client");
+            System.out.println("15 - Creating backup");
+            System.out.println("16 - Print backup");
 
 
             try {
@@ -177,32 +179,38 @@ public class MenuUtils {
         System.out.println("================================");
 
         // creating Course
-        courseRepository.getRepository().add(new CourseService().create("Java course"));
-        courseRepository.getRepository().add(new CourseService().create("C++ course"));
-        courseRepository.getRepository().add(new CourseService().create("C# course"));
-        courseRepository.getRepository().add(new CourseService().create("Python course"));
+        Course javaCourse = new CourseService().create("Java course");
+        Course cPlusCourse = new CourseService().create("C++ course");
+        Course pythonCourse = new CourseService().create("Python course");
+        courseRepository.getRepository().add(javaCourse);
+        courseRepository.getRepository().add(cPlusCourse);
+        courseRepository.getRepository().add(pythonCourse);
 
         personRepository.getRepository().add(new PersonService().create(new String[]{"Олена", "Романенко"
-                , "+380989584545", "Dasdasd@sdf.sdf"}, Role.STUDENT));
+                , "+380989584545", "Dasdasd@sdf.sdf"}, Role.STUDENT, javaCourse));
         personRepository.getRepository().add(new PersonService().create(new String[]{"Олена", "Водерацький"
-                , "+380989584545", "Dasdasd@sdf.sdf"}, Role.TEACHER));
+                , "+380989584545", "Dasdasd@sdf.sdf"}, Role.TEACHER, javaCourse));
         personRepository.getRepository().add(new PersonService().create(new String[]{"Олена", "Ломачевський"
-                , "+380989584545", "Dasdasd@sdf.sdf"}, Role.STUDENT));
+                , "+380989584545", "Dasdasd@sdf.sdf"}, Role.STUDENT, javaCourse));
         personRepository.getRepository().add(new PersonService().create(new String[]{"Олена", "Андрієнко"
-                , "+380989584545", "Dasdasd@sdf.sdf"}, Role.STUDENT));
+                , "+380989584545", "Dasdasd@sdf.sdf"}, Role.STUDENT, javaCourse));
         personRepository.getRepository().add(new PersonService().create(new String[]{"Олена", "Командний"
-                , "+380989584545", "Dasdasd@sdf.sdf"}, Role.TEACHER));
+                , "+380989584545", "Dasdasd@sdf.sdf"}, Role.TEACHER, javaCourse));
         personRepository.getRepository().add(new PersonService().create(new String[]{"Олена", "Солітер"
-                , "+380989584545", "Dasdasd@sdf.sdf"}, Role.STUDENT));
+                , "+380989584545", "Dasdasd@sdf.sdf"}, Role.STUDENT, javaCourse));
 
-        addMaterialsRepository.getRepository().add(new AddMaterialsService().create("Video", ResourceType.VIDEO, 1));
-        addMaterialsRepository.getRepository().add(new AddMaterialsService().create("Text URL", ResourceType.URL, 3));
-        addMaterialsRepository.getRepository().add(new AddMaterialsService().create("Text book", ResourceType.BOOK, 2));
+        addMaterialsRepository.getRepository().add(new AddMaterialsService()
+                .create("Video", ResourceType.VIDEO, 1, javaCourse));
+        addMaterialsRepository.getRepository().add(new AddMaterialsService()
+                .create("Text URL", ResourceType.URL, 3, javaCourse));
+        addMaterialsRepository.getRepository().add(new AddMaterialsService()
+                .create("Text book", ResourceType.BOOK, 2, javaCourse));
 
         // creating Lecture
         for (int i = 0; i < 5; i++) {
-            lectureRepository.getRepository().add(new LectureService().create("Lecture " + i));
+            lectureRepository.getRepository().add(new LectureService().create("Lecture " + i, javaCourse));
         }
+        lectureRepository.getRepository().add(new LectureService().create("Lecture6 ", pythonCourse));
         // printing repository objects
         courseRepository.printRepository();
         lectureRepository.printRepository();
@@ -434,13 +442,47 @@ public class MenuUtils {
     public void case14() {
         Log.info(nameLog, "Selected   - \"14 - Start client\" ");
 
-        try {
-            new MyClient().startMyClient();
-        } catch (IOException e) {
-            Log.warning(nameLog, "Client disconnected", e.getStackTrace());
-        }
+        new Thread(new MyServer()).start();
 
     }
+
+    public void case15() {
+        Log.info(nameLog, "Selected   - \"15 - Creating backup\" ");
+
+        ServiceBackupFile sb = new ServiceBackupFile();
+        CourseRepository courseRepository = CourseRepository.getInstance();
+        courseRepository.printRepository();
+
+        System.out.println("Enter ID course for backup");
+        int inputCourseID = inputDigit();
+        try {
+            courseRepository.getById(inputCourseID);
+            sb.createBackup(
+                    AddMaterialsRepository.getInstance().getRepository()
+                    , HomeWorkRepository.getInstance().getRepository()
+                    , LectureRepository.getInstance().getRepository()
+                    , PersonRepository.getInstance().getRepository()
+                    , inputCourseID, ServiceBackupFile.NAME_FILE_LECTURE);
+        } catch (EntityNotFoundException e) {
+            Log.warning(nameLog, "Something wrong", e.getStackTrace());
+        }
+    }
+
+    public void case16() {
+        Log.info(nameLog, "Selected   - \"16 - Print backup\" ");
+
+        CourseRepository courseRepository = CourseRepository.getInstance();
+        ServiceBackupFile sr = new ServiceBackupFile();
+        System.out.println("Enter ID course for printingBackup");
+        int inputCourseID = inputDigit();
+        try {
+            courseRepository.getById(inputCourseID);
+            sr.printBackup(inputCourseID, ServiceBackupFile.NAME_FILE_LECTURE);
+        } catch (EntityNotFoundException e) {
+            Log.warning(nameLog, "Something wrong", e.getStackTrace());
+        }
+    }
+
 
     private void examStart(Phaser phaser) {
         StudentRepo.getInstance().getBestStudent().clear();

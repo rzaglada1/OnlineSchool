@@ -14,6 +14,7 @@ public class Person extends Model {
     private static Integer createCount = 0;
 
 
+    private Model course;
     private int courseID;
     private Role role;
 
@@ -44,6 +45,7 @@ public class Person extends Model {
         this.phone = personAttribute[2];
         this.email = personAttribute[3];
         this.role = role;
+        this.course = course;
         this.courseID = course.getID();
     }
 
@@ -108,11 +110,15 @@ public class Person extends Model {
 
     }
 
+    public Model getCourse() {
+        return course;
+    }
 
     @Override
     public String toString() {
         return "Person{" +
                 "courseID=" + courseID +
+                ", courseName=" + course.getName() +
                 ", personID=" + getID() +
                 ", role=" + role +
                 ", Name='" + name + '\'' +

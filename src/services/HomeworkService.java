@@ -17,4 +17,8 @@ public class HomeworkService {
         return new Homework(name, id);
     }
 
+    public Homework create(String name, Model course) {
+        return new Homework(name, course);
+    }
+
 }

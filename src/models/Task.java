@@ -8,6 +8,8 @@ public class Task extends Model {
     private Integer ID;
     private String name;
 
+    private Model course;
+
 
     public Task() {
         createCount++;
@@ -19,8 +21,18 @@ public class Task extends Model {
         setName(name);
     }
 
+    public Task(String name, Model course) {
+        this(name);
+        this.course = course;
+    }
+
+
     public static Integer getCreateCount() {
         return createCount;
+    }
+
+    public Model getCourse() {
+        return course;
     }
 
     @Override

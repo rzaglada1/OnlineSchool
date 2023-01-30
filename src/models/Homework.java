@@ -7,6 +7,7 @@ public class Homework extends Model {
     private Integer ID;
     private String name;
 
+    private Model course;
     private Integer lectureID;
     private Task task;
 
@@ -21,6 +22,12 @@ public class Homework extends Model {
         this();
         setName(name);
     }
+
+    public Homework(String name, Model course) {
+        this(name);
+        this.course = course;
+    }
+
     public Homework(String name, Integer lectureID) {
         this(name);
         setLectureID(lectureID);
@@ -44,6 +51,10 @@ public class Homework extends Model {
 
     public void setTask(Task task) {
         this.task = task;
+    }
+
+    public Model getCourse() {
+        return course;
     }
 
     @Override

@@ -3,12 +3,14 @@ package repositories;
 
 import exceptions.EntityNotFoundException;
 import models.Lecture;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class LectureRepository implements Repository<Lecture> {
+public class LectureRepository implements Repository<Lecture>, Serializable {
     private static LectureRepository instance;
 
     private final List<Lecture> repository;

@@ -46,6 +46,8 @@ public class Main {
                 case 12 -> menuUtils.case12();
                 case 13 -> menuUtils.case13();
                 case 14 -> menuUtils.case14();
+                case 15 -> menuUtils.case15();
+                case 16 -> menuUtils.case16();
                 default -> System.out.println("Try again...");
             }
         }

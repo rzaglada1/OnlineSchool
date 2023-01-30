@@ -11,6 +11,8 @@ public class Lecture extends Model {
     private Homework[] homework;
 
     private static Integer createCount = 0;
+
+    private Model course;
     private int idCourse;
     private int personID;
     private Person person;
@@ -28,6 +30,7 @@ public class Lecture extends Model {
 
     public Lecture(String name, Model course) {
         this(name);
+        this.course = course;
         this.idCourse = course.getID();
     }
 
@@ -89,6 +92,7 @@ public class Lecture extends Model {
                     ", personLastName=" + person.getLastName() +
                     ", personRole=" + person.getRole() +
                     ", idCourse=" + idCourse +
+                    ", courseName=" + course.getName() +
                     '}';
         } else {
             return "Lecture{" +
@@ -96,8 +100,13 @@ public class Lecture extends Model {
                     ", idLecture=" + getID() +
                     ", arrayHomework=" + Arrays.toString(homework) +
                     ", idCourse=" + idCourse +
+                    ", courseName=" + course.getName() +
                     '}';
         }
+    }
+
+    public Model getCourse() {
+        return course;
     }
 
     @Override
