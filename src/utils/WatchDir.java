@@ -4,7 +4,7 @@ import server_client.StorageBlackList;
 import utils.log.Log;
 import utils.log.LogProperty;
 import utils.log.LogToFile;
-
+import java.io.IOException;
 import java.nio.file.*;
 
 public class WatchDir implements Runnable {
@@ -21,7 +21,7 @@ public class WatchDir implements Runnable {
         this.stringName = stringName;
     }
 
-    private void toDo() throws Exception {
+    private void toDo() throws IOException, InterruptedException {
         WatchService watchService = FileSystems.getDefault().newWatchService();
         WatchKey watchKey = pathDir.register(watchService, StandardWatchEventKinds.ENTRY_MODIFY);
 

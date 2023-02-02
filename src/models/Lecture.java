@@ -1,6 +1,11 @@
 package models;
 
+import utils.log.Log;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Lecture extends Model {
@@ -8,11 +13,17 @@ public class Lecture extends Model {
     private Integer ID;
     private String name;
 
+    private final String DATE_LECTURE_FORMAT = "MMM d, EEEE HH:mm:ss";
+    private final Locale locale = Locale.US;
+    private final LocalDateTime CreationDate;
+    private LocalDateTime lectureDate;
+
+
     private Homework[] homework;
 
     private static Integer createCount = 0;
 
-    private Model course;
+    private Course course;
     private int idCourse;
     private int personID;
     private Person person;
@@ -20,6 +31,8 @@ public class Lecture extends Model {
     public Lecture() {
         createCount++;
         setID(createCount);
+        CreationDate = LocalDateTime.now();
+
     }
 
     public Lecture(String name) {
@@ -28,14 +41,19 @@ public class Lecture extends Model {
     }
 
 
-    public Lecture(String name, Model course) {
+    public Lecture(String name, Course course) {
         this(name);
         this.course = course;
         this.idCourse = course.getID();
     }
 
+    public Lecture(String name, Course course, LocalDateTime lectureDate) {
+        this(name, course);
+        this.lectureDate = lectureDate;
+    }
 
-    public Lecture(String name, Model course, Model person) {
+
+    public Lecture(String name, Course course, Person person) {
         this(name, course);
         this.idCourse = course.getID();
         this.personID = person.getID();
@@ -80,6 +98,14 @@ public class Lecture extends Model {
         this.homework = homework;
     }
 
+    public LocalDateTime getCreationDate() {
+        return CreationDate;
+    }
+
+    public LocalDateTime getLectureDate() {
+        return lectureDate;
+    }
+
     @Override
     public String toString() {
         if (person != null) {
@@ -93,6 +119,8 @@ public class Lecture extends Model {
                     ", personRole=" + person.getRole() +
                     ", idCourse=" + idCourse +
                     ", courseName=" + course.getName() +
+                    ", dateCreated= " + formatDate(getCreationDate(), DATE_LECTURE_FORMAT, locale) +
+                    ", dateStartLecture= " + formatDate(getLectureDate(), DATE_LECTURE_FORMAT, locale) +
                     '}';
         } else {
             return "Lecture{" +
@@ -101,13 +129,28 @@ public class Lecture extends Model {
                     ", arrayHomework=" + Arrays.toString(homework) +
                     ", idCourse=" + idCourse +
                     ", courseName=" + course.getName() +
+                    ", dateCreated= " + formatDate(getCreationDate(), DATE_LECTURE_FORMAT, locale) +
+                    ", dateStartLecture= " + formatDate(getLectureDate(), DATE_LECTURE_FORMAT, locale) +
                     '}';
         }
     }
 
-    public Model getCourse() {
+    public Course getCourse() {
         return course;
     }
+
+    public String formatDate(LocalDateTime dateTime, String strFormat, Locale locale) {
+        String formatDate = "--";
+        try {
+            DateTimeFormatter df = DateTimeFormatter.ofPattern(strFormat, locale);
+            formatDate = dateTime.format(df);
+        } catch (NullPointerException e) {
+            Log.warning("On-line school", "convert date format error", e.getStackTrace());
+        }
+
+        return formatDate;
+    }
+
 
     @Override
     public Integer getID() {

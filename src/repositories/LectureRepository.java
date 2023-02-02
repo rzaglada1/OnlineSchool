@@ -15,7 +15,7 @@ public class LectureRepository implements Repository<Lecture>, Serializable {
 
     private final List<Lecture> repository;
 
-    private LectureRepository () {
+    private LectureRepository() {
         repository = new ArrayList<>();
     }
 
@@ -39,7 +39,7 @@ public class LectureRepository implements Repository<Lecture>, Serializable {
     @Override
     public Lecture getById(Integer id) throws EntityNotFoundException {
         for (Lecture element : repository) {
-            if (element.getID().equals(id) ) {
+            if (element.getID().equals(id)) {
                 return element;
             }
         }
@@ -49,7 +49,7 @@ public class LectureRepository implements Repository<Lecture>, Serializable {
     @Override
     public List<Lecture> sortedByName() {
         return repository.stream()
-                .sorted(Comparator.comparing(repo -> repo.getName()))
+                .sorted(Comparator.comparing(Lecture::getName))
                 .collect(Collectors.toList());
     }
 

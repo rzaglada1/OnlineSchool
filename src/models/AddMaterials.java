@@ -1,7 +1,11 @@
 package models;
 
+import exceptions.EntityNotFoundException;
 import models.model_enum.ResourceType;
+import repositories.LectureRepository;
+import utils.log.Log;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class AddMaterials extends Model {
@@ -9,47 +13,28 @@ public class AddMaterials extends Model {
     private Integer ID;
     private String name;
     private static Integer createCount = 0;
+    private final LocalDateTime CreationDate;
 
-    private Model course;
 
+    private Lecture lecture;
+    private Course course;
     private Integer lectureID;
     private ResourceType resourceType;
 
 
-    public AddMaterials() {
+    private Course getCourse(int lectureID) throws EntityNotFoundException {
+        return LectureRepository.getInstance().getById(lectureID).getCourse();
+    }
+
+    public AddMaterials(String name, ResourceType resourceType, Lecture lecture) {
         createCount++;
         setID(createCount);
-    }
-
-    public AddMaterials(String name) {
-        this();
-        this.name = name;
-    }
-
-    public AddMaterials(String name, Model course) {
-        this(name);
-        this.course = course;
-    }
-
-    public AddMaterials(String name, ResourceType resourceType) {
-        this();
+        CreationDate = LocalDateTime.now();
         this.name = name;
         this.resourceType = resourceType;
-    }
-
-    public AddMaterials(String name, ResourceType resourceType, Integer lectureID) {
-        this();
-        this.name = name;
-        this.resourceType = resourceType;
-        this.lectureID = lectureID;
-    }
-
-    public AddMaterials(String name, ResourceType resourceType, Integer lectureID, Model course) {
-        this();
-        this.name = name;
-        this.resourceType = resourceType;
-        this.lectureID = lectureID;
-        this.course = course;
+        this.lecture = lecture;
+        lectureID = lecture.getID();
+        course = lecture.getCourse();
     }
 
 
@@ -59,6 +44,20 @@ public class AddMaterials extends Model {
 
     public void setLectureID(Integer lectureID) {
         this.lectureID = lectureID;
+        try {
+            this.course = getCourse(lectureID);
+        } catch (EntityNotFoundException e) {
+            Log.error("On-line school", "Error EntityNotFound ", e.getStackTrace());
+        }
+
+    }
+
+    public Lecture getLecture() {
+        return lecture;
+    }
+
+    public void setLecture(Lecture lecture) {
+        this.lecture = lecture;
     }
 
     public ResourceType getResourceType() {
@@ -67,6 +66,10 @@ public class AddMaterials extends Model {
 
     public void setResourceType(ResourceType resourceType) {
         this.resourceType = resourceType;
+    }
+
+    public LocalDateTime getCreationDate() {
+        return CreationDate;
     }
 
     @Override

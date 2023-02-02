@@ -2,6 +2,7 @@ package repositories;
 
 import exceptions.EntityNotFoundException;
 import models.Course;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -13,7 +14,7 @@ public class CourseRepository implements Repository<Course> {
 
     private final List<Course> repository;
 
-    private CourseRepository () {
+    private CourseRepository() {
         repository = new ArrayList<>();
     }
 
@@ -37,7 +38,7 @@ public class CourseRepository implements Repository<Course> {
     @Override
     public Course getById(Integer id) throws EntityNotFoundException {
         for (Course element : repository) {
-            if (element.getID().equals(id) ) {
+            if (element.getID().equals(id)) {
                 return element;
             }
         }
@@ -48,7 +49,7 @@ public class CourseRepository implements Repository<Course> {
     @Override
     public List<Course> sortedByName() {
         return repository.stream()
-                .sorted(Comparator.comparing(repo -> repo.getName()))
+                .sorted(Comparator.comparing(Course::getName))
                 .collect(Collectors.toList());
     }
 

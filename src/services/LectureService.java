@@ -1,8 +1,9 @@
 package services;
 
 
+import models.Course;
 import models.Lecture;
-import models.Model;
+import java.time.LocalDateTime;
 
 
 public class LectureService {
@@ -16,8 +17,12 @@ public class LectureService {
     }
 
 
-    public Lecture create(String name, Model course) {
+    public Lecture create(String name, Course course) {
         return new Lecture(name, course);
+    }
+
+    public Lecture create(String name, Course course, LocalDateTime lectureDate) {
+        return new Lecture(name, course, lectureDate);
     }
 
 

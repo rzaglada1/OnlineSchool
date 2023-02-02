@@ -2,19 +2,20 @@ package repositories;
 
 import exceptions.EntityNotFoundException;
 import models.AddMaterials;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AddMaterialsRepository implements Repository<AddMaterials>{
+public class AddMaterialsRepository implements Repository<AddMaterials> {
 
     private static AddMaterialsRepository instance;
 
     private final List<AddMaterials> repository;
 
-    private AddMaterialsRepository () {
-        repository = new ArrayList<> ();
+    private AddMaterialsRepository() {
+        repository = new ArrayList<>();
     }
 
     public static AddMaterialsRepository getInstance() {
@@ -37,7 +38,7 @@ public class AddMaterialsRepository implements Repository<AddMaterials>{
     @Override
     public AddMaterials getById(Integer id) throws EntityNotFoundException {
         for (AddMaterials element : repository) {
-            if (element.getID().equals(id) ) {
+            if (element.getID().equals(id)) {
                 return element;
             }
         }
@@ -48,11 +49,11 @@ public class AddMaterialsRepository implements Repository<AddMaterials>{
     @Override
     public List<AddMaterials> sortedByName() {
         return repository.stream()
-                .sorted(Comparator.comparing(repo -> repo.getName()))
+                .sorted(Comparator.comparing(AddMaterials::getName))
                 .collect(Collectors.toList());
     }
 
-    public List<AddMaterials> getAddMaterialsByLectureId (int lectureId) throws EntityNotFoundException {
+    public List<AddMaterials> getAddMaterialsByLectureId(int lectureId) throws EntityNotFoundException {
         return repository.stream()
                 .filter(element -> element.getLectureID() == lectureId).collect(Collectors.toList());
     }

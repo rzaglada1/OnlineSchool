@@ -67,10 +67,9 @@ public class PersonRepository implements Repository<Person> {
     @Override
     public List<Person> sortedByName() {
         return repository.stream()
-                .sorted(Comparator.comparing(repo -> repo.getLastName()))
+                .sorted(Comparator.comparing(Person::getLastName))
                 .collect(Collectors.toList());
     }
-
 
 
 }

@@ -2,20 +2,16 @@ package student_exam.student;
 
 import student_exam.repo.StudentRepo;
 
-import java.util.concurrent.Phaser;
 
 public class Student implements Runnable {
     private final String name;
     private final int examTask;
     private final int examTime;
-    private final Phaser phaser;
 
-
-    public Student(String name, int examTask, int examTime, Phaser phaser) {
+    public Student(String name, int examTask, int examTime) {
         this.name = name;
         this.examTask = examTask;
         this.examTime = examTime;
-        this.phaser = phaser;
     }
 
     public String getName() {
@@ -29,14 +25,13 @@ public class Student implements Runnable {
     @Override
     public void run() {
         try {
-            phaser.arriveAndAwaitAdvance();
             System.out.println("Student " + name + " started. Work time " + examTime);
             Thread.sleep(examTime * 1000L);
             synchronized (StudentRepo.class) {
                 StudentRepo.getInstance().getBestStudent().add(this);
             }
         } catch (InterruptedException e) {
-            System.out.println("Error student  " + this.getName());
+            System.out.println("Time is up:  " + this.getName());
         }
     }
 

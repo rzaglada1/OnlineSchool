@@ -1,37 +1,39 @@
 package models;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Homework extends Model {
 
     private Integer ID;
     private String name;
+    private final LocalDateTime CreationDate;
 
-    private Model course;
+    private final String DATE_FORMAT = "MMM d,  HH:mm";
+    private final Locale locale = Locale.US;
+    private LocalDateTime deadlineDate;
+
+    private Course course;
+    private Lecture lecture;
     private Integer lectureID;
     private Task task;
 
     private static Integer createCount = 0;
 
-    public Homework() {
+    public Homework(String name, Lecture lecture) {
         createCount++;
         setID(createCount);
+        CreationDate = LocalDateTime.now();
+        this.name = name;
+        this.lectureID = lecture.getID();
+        this.lecture = lecture;
+        course = lecture.getCourse();
+        this.deadlineDate = lecture.getLectureDate().plusDays(1).withHour(12).withMinute(0);
+
     }
 
-    public Homework(String name) {
-        this();
-        setName(name);
-    }
-
-    public Homework(String name, Model course) {
-        this(name);
-        this.course = course;
-    }
-
-    public Homework(String name, Integer lectureID) {
-        this(name);
-        setLectureID(lectureID);
-    }
 
     public static Integer getCreateCount() {
         return createCount;
@@ -57,12 +59,23 @@ public class Homework extends Model {
         return course;
     }
 
+    public LocalDateTime getCreationDate() {
+        return CreationDate;
+    }
+
+    public String formatDate(LocalDateTime dateTime, String strFormat, Locale locale) {
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(strFormat, locale);
+        return dateTime.format(df);
+    }
+
     @Override
     public String toString() {
         return "Homework{" +
                 "ID=" + ID +
                 ", name='" + name + '\'' +
                 ", lectureID=" + lectureID +
+                ", courseName =" + course.getName() +
+                ", deadline =" + formatDate(deadlineDate, DATE_FORMAT, locale) +
                 ", task=" + task +
                 '}';
     }

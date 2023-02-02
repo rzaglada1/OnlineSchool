@@ -2,6 +2,7 @@ package repositories;
 
 import exceptions.EntityNotFoundException;
 import models.Homework;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -12,7 +13,7 @@ public class HomeWorkRepository implements Repository<Homework> {
 
     private final List<Homework> repository;
 
-    private HomeWorkRepository () {
+    private HomeWorkRepository() {
         repository = new ArrayList<>();
     }
 
@@ -36,7 +37,7 @@ public class HomeWorkRepository implements Repository<Homework> {
     @Override
     public Homework getById(Integer id) throws EntityNotFoundException {
         for (Homework element : repository) {
-            if (element.getID().equals(id) ) {
+            if (element.getID().equals(id)) {
                 return element;
             }
         }
@@ -47,11 +48,11 @@ public class HomeWorkRepository implements Repository<Homework> {
     @Override
     public List<Homework> sortedByName() {
         return repository.stream()
-                .sorted(Comparator.comparing(repo -> repo.getName()))
+                .sorted(Comparator.comparing(Homework::getName))
                 .collect(Collectors.toList());
     }
 
-    public List<Homework> getHomeworkByLectureId (int lectureId) throws EntityNotFoundException {
+    public List<Homework> getHomeworkByLectureId(int lectureId) throws EntityNotFoundException {
         return repository.stream()
                 .filter(element -> element.getLectureID() == lectureId).collect(Collectors.toList());
     }

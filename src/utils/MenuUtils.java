@@ -2,13 +2,12 @@ package utils;
 
 import backup.ServiceBackupFile;
 import exceptions.EntityNotFoundException;
-import models.AddMaterials;
-import models.Course;
-import models.Person;
+import models.*;
 import models.model_enum.ResourceType;
 import exceptions.ValidationException;
 import models.model_enum.Role;
 import repositories.*;
+import server_client.MyClient;
 import server_client.MyServer;
 import services.*;
 import student_exam.exam.Exam;
@@ -18,13 +17,18 @@ import utils.log.Log;
 import utils.log.LogLevel;
 import utils.log.LogProperty;
 import utils.log.LogToFile;
-
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
-import java.util.concurrent.Phaser;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MenuUtils {
 
     String nameLog = "Log OnlineSchool";
+    CourseRepository courseRepository = CourseRepository.getInstance();
+    private final String STR_ENTER_FORMAT_DATE = "dd-MM-yyyy HH:mm";
 
     public int checkCorrect() {
 
@@ -174,7 +178,7 @@ public class MenuUtils {
 
     public void createObjects(AddMaterialsRepository addMaterialsRepository, CourseRepository courseRepository,
                               LectureRepository lectureRepository,
-                              PersonRepository personRepository) {
+                              PersonRepository personRepository, HomeWorkRepository homeWorkRepository) {
         System.out.println('\n' + "What is in the repository?");
         System.out.println("================================");
 
@@ -186,6 +190,7 @@ public class MenuUtils {
         courseRepository.getRepository().add(cPlusCourse);
         courseRepository.getRepository().add(pythonCourse);
 
+        // creating Person
         personRepository.getRepository().add(new PersonService().create(new String[]{"Олена", "Романенко"
                 , "+380989584545", "Dasdasd@sdf.sdf"}, Role.STUDENT, javaCourse));
         personRepository.getRepository().add(new PersonService().create(new String[]{"Олена", "Водерацький"
@@ -199,23 +204,30 @@ public class MenuUtils {
         personRepository.getRepository().add(new PersonService().create(new String[]{"Олена", "Солітер"
                 , "+380989584545", "Dasdasd@sdf.sdf"}, Role.STUDENT, javaCourse));
 
-        addMaterialsRepository.getRepository().add(new AddMaterialsService()
-                .create("Video", ResourceType.VIDEO, 1, javaCourse));
-        addMaterialsRepository.getRepository().add(new AddMaterialsService()
-                .create("Text URL", ResourceType.URL, 3, javaCourse));
-        addMaterialsRepository.getRepository().add(new AddMaterialsService()
-                .create("Text book", ResourceType.BOOK, 2, javaCourse));
-
         // creating Lecture
+        Lecture lecture;
         for (int i = 0; i < 5; i++) {
-            lectureRepository.getRepository().add(new LectureService().create("Lecture " + i, javaCourse));
+            lectureRepository.getRepository().add(new LectureService().create("Lecture " + i, javaCourse, LocalDateTime.now()) );
         }
-        lectureRepository.getRepository().add(new LectureService().create("Lecture6 ", pythonCourse));
+        lectureRepository.getRepository().add( lecture = new LectureService().create("Lecture6 ", pythonCourse, LocalDateTime.now()));
+
+        // creating AddMaterials
+        addMaterialsRepository.getRepository().add(new AddMaterialsService()
+                .create("Video", ResourceType.VIDEO, lecture));
+        addMaterialsRepository.getRepository().add(new AddMaterialsService()
+                .create("Text URL", ResourceType.URL, lecture));
+        addMaterialsRepository.getRepository().add(new AddMaterialsService()
+                .create("Text book", ResourceType.BOOK, lecture));
+
+        // creating Homework
+        homeWorkRepository.getRepository().add(new HomeworkService().create("homeworkLecture",lecture));
+
         // printing repository objects
         courseRepository.printRepository();
         lectureRepository.printRepository();
         addMaterialsRepository.printRepository();
         personRepository.printRepository();
+        homeWorkRepository.printRepository();
     }
 
     public void case1(CourseRepository courseRepository) {
@@ -229,17 +241,35 @@ public class MenuUtils {
     public void case2(LectureRepository lectureRepository) {
         Log.info(nameLog, "Selected   - \"2 - Creating lecture\" ");
         System.out.println("Enter name Lecture");
-        lectureRepository.getRepository().add(new LectureService().create(inputString()));
+        String nameLecture = inputString();
+        System.out.println("Enter Course ID for lecture");
+        int inputCourseID = inputDigit();
+        try {
+            Course course = courseRepository.getById(inputCourseID);
+            LocalDateTime lectureDate = enterDate(STR_ENTER_FORMAT_DATE);
+            lectureRepository.getRepository().add(new LectureService().create(nameLecture, course, lectureDate));
+        } catch (EntityNotFoundException e) {
+            Log.warning(nameLog, "Something wrong", e.getStackTrace());
+        }
+
         // printing repository objects
         lectureRepository.printRepository();
     }
 
     public void case3(PersonRepository personRepository) {
         Log.info(nameLog, "Selected   - \"3 - Creating teacher");
+
+        System.out.println("Enter ID course for teacher");
+        int inputCourseID = inputDigit();
+
         try {
+            Course course = courseRepository.getById(inputCourseID);
             Person personTeacher = new PersonService().create(new RegexUtil().personAttribute(),
-                    Role.TEACHER);
+                    Role.TEACHER, course);
             personRepository.getRepository().add(personTeacher);
+
+        } catch (EntityNotFoundException e) {
+            Log.warning(nameLog, "Course not found", e.getStackTrace());
         } catch (ValidationException e) {
             Log.warning(nameLog, "Something wrong, try again", e.getStackTrace());
         }
@@ -249,11 +279,17 @@ public class MenuUtils {
 
     public void case4(PersonRepository personRepository) {
         Log.info(nameLog, "Selected   - \"4 - Creating student");
+        System.out.println("Enter ID course for student");
+        int inputCourseID = inputDigit();
+
         try {
+            Course course = courseRepository.getById(inputCourseID);
             Person personStudent = new PersonService().create(new RegexUtil().personAttribute(),
-                    Role.STUDENT);
+                    Role.STUDENT, course);
             personRepository.getRepository().add(personStudent);
-        } catch (ValidationException e) {
+        } catch (EntityNotFoundException e) {
+        Log.warning(nameLog, "Course not found", e.getStackTrace());
+    } catch (ValidationException e) {
             Log.warning(nameLog, "Something wrong, try again", e.getStackTrace());
         }
         // printing repository objects
@@ -265,14 +301,19 @@ public class MenuUtils {
 
         System.out.println("Enter name Homework");
         String nameHomework = inputString();
-        System.out.print("Enter lecture ID ");
+        System.out.println("Enter lecture ID for homework");
         int lectureID = inputDigit();
+        Lecture lecture;
+        Course course;
         try {
             lectureRepository.getById(lectureID);
-            homeworkRepository.getRepository().add(new HomeworkService().create(nameHomework, lectureID));
+            lecture = lectureRepository.getById(lectureID);
+            course = lecture.getCourse();
+            homeworkRepository.getRepository().add(new HomeworkService().create(nameHomework, lecture));
         } catch (EntityNotFoundException e) {
             Log.warning(nameLog, "Something wrong", e.getStackTrace());
         }
+
         // printing repository objects
         homeworkRepository.printRepository();
     }
@@ -280,26 +321,20 @@ public class MenuUtils {
     public void case6(AddMaterialsRepository addMaterialsRepository, LectureRepository lectureRepository) {
         Log.info(nameLog, "Selected   - \"6 - Creating addMaterials\" ");
 
-        System.out.print("Enter lecture ID ");
-        int inputID = inputDigit();
+        System.out.println("Enter lecture ID for add materials");
 
-        try {
-            lectureRepository.getById(inputID);
-        } catch (EntityNotFoundException e) {
-            Log.warning(nameLog, "Lecture id " + inputID + " - not found", e.getStackTrace());
-            return;
-        }
-
-        System.out.println("Enter name addMaterials");
-
-        AddMaterials addMaterials = new AddMaterialsService().create(inputString());
-        try {
-            addMaterials.setResourceType(resourceType());
-        } catch (ValidationException e) {
-            Log.warning(nameLog, "Something wrong ", e.getStackTrace());
-        }
-        addMaterials.setLectureID(inputID);
-        addMaterialsRepository.getRepository().add(addMaterials);
+         int inputID = inputDigit();
+         try {
+             Lecture lecture = lectureRepository.getById(inputID);
+             System.out.println("Enter name addMaterials");
+             AddMaterials addMaterials = new AddMaterialsService().create(inputString(),resourceType(),lecture );
+             addMaterialsRepository.getRepository().add(addMaterials);
+         } catch (EntityNotFoundException e) {
+             Log.warning(nameLog, "Lecture id " + inputID + " - not found", e.getStackTrace());
+             return;
+         } catch (ValidationException e) {
+             throw new RuntimeException(e);
+         }
 
         // printing repository objects
         addMaterialsRepository.printRepository();
@@ -312,15 +347,9 @@ public class MenuUtils {
         System.out.print("Enter lecture ID ");
         int inputLectureID = inputDigit();
         try {
-            lectureRepository.getById(inputLectureID);
-        } catch (EntityNotFoundException e) {
-            Log.warning(nameLog, "Something wrong", e.getStackTrace());
-            return;
-        }
-
-        // filter && printing lecture by ID
-        System.out.println('\n' + "=============Lecture Id = " + inputLectureID + "=============");
-        try {
+            Lecture lecture = lectureRepository.getById(inputLectureID);
+            // filter && printing lecture by ID
+            System.out.println('\n' + "=============Lecture Id = " + inputLectureID + "=============");
             System.out.println(lectureRepository.getById(inputLectureID));
 
             // filter && printing homework by lecture ID
@@ -334,15 +363,15 @@ public class MenuUtils {
             switch (addRemoveHomework()) {
                 case 1 -> {
                     System.out.println("Enter name Homework");
-                    homeworkRepository.getRepository()
-                            .add(new HomeworkService().create(inputString(), inputLectureID));
+                    Course course = lecture.getCourse();
+                    homeworkRepository.getRepository().add(new HomeworkService().create(inputString(), lecture));
                 }
                 case 2 -> {
                     System.out.println("Enter name addMaterials");
                     try {
                         addMaterialsRepository.getRepository()
                                 .add(new AddMaterialsService().create(inputString(),
-                                        resourceType(), inputLectureID));
+                                        resourceType(), lecture ));
                     } catch (ValidationException e) {
                         e.printStackTrace();
                     }
@@ -350,11 +379,14 @@ public class MenuUtils {
                 case 3 -> homeworkRepository.getRepository().removeIf(obj -> obj.getLectureID() == inputLectureID);
                 case 4 -> addMaterialsRepository.getRepository().removeIf(obj -> obj.getLectureID() == inputLectureID);
                 default -> {
+                    throw new ValidationException("id object not found");
                 }
             }
 
         } catch (EntityNotFoundException e) {
             e.printStackTrace();
+        } catch (ValidationException e) {
+            Log.warning(nameLog, "Called default ", e.getStackTrace());
         }
     }
 
@@ -402,8 +434,6 @@ public class MenuUtils {
         int students = 10;
         Set<Integer> examTaskSet = new HashSet<>();
         StudentRepo.getInstance().getRepoStudent().clear();
-        Phaser phaser = new Phaser();
-        phaser.register();
 
         for (int i = 1; i < students + 1; i++) {
             examTime = (int) (Math.random() * 7 + 8);
@@ -412,24 +442,28 @@ public class MenuUtils {
                 examTask = (int) (Math.random() * students + 1);
             }
             StudentRepo.getInstance().getRepoStudent()
-                    .add(new Student("StudentName" + i, examTask, examTime, phaser));
+                    .add(new Student("StudentName" + i, examTask, examTime));
             System.out.println("Student " + i + " got the task number " + examTask);
         }
 
         System.out.println("=======================================" + '\n');
-        ThreadGroup threadGroupStudents = new ThreadGroup("Students");
 
-        for (Student student : StudentRepo.getInstance().getRepoStudent()) {
-            new Thread(threadGroupStudents, student, student.getName()).start();
+        ExecutorService executorService = Executors.newFixedThreadPool(students);
+
+                for (Student student : StudentRepo.getInstance().getRepoStudent()) {
+                    executorService.execute(student);
         }
-        examStart(phaser);
+
+        examStart();
         StudentRepo.getInstance().printRepo();
-
-        Thread[] grp = new Thread[threadGroupStudents.activeCount()];
-        threadGroupStudents.enumerate(grp);
-        for (Thread element : grp) {
-            System.out.println("Time is up: " + element.getName());
+        executorService.shutdownNow();
+        // delay to have time to print the main menu
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            Log.warning(nameLog, "Thread.sleep(1)  error", e.getStackTrace());
         }
+
     }
 
     public void case13() {
@@ -442,8 +476,7 @@ public class MenuUtils {
     public void case14() {
         Log.info(nameLog, "Selected   - \"14 - Start client\" ");
 
-        new Thread(new MyServer()).start();
-
+        new MyClient().startMyClient();
     }
 
     public void case15() {
@@ -471,7 +504,7 @@ public class MenuUtils {
     public void case16() {
         Log.info(nameLog, "Selected   - \"16 - Print backup\" ");
 
-        CourseRepository courseRepository = CourseRepository.getInstance();
+
         ServiceBackupFile sr = new ServiceBackupFile();
         System.out.println("Enter ID course for printingBackup");
         int inputCourseID = inputDigit();
@@ -484,15 +517,31 @@ public class MenuUtils {
     }
 
 
-    private void examStart(Phaser phaser) {
+    private void examStart() {
         StudentRepo.getInstance().getBestStudent().clear();
-        phaser.arriveAndAwaitAdvance();
         Thread exam = new Thread(new Exam(12));
         exam.start();
         try {
             exam.join();
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            Log.warning(nameLog, "exam.join() error ", e.getStackTrace());
+        }
+    }
+
+    private LocalDateTime enterDate (String enterFormatData) {
+        String dateString;
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(enterFormatData);
+        Scanner inputScanner = new Scanner(System.in);
+        System.out.println("Enter date and time start lecture  in format : " + LocalDateTime.now().format(df));
+
+        while (true) {
+            dateString = inputScanner.nextLine();
+            try {
+                LocalDateTime inputDate = LocalDateTime.parse(dateString, df);
+                return inputDate;
+            } catch (DateTimeParseException dtpe) {
+                System.out.println("Invalid date: " + dateString + ". Re-enter again...");
+            }
         }
     }
 

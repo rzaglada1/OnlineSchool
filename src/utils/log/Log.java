@@ -1,14 +1,20 @@
 package utils.log;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Locale;
 
 public class Log {
     private final String name;
     private final LogLevel level;
     private final String message;
     private final LocalDateTime date;
+    private static final String DATE_LOG_FORMAT = "dd-MM-yyyy HH:mm:ss:SSS";
+    private static final Locale locale = Locale.US;
     private final StackTraceElement[] stacktrace;
+
+
 
     static LogStorage logStorage = LogStorage.getInstance();
     static LogToFile logToFile = LogToFile.getInstance();
@@ -28,10 +34,15 @@ public class Log {
         this.stacktrace = stacktrace;
     }
 
+    private static String formatDate (LocalDateTime dateTime, String strFormat, Locale locale) {
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(strFormat, locale);
+        return dateTime.format(df);
+    }
+
     public static void debug(String name, String message) {
         if (checkLevelLog(LogLevel.DEBUG)) {
             LocalDateTime localDateTime = LocalDateTime.now();
-            System.out.println(localDateTime + " " + LogLevel.DEBUG + " " + name + ":" + " " + message);
+            System.out.println(formatDate(localDateTime, DATE_LOG_FORMAT, locale) + " " + LogLevel.DEBUG + " " + name + ":" + " " + message);
             log = new Log(name, LogLevel.DEBUG, message, LocalDateTime.now(), null);
             logSave(log);
         }
@@ -40,7 +51,7 @@ public class Log {
     public static void info(String name, String message) {
         if (checkLevelLog(LogLevel.INFO)) {
             LocalDateTime localDateTime = LocalDateTime.now();
-            System.out.println(localDateTime + " " + LogLevel.INFO + " " + name + ":" + " " + message);
+            System.out.println(formatDate(localDateTime, DATE_LOG_FORMAT, locale) + " " + LogLevel.INFO + " " + name + ":" + " " + message);
             log = new Log(name, LogLevel.INFO, message, LocalDateTime.now(), null);
             logSave(log);
         }
@@ -50,7 +61,7 @@ public class Log {
     public static void error(String name, String message, StackTraceElement[] stacktrace) {
         if (checkLevelLog(LogLevel.ERROR)) {
             LocalDateTime localDateTime = LocalDateTime.now();
-            System.out.println(localDateTime + " " + LogLevel.ERROR + " " + name + ":" + " " + message);
+            System.out.println(formatDate(localDateTime, DATE_LOG_FORMAT, locale) + " " + LogLevel.ERROR + " " + name + ":" + " " + message);
             log = new Log(name, LogLevel.ERROR, message, LocalDateTime.now(), stacktrace);
             logSave(log);
         }
@@ -60,7 +71,7 @@ public class Log {
     public static void warning(String name, String message, StackTraceElement[] stacktrace) {
         if (checkLevelLog(LogLevel.WARNING)) {
             LocalDateTime localDateTime = LocalDateTime.now();
-            System.out.println(localDateTime + " " + LogLevel.WARNING + " " + name + ":" + " " + message);
+            System.out.println(formatDate(localDateTime, DATE_LOG_FORMAT, locale) + " " + LogLevel.WARNING + " " + name + ":" + " " + message);
             log = new Log(name, LogLevel.WARNING, message, LocalDateTime.now(), stacktrace);
             logSave(log);
         }
@@ -121,6 +132,8 @@ public class Log {
     public StackTraceElement[] getStacktrace() {
         return stacktrace;
     }
+
+
 
     @Override
     public String toString() {

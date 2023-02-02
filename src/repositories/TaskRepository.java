@@ -46,7 +46,7 @@ public class TaskRepository implements Repository<Task> {
     @Override
     public List<Task> sortedByName() {
         return repository.stream()
-                .sorted(Comparator.comparing(repo -> repo.getName()))
+                .sorted(Comparator.comparing(Task::getName))
                 .collect(Collectors.toList());
     }
 }

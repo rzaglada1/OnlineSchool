@@ -22,11 +22,11 @@ public class Main {
         HomeWorkRepository homeworkRepository = HomeWorkRepository.getInstance();
 
         menuUtils.createObjects(addMaterialsRepository, courseRepository
-                , lectureRepository, personRepository);
+                , lectureRepository, personRepository, homeworkRepository);
 
 
         System.out.println('\n');
-        Log.info(nameLog, "=============== Homework 23 =====================");
+        Log.info(nameLog, "=============== Homework 25 =====================");
 
 
         int item;

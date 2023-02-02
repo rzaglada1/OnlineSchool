@@ -3,6 +3,7 @@ package models;
 import models.model_enum.Role;
 import utils.RegexUtil;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 
@@ -10,6 +11,7 @@ public class Person extends Model {
 
     private Integer ID;
     private String name;
+    private final LocalDateTime CreationDate;
 
     private static Integer createCount = 0;
 
@@ -26,6 +28,7 @@ public class Person extends Model {
     public Person() {
         createCount++;
         setID(createCount);
+        CreationDate = LocalDateTime.now();
     }
 
     public Person(String[] personAttribute, Role role) {
@@ -112,6 +115,10 @@ public class Person extends Model {
 
     public Model getCourse() {
         return course;
+    }
+
+    public LocalDateTime getCreationDate() {
+        return CreationDate;
     }
 
     @Override

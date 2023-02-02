@@ -21,9 +21,8 @@ public class ServiceBackupFile {
             , int courseID
             , String nameFile) {
 
-        try (FileOutputStream fos = new FileOutputStream(nameFile + courseID)) {
-            ObjectOutputStream ous = new ObjectOutputStream(fos);
-
+        try (FileOutputStream fos = new FileOutputStream(nameFile + courseID);
+             ObjectOutputStream ous = new ObjectOutputStream(fos);) {
             ous.writeObject(new ServiceBackupRepository<AddMaterials>().createRepo(repoAddMaterials, courseID));
             ous.writeObject(new ServiceBackupRepository<Homework>().createRepo(repoHomework, courseID));
             ous.writeObject(new ServiceBackupRepository<Lecture>().createRepo(repoLecture, courseID));
@@ -35,9 +34,8 @@ public class ServiceBackupFile {
     }
 
     public void printBackup(int courseID, String nameFile) {
-        try (FileInputStream fis = new FileInputStream(nameFile + courseID)) {
-            ObjectInputStream ois = new ObjectInputStream(fis);
-
+        try (FileInputStream fis = new FileInputStream(nameFile + courseID);
+             ObjectInputStream ois = new ObjectInputStream(fis);) {
             System.out.println("Add materials: ");
             System.out.println(ois.readObject());
             System.out.println("Homework");

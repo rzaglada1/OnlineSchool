@@ -1,5 +1,6 @@
 package models;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task extends Model {
@@ -7,6 +8,8 @@ public class Task extends Model {
 
     private Integer ID;
     private String name;
+    private final LocalDateTime CreationDate;
+
 
     private Model course;
 
@@ -14,6 +17,7 @@ public class Task extends Model {
     public Task() {
         createCount++;
         setID(createCount);
+        CreationDate = LocalDateTime.now();
     }
 
     public Task(String name) {
@@ -43,6 +47,9 @@ public class Task extends Model {
                 '}';
     }
 
+    public LocalDateTime getCreationDate() {
+        return CreationDate;
+    }
 
 
     @Override

@@ -4,16 +4,22 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Locale;
 
 
 public class LogToFile {
 
-    String nameLog = "Log OnlineSchool";
-    public final static String STR_PATH_SERVICE = "./src/utils/log/";
-    public final static String STR_PATH_LOG = "./src/utils/log/";
-    public final static String STR_NAME_LOG = "log.txt";
+    public static final  String STR_PATH_SERVICE = "./src/utils/log/";
+    public static final  String STR_PATH_LOG = "./src/utils/log/";
+    public static final  String STR_NAME_LOG = "log.txt";
     public final static String STR_NAME_SERVICE = "Service.log";
+
+    private final String DATE_FORMAT = "dd-MM-yyyy HH:mm:ss:SSS";
+    private final Locale locale = Locale.US;
+
     private static LogToFile instance;
     private final Path pathServiceFile;
     private final Path pathLogFile;
@@ -116,7 +122,7 @@ public class LogToFile {
     private String createStringLog(Log log) {
         String result;
         if (log.getStacktrace() != null) {
-            result = log.getDate().toString() + " "
+            result = formatDate(log.getDate(), DATE_FORMAT,locale) + " "
                     + log.getLevel() + ": "
                     + log.getName() + ": "
                     + log.getMessage()
@@ -124,7 +130,7 @@ public class LogToFile {
                     + Arrays.toString(log.getStacktrace())
                     + '\n';
         } else {
-            result = log.getDate().toString() + " "
+            result = formatDate(log.getDate(), DATE_FORMAT,locale) + " "
                     + log.getLevel() + ": "
                     + log.getName() + ": "
                     + log.getMessage()
@@ -132,6 +138,12 @@ public class LogToFile {
         }
         return result;
     }
+
+    private  String formatDate (LocalDateTime dateTime, String strFormat, Locale locale) {
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(strFormat, locale);
+        return dateTime.format(df);
+    }
+
 
     public void setDefaultLogLevel(LogLevel defaultLogLevel) {
         this.defaultLogLevel = defaultLogLevel;
