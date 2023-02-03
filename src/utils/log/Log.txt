@@ -2,3 +2,61 @@
 02-02-2023 19:01:31:968 INFO: Log OnlineSchool: Selected   - "2 - Creating lecture" 
 02-02-2023 19:02:20:262 INFO: Log OnlineSchool: Exiting program ...
 02-02-2023 19:05:29:357 INFO: Log OnlineSchool: =============== Homework 25 =====================
+02-02-2023 20:26:43:673 INFO: Log OnlineSchool: =============== Homework 25 =====================
+02-02-2023 20:57:41:834 INFO: Log OnlineSchool: =============== Homework 25 =====================
+02-02-2023 20:57:47:727 INFO: Log OnlineSchool: Selected   - "17 - Print list Add materials with Lambda by lectureID" 
+02-02-2023 20:58:01:936 INFO: Log OnlineSchool: Selected   - "17 - Print list Add materials with Lambda by lectureID" 
+02-02-2023 20:58:34:619 INFO: Log OnlineSchool: Selected   - "17 - Print list Add materials with Lambda by lectureID" 
+02-02-2023 21:07:08:373 INFO: Log OnlineSchool: =============== Homework 25 =====================
+02-02-2023 21:07:13:545 INFO: Log OnlineSchool: Selected   - "18 - Print list with Lambda by DateTime" 
+02-02-2023 21:25:25:864 INFO: Log OnlineSchool: =============== Homework 25 =====================
+02-02-2023 21:25:32:549 INFO: Log OnlineSchool: Selected   - "17 - Print list Add materials with Lambda by lectureID" 
+02-02-2023 21:25:46:929 INFO: Log OnlineSchool: Selected   - "18 - Print list with Lambda by DateTime" 
+02-02-2023 21:28:17:094 INFO: Log OnlineSchool: =============== Homework 25 =====================
+02-02-2023 21:28:22:147 INFO: Log OnlineSchool: Selected   - "18 - Print list with Lambda by DateTime" 
+02-02-2023 23:32:48:046 INFO: Log OnlineSchool: =============== Homework 25 =====================
+02-02-2023 23:32:53:041 INFO: Log OnlineSchool: Selected   - "18 - Print list with Lambda by DateTime" 
+02-02-2023 23:35:59:635 INFO: Log OnlineSchool: =============== Homework 25 =====================
+02-02-2023 23:36:02:983 INFO: Log OnlineSchool: Selected   - "18 - Print list with Lambda by DateTime" 
+02-02-2023 23:37:20:228 INFO: Log OnlineSchool: Selected   - "2 - Creating lecture" 
+02-02-2023 23:38:11:679 INFO: Log OnlineSchool: Selected   - "18 - Print list with Lambda by DateTime" 
+02-02-2023 23:42:58:029 INFO: Log OnlineSchool: Selected   - "2 - Creating lecture" 
+02-02-2023 23:43:45:795 INFO: Log OnlineSchool: Selected   - "18 - Print list with Lambda by DateTime" 
+02-02-2023 23:45:39:600 INFO: Log OnlineSchool: =============== Homework 25 =====================
+02-02-2023 23:45:44:563 INFO: Log OnlineSchool: Selected   - "2 - Creating lecture" 
+02-02-2023 23:46:14:744 INFO: Log OnlineSchool: Selected   - "18 - Print list with Lambda by DateTime" 
+02-02-2023 23:46:54:914 INFO: Log OnlineSchool: Selected   - "18 - Print list with Lambda by DateTime" 
+02-02-2023 23:57:37:149 INFO: Log OnlineSchool: =============== Homework 25 =====================
+02-02-2023 23:57:44:885 INFO: Log OnlineSchool: Selected   - "2 - Creating lecture" 
+03-02-2023 00:00:38:572 INFO: Log OnlineSchool: Selected   - "2 - Creating lecture" 
+03-02-2023 00:00:43:243 WARNING: Log OnlineSchool: Something wrong STACKTRACE [repositories.CourseRepository.getById(CourseRepository.java:45), utils.MenuUtils.case2(MenuUtils.java:263), Main.main(Main.java:36)]
+03-02-2023 00:00:46:112 INFO: Log OnlineSchool: Selected   - "2 - Creating lecture" 
+03-02-2023 00:01:04:268 INFO: Log OnlineSchool: Selected   - "18 - Print list with Lambda by DateTime" 
+03-02-2023 00:03:29:438 INFO: Log OnlineSchool: =============== Homework 25 =====================
+03-02-2023 00:03:33:173 INFO: Log OnlineSchool: Selected   - "18 - Print list with Lambda by DateTime" 
+03-02-2023 09:58:00:406 INFO: Log OnlineSchool: =============== Homework 25 =====================
+03-02-2023 09:58:25:531 INFO: Log OnlineSchool: Selected   - "2 - Creating lecture" 
+03-02-2023 09:58:47:598 INFO: Log OnlineSchool: Selected   - "2 - Creating lecture" 
+03-02-2023 09:58:52:435 WARNING: Log OnlineSchool: Something wrong STACKTRACE [repositories.CourseRepository.getById(CourseRepository.java:45), utils.MenuUtils.case2(MenuUtils.java:263), Main.main(Main.java:36)]
+03-02-2023 09:58:55:360 INFO: Log OnlineSchool: Selected   - "2 - Creating lecture" 
+03-02-2023 10:00:22:657 INFO: Log OnlineSchool: Selected   - "2 - Creating lecture" 
+03-02-2023 10:00:52:193 INFO: Log OnlineSchool: Selected   - "18 - Print list with Lambda by DateTime" 
+03-02-2023 10:05:07:955 INFO: Log OnlineSchool: =============== Homework 25 =====================
+03-02-2023 10:05:35:086 INFO: Log OnlineSchool: Selected   - "2 - Creating lecture" 
+03-02-2023 10:06:37:284 INFO: Log OnlineSchool: Selected   - "18 - Print list with Lambda by DateTime" 
+03-02-2023 10:11:04:273 INFO: Log OnlineSchool: =============== Homework 25 =====================
+03-02-2023 10:11:59:171 INFO: Log OnlineSchool: Selected   - "2 - Creating lecture" 
+03-02-2023 10:12:21:448 INFO: Log OnlineSchool: Selected   - "18 - Print list with Lambda by DateTime" 
+03-02-2023 10:13:33:766 INFO: Log OnlineSchool: Selected   - "18 - Print list with Lambda by DateTime" 
+03-02-2023 10:28:09:999 INFO: Log OnlineSchool: Selected   - "18 - Print list with Lambda by DateTime" 
+03-02-2023 10:32:40:945 INFO: Log OnlineSchool: =============== Homework 25 =====================
+03-02-2023 10:35:10:512 INFO: Log OnlineSchool: Selected   - "2 - Creating lecture" 
+03-02-2023 10:35:35:253 INFO: Log OnlineSchool: Selected   - "18 - Print list with Lambda by DateTime" 
+03-02-2023 10:36:52:551 INFO: Log OnlineSchool: Selected   - "18 - Print list with Lambda by DateTime" 
+03-02-2023 10:39:11:658 INFO: Log OnlineSchool: Selected   - "18 - Print list with Lambda by DateTime" 
+03-02-2023 10:41:56:516 INFO: Log OnlineSchool: Selected   - "18 - Print list with Lambda by DateTime" 
+03-02-2023 10:43:49:573 INFO: Log OnlineSchool: =============== Homework 25 =====================
+03-02-2023 10:45:05:248 INFO: Log OnlineSchool: Selected   - "2 - Creating lecture" 
+03-02-2023 10:45:33:361 INFO: Log OnlineSchool: Selected   - "18 - Print list with Lambda by DateTime" 
+03-02-2023 10:46:52:032 INFO: Log OnlineSchool: Selected   - "18 - Print list with Lambda by DateTime" 
+03-02-2023 10:47:38:716 INFO: Log OnlineSchool: Exiting program ...

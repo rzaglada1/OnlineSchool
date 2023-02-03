@@ -121,4 +121,6 @@ public class AddMaterials extends Model {
     public int hashCode() {
         return Objects.hash(ID, name, lectureID, resourceType);
     }
+
+
 }

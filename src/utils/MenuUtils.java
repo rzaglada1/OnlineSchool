@@ -28,12 +28,13 @@ public class MenuUtils {
 
     String nameLog = "Log OnlineSchool";
     CourseRepository courseRepository = CourseRepository.getInstance();
+
     private final String STR_ENTER_FORMAT_DATE = "dd-MM-yyyy HH:mm";
 
     public int checkCorrect() {
 
         final int MENU_ITEM_START = 0;
-        final int MENU_ITEM_FINISH = 16;
+        final int MENU_ITEM_FINISH = 18;
 
         Scanner scanner = new Scanner(System.in);
 
@@ -56,6 +57,8 @@ public class MenuUtils {
             System.out.println("14 - Start client");
             System.out.println("15 - Creating backup");
             System.out.println("16 - Print backup");
+            System.out.println("17 - Print list with Lambda by lectureID");
+            System.out.println("18 - Print list with Lambda by DateTime");
 
 
             try {
@@ -218,6 +221,18 @@ public class MenuUtils {
                 .create("Text URL", ResourceType.URL, lecture));
         addMaterialsRepository.getRepository().add(new AddMaterialsService()
                 .create("Text book", ResourceType.BOOK, lecture));
+
+        try {
+            addMaterialsRepository.getRepository().add(new AddMaterialsService()
+                    .create("Text book", ResourceType.BOOK, lectureRepository.getById(3)));
+            addMaterialsRepository.getRepository().add(new AddMaterialsService()
+                    .create("Text book", ResourceType.BOOK, lectureRepository.getById(2)));
+            addMaterialsRepository.getRepository().add(new AddMaterialsService()
+                    .create("Text book", ResourceType.BOOK, lectureRepository.getById(1)));
+        } catch (EntityNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
 
         // creating Homework
         homeWorkRepository.getRepository().add(new HomeworkService().create("homeworkLecture",lecture));
@@ -515,6 +530,31 @@ public class MenuUtils {
             Log.warning(nameLog, "Something wrong", e.getStackTrace());
         }
     }
+    public void case17(AddMaterialsRepository addMaterialsRepository) {
+        Log.info(nameLog, "Selected   - \"17 - Print list Add materials with Lambda by lectureID\" ");
+        System.out.println("Enter ID lecture  for printing Add materials");
+        try {
+            addMaterialsRepository.printAddMaterialsByLectureId(inputDigit());
+        } catch (EntityNotFoundException e) {
+            Log.warning(nameLog, "id Lecture object not found", e.getStackTrace());
+        }
+    }
+
+    public void case18(LectureRepository lectureRepository) {
+        Log.info(nameLog, "Selected   - \"18 - Print list with Lambda by DateTime\" ");
+
+        String formatDate = "MM-dd-yyy HH:mm";
+        System.out.println("Start dateTime");
+        LocalDateTime startDateTime = enterDate(formatDate);
+        System.out.println("Finish dateTime (should be First dataTime "
+                + formatDateMenu(startDateTime, formatDate,Locale.US) + ")");
+        LocalDateTime finishDateTime;
+        while ((finishDateTime = enterDate("MM-dd-yyy HH:mm")).isBefore(startDateTime) ) {
+            System.out.println("First dateTime > Second dateTime, try again");
+        }
+        lectureRepository.printAfterBeforeDate(startDateTime, finishDateTime);
+    }
+
 
 
     private void examStart() {
@@ -532,7 +572,7 @@ public class MenuUtils {
         String dateString;
         DateTimeFormatter df = DateTimeFormatter.ofPattern(enterFormatData);
         Scanner inputScanner = new Scanner(System.in);
-        System.out.println("Enter date and time start lecture  in format : " + LocalDateTime.now().format(df));
+        System.out.println("Enter date and time  in format : " + LocalDateTime.now().format(df));
 
         while (true) {
             dateString = inputScanner.nextLine();
@@ -544,5 +584,18 @@ public class MenuUtils {
             }
         }
     }
+
+    public String formatDateMenu(LocalDateTime dateTime, String strFormat, Locale locale) {
+        String formatDate = "--";
+        try {
+            DateTimeFormatter df = DateTimeFormatter.ofPattern(strFormat, locale);
+            formatDate = dateTime.format(df);
+        } catch (NullPointerException e) {
+            Log.warning("On-line school", "convert date format error", e.getStackTrace());
+        }
+
+        return formatDate;
+    }
+
 
 }

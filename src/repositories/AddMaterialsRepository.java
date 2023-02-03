@@ -6,6 +6,7 @@ import models.AddMaterials;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class AddMaterialsRepository implements Repository<AddMaterials> {
@@ -57,5 +58,11 @@ public class AddMaterialsRepository implements Repository<AddMaterials> {
         return repository.stream()
                 .filter(element -> element.getLectureID() == lectureId).collect(Collectors.toList());
     }
+
+    public void printAddMaterialsByLectureId(int lectureID) throws EntityNotFoundException {
+        Predicate<AddMaterials> filterByLectureID = element -> element.getLectureID() == lectureID;
+         repository.stream().filter(filterByLectureID).forEach(System.out::println);
+    }
+
 
 }
