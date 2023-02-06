@@ -1,22 +1,23 @@
 package models;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Optional;
 
-public class Task extends Model {
+public class Task implements Model, Serializable {
     private static Integer createCount = 0;
 
-    private Integer ID;
+    private final Integer ID;
     private String name;
     private final LocalDateTime CreationDate;
 
 
-    private Model course;
+    private Course course;
 
 
     public Task() {
-        createCount++;
-        setID(createCount);
+        this.ID = createCount++;
         CreationDate = LocalDateTime.now();
     }
 
@@ -25,7 +26,7 @@ public class Task extends Model {
         setName(name);
     }
 
-    public Task(String name, Model course) {
+    public Task(String name, Course course) {
         this(name);
         this.course = course;
     }
@@ -35,8 +36,8 @@ public class Task extends Model {
         return createCount;
     }
 
-    public Model getCourse() {
-        return course;
+    public Optional<Course> getCourse() {
+        return Optional.ofNullable(course);
     }
 
     @Override
@@ -55,11 +56,6 @@ public class Task extends Model {
     @Override
     public Integer getID() {
         return ID;
-    }
-
-    @Override
-    public void setID(Integer ID) {
-        this.ID = ID;
     }
 
     @Override

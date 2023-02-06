@@ -2,15 +2,17 @@ package models;
 
 import utils.log.Log;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Optional;
 
-public class Lecture extends Model {
+public class Lecture implements Model, Serializable {
 
-    private Integer ID;
+    private final Integer ID;
     private String name;
 
     private final String DATE_LECTURE_FORMAT = "MMM d, EEEE HH:mm:ss";
@@ -29,8 +31,7 @@ public class Lecture extends Model {
     private Person person;
 
     public Lecture() {
-        createCount++;
-        setID(createCount);
+        this.ID = createCount++;
         CreationDate = LocalDateTime.now();
 
     }
@@ -135,8 +136,8 @@ public class Lecture extends Model {
         }
     }
 
-    public Course getCourse() {
-        return course;
+    public Optional<Course> getCourse() {
+        return Optional.ofNullable(course);
     }
 
     public String formatDate(LocalDateTime dateTime, String strFormat, Locale locale) {
@@ -155,11 +156,6 @@ public class Lecture extends Model {
     @Override
     public Integer getID() {
         return ID;
-    }
-
-    @Override
-    public void setID(Integer ID) {
-        this.ID = ID;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package services;
 
-import models.Model;
+import models.Course;
 import models.Person;
 import models.model_enum.Role;
 
@@ -14,7 +14,7 @@ public class PersonService {
         return new Person(personAttribute, role);
     }
 
-    public Person create(String[] personAttribute, Role role, Model course) {
+    public Person create(String[] personAttribute, Role role, Course course) {
         return new Person(personAttribute, role, course);
     }
 

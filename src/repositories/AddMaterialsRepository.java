@@ -1,18 +1,17 @@
 package repositories;
 
-import exceptions.EntityNotFoundException;
 import models.AddMaterials;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class AddMaterialsRepository implements Repository<AddMaterials> {
 
     private static AddMaterialsRepository instance;
-
     private final List<AddMaterials> repository;
 
     private AddMaterialsRepository() {
@@ -37,14 +36,8 @@ public class AddMaterialsRepository implements Repository<AddMaterials> {
     }
 
     @Override
-    public AddMaterials getById(Integer id) throws EntityNotFoundException {
-        for (AddMaterials element : repository) {
-            if (element.getID().equals(id)) {
-                return element;
-            }
-        }
-        throw new EntityNotFoundException("id object not found");
-
+    public Optional<AddMaterials> getById(Integer id) {
+        return repository.stream().filter(element -> element.getID().equals(id)).findAny();
     }
 
     @Override
@@ -54,14 +47,16 @@ public class AddMaterialsRepository implements Repository<AddMaterials> {
                 .collect(Collectors.toList());
     }
 
-    public List<AddMaterials> getAddMaterialsByLectureId(int lectureId) throws EntityNotFoundException {
+    public List<AddMaterials> getAddMaterialsByLectureId(int lectureId) {
         return repository.stream()
-                .filter(element -> element.getLectureID() == lectureId).collect(Collectors.toList());
+                .filter(element -> element.getLectureID().isPresent()
+                        && element.getLectureID().get() == lectureId).collect(Collectors.toList());
     }
 
-    public void printAddMaterialsByLectureId(int lectureID) throws EntityNotFoundException {
-        Predicate<AddMaterials> filterByLectureID = element -> element.getLectureID() == lectureID;
-         repository.stream().filter(filterByLectureID).forEach(System.out::println);
+    public void printAddMaterialsByLectureId(int lectureID) {
+        Predicate<AddMaterials> filterByLectureID = element -> element.getLectureID().isPresent()
+                && element.getLectureID().get() == lectureID;
+        repository.stream().filter(filterByLectureID).forEach(System.out::println);
     }
 
 

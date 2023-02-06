@@ -10,13 +10,8 @@ public class ServiceBackupRepository<E extends Model> {
     private final List<E> repo = new ArrayList<>();
 
     public List<E> createRepo(List<E> list, int courseID) {
-        for (E element : list) {
-
-            if (element.getCourse().getID() == courseID) {
-                repo.add(element);
-            }
-        }
-        return repo;
+        return list.stream().filter(element -> element.getCourse().isPresent()
+                && element.getCourse().get().getID() == courseID).toList();
     }
 
 }

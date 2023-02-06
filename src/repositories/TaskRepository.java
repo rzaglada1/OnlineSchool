@@ -1,10 +1,11 @@
 package repositories;
 
-import exceptions.EntityNotFoundException;
 import models.Task;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class TaskRepository implements Repository<Task> {
@@ -12,7 +13,7 @@ public class TaskRepository implements Repository<Task> {
 
     private final List<Task> repository;
 
-    private TaskRepository () {
+    private TaskRepository() {
         repository = new ArrayList<>();
     }
 
@@ -34,15 +35,10 @@ public class TaskRepository implements Repository<Task> {
     }
 
     @Override
-    public Task getById(Integer id) throws EntityNotFoundException {
-        for (Task element : repository) {
-            if (element.getID().equals(id) ) {
-                return element;
-            }
-        }
-        throw new EntityNotFoundException("id object not found");
-
+    public Optional<Task> getById(Integer id) {
+        return repository.stream().filter(element -> element.getID().equals(id)).findAny();
     }
+
     @Override
     public List<Task> sortedByName() {
         return repository.stream()

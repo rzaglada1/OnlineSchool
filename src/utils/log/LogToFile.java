@@ -3,11 +3,13 @@ package utils.log;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.stream.Stream;
 
 
 public class LogToFile {
@@ -83,6 +85,18 @@ public class LogToFile {
         }
     }
 
+    public void loadFromLogFileFilter(LogLevel logLevel) {
+        if (Files.exists(pathLogFile)) {
+            try (Stream<String> fromFile = Files.lines(Paths.get(STR_PATH_LOG, STR_NAME_LOG))){
+                fromFile.filter(element -> element.contains(logLevel.name())).forEach(System.out::println);
+            } catch (IOException e) {
+                System.out.println("Error reading log file");
+            }
+
+
+
+        }
+    }
 
     public void loadFromLogFile() {
         if (Files.exists(pathLogFile)) {

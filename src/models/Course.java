@@ -1,11 +1,13 @@
 package models;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Optional;
 
-public class Course extends Model {
+public class Course implements Model, Serializable {
 
-    private Integer ID;
+    private final Integer ID;
     private String name;
     private final LocalDateTime CreationDate;
 
@@ -16,8 +18,7 @@ public class Course extends Model {
     private static Integer createCount = 0;
 
     public Course() {
-        createCount++;
-        setID(createCount);
+        this.ID = createCount++;
         CreationDate = LocalDateTime.now();
     }
 
@@ -32,20 +33,20 @@ public class Course extends Model {
         this.lecture = lecture;
     }
 
-    public Person getPerson() {
-        return person;
+    public Optional<Person> getPerson() {
+        return Optional.ofNullable(person);
     }
 
-    public Lecture getLecture() {
-        return lecture;
+    public Optional<Lecture> getLecture() {
+        return Optional.ofNullable(lecture);
     }
 
-    public Homework getHomework() {
-        return homework;
+    public Optional<Homework> getHomework() {
+        return Optional.ofNullable(homework);
     }
 
-    public Task getAddTask() {
-        return task;
+    public Optional<Task> getAddTask() {
+        return Optional.ofNullable(task);
     }
 
     public static Integer getCreateCount() {
@@ -90,11 +91,6 @@ public class Course extends Model {
     }
 
     @Override
-    public void setID(Integer ID) {
-        this.ID = ID;
-    }
-
-    @Override
     public String getName() {
         return name;
     }
@@ -105,8 +101,8 @@ public class Course extends Model {
     }
 
     @Override
-    public Model getCourse() {
-        return this;
+    public Optional<Course> getCourse() {
+        return Optional.of(this);
     }
 
     @Override

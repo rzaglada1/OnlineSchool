@@ -1,16 +1,16 @@
 package models;
 
 import java.io.Serializable;
+import java.util.Optional;
 
-public abstract class Model implements Serializable {
+public interface Model  {
 
-    public abstract Integer getID() ;
-    public abstract void setID(Integer ID) ;
+    public  Integer getID() ;
 
-    public abstract String getName() ;
+    public String getName() ;
 
-    public abstract void setName(String name) ;
+    public void setName(String name) ;
 
-    public abstract Model getCourse() ;
+    public Optional<Course> getCourse() ;
 
 }

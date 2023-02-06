@@ -1,19 +1,23 @@
 package models;
 
+import utils.log.Log;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Optional;
 
-public class Homework extends Model {
+public class Homework implements Model, Serializable {
 
-    private Integer ID;
+    private final Integer ID;
     private String name;
     private final LocalDateTime CreationDate;
 
     private final String DATE_FORMAT = "MMM d,  HH:mm";
     private final Locale locale = Locale.US;
-    private LocalDateTime deadlineDate;
+    private final LocalDateTime deadlineDate;
 
     private Course course;
     private Lecture lecture;
@@ -23,14 +27,19 @@ public class Homework extends Model {
     private static Integer createCount = 0;
 
     public Homework(String name, Lecture lecture) {
-        createCount++;
-        setID(createCount);
+        this.ID = createCount++;
         CreationDate = LocalDateTime.now();
         this.name = name;
         this.lectureID = lecture.getID();
         this.lecture = lecture;
-        course = lecture.getCourse();
         this.deadlineDate = lecture.getLectureDate().plusDays(1).withHour(12).withMinute(0);
+        try {
+            course = lecture.getCourse().orElseThrow(NullPointerException::new);
+        } catch (NullPointerException e ) {
+            Log.error("Model Homework", "NullPointerException", e.getStackTrace());
+        }
+
+
 
     }
 
@@ -39,24 +48,24 @@ public class Homework extends Model {
         return createCount;
     }
 
-    public Integer getLectureID() {
-        return lectureID;
+    public Optional<Integer> getLectureID() {
+        return Optional.ofNullable(lectureID);
     }
 
     public void setLectureID(Integer lectureID) {
         this.lectureID = lectureID;
     }
 
-    public Task getTask() {
-        return task;
+    public Optional<Task> getTask() {
+        return Optional.ofNullable(task);
     }
 
     public void setTask(Task task) {
         this.task = task;
     }
 
-    public Model getCourse() {
-        return course;
+    public Optional<Course> getCourse() {
+        return Optional.ofNullable(course);
     }
 
     public LocalDateTime getCreationDate() {
@@ -83,11 +92,6 @@ public class Homework extends Model {
     @Override
     public Integer getID() {
         return ID;
-    }
-
-    @Override
-    public void setID(Integer ID) {
-        this.ID = ID;
     }
 
     @Override

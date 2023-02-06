@@ -1,16 +1,16 @@
 package repositories;
 
-import exceptions.EntityNotFoundException;
+
 import models.Homework;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class HomeWorkRepository implements Repository<Homework> {
     private static HomeWorkRepository instance;
-
     private final List<Homework> repository;
 
     private HomeWorkRepository() {
@@ -35,14 +35,8 @@ public class HomeWorkRepository implements Repository<Homework> {
     }
 
     @Override
-    public Homework getById(Integer id) throws EntityNotFoundException {
-        for (Homework element : repository) {
-            if (element.getID().equals(id)) {
-                return element;
-            }
-        }
-        throw new EntityNotFoundException("id object not found");
-
+    public Optional<Homework> getById(Integer id) {
+        return repository.stream().filter(element -> element.getID().equals(id)).findAny();
     }
 
     @Override
@@ -52,9 +46,10 @@ public class HomeWorkRepository implements Repository<Homework> {
                 .collect(Collectors.toList());
     }
 
-    public List<Homework> getHomeworkByLectureId(int lectureId) throws EntityNotFoundException {
+    public List<Homework> getHomeworkByLectureId(int lectureId) {
         return repository.stream()
-                .filter(element -> element.getLectureID() == lectureId).collect(Collectors.toList());
+                .filter(element -> element.getLectureID().isPresent()
+                        && element.getLectureID().get()  == lectureId).collect(Collectors.toList());
     }
 
 }

@@ -3,20 +3,22 @@ package models;
 import models.model_enum.Role;
 import utils.RegexUtil;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Optional;
 
 
-public class Person extends Model {
+public class Person implements Model, Serializable {
 
-    private Integer ID;
+    private final Integer ID;
     private String name;
     private final LocalDateTime CreationDate;
 
     private static Integer createCount = 0;
 
 
-    private Model course;
+    private Course course;
     private int courseID;
     private Role role;
 
@@ -26,8 +28,7 @@ public class Person extends Model {
     private String email;
 
     public Person() {
-        createCount++;
-        setID(createCount);
+        this.ID = createCount++;
         CreationDate = LocalDateTime.now();
     }
 
@@ -41,7 +42,7 @@ public class Person extends Model {
 
     }
 
-    public Person(String[] personAttribute, Role role, Model course) {
+    public Person(String[] personAttribute, Role role, Course course) {
         this();
         this.name = personAttribute[0];
         this.lastName = personAttribute[1];
@@ -113,8 +114,8 @@ public class Person extends Model {
 
     }
 
-    public Model getCourse() {
-        return course;
+    public Optional<Course> getCourse() {
+        return Optional.ofNullable(course);
     }
 
     public LocalDateTime getCreationDate() {
@@ -138,11 +139,6 @@ public class Person extends Model {
     @Override
     public Integer getID() {
         return ID;
-    }
-
-    @Override
-    public void setID(Integer ID) {
-        this.ID = ID;
     }
 
     @Override

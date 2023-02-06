@@ -60,3 +60,174 @@
 03-02-2023 10:45:33:361 INFO: Log OnlineSchool: Selected   - "18 - Print list with Lambda by DateTime" 
 03-02-2023 10:46:52:032 INFO: Log OnlineSchool: Selected   - "18 - Print list with Lambda by DateTime" 
 03-02-2023 10:47:38:716 INFO: Log OnlineSchool: Exiting program ...
+05-02-2023 17:50:10:053 INFO: Log OnlineSchool: =============== Homework 26 =====================
+05-02-2023 17:50:34:818 INFO: Log OnlineSchool: Selected   - "19 - Print list teachers with name > N" 
+05-02-2023 17:53:07:860 INFO: Log OnlineSchool: =============== Homework 26 =====================
+05-02-2023 17:53:13:587 INFO: Log OnlineSchool: Selected   - "19 - Print list teachers with name < char " 
+05-02-2023 17:53:48:795 INFO: Log OnlineSchool: =============== Homework 26 =====================
+05-02-2023 17:53:52:530 INFO: Log OnlineSchool: Selected   - "19 - Print list teachers with name < char " 
+05-02-2023 17:54:58:610 INFO: Log OnlineSchool: =============== Homework 26 =====================
+05-02-2023 17:55:04:865 INFO: Log OnlineSchool: Selected   - "19 - Print list teachers with name < char " 
+05-02-2023 17:56:04:950 INFO: Log OnlineSchool: =============== Homework 26 =====================
+05-02-2023 17:56:09:929 INFO: Log OnlineSchool: Selected   - "19 - Print list teachers with name < char " 
+05-02-2023 17:57:02:934 INFO: Log OnlineSchool: =============== Homework 26 =====================
+05-02-2023 17:57:06:666 INFO: Log OnlineSchool: Selected   - "19 - Print list teachers with name < char " 
+05-02-2023 17:57:41:702 INFO: Log OnlineSchool: =============== Homework 26 =====================
+05-02-2023 17:57:45:714 INFO: Log OnlineSchool: Selected   - "19 - Print list teachers with name < char " 
+05-02-2023 18:02:28:714 INFO: Log OnlineSchool: =============== Homework 26 =====================
+05-02-2023 18:02:34:117 INFO: Log OnlineSchool: Selected   - "19 - Print list teachers with name < char " 
+05-02-2023 18:03:59:906 INFO: Log OnlineSchool: =============== Homework 26 =====================
+05-02-2023 18:04:09:554 INFO: Log OnlineSchool: Selected   - "19 - Print list teachers with name < char " 
+05-02-2023 18:05:21:794 INFO: Log OnlineSchool: =============== Homework 26 =====================
+05-02-2023 18:05:32:031 INFO: Log OnlineSchool: Selected   - "19 - Print list teachers with name < char " 
+05-02-2023 18:38:54:676 INFO: Log OnlineSchool: =============== Homework 26 =====================
+05-02-2023 18:39:05:723 INFO: Log OnlineSchool: Selected   - "10 - Print log file" 
+05-02-2023 18:39:16:591 INFO: Log OnlineSchool: 20 - Print log file with filter" 
+05-02-2023 18:39:37:412 INFO: Log OnlineSchool: 20 - Print log file with filter" 
+05-02-2023 18:39:56:683 INFO: Log OnlineSchool: 20 - Print log file with filter" 
+05-02-2023 18:40:16:281 INFO: Log OnlineSchool: 20 - Print log file with filter" 
+05-02-2023 18:40:28:824 INFO: Log OnlineSchool: 20 - Print log file with filter" 
+05-02-2023 18:41:22:271 INFO: Log OnlineSchool: Selected   - "11 - Change log level" 
+05-02-2023 18:42:29:743 INFO: Log OnlineSchool: Changed settings LOG_LEVEL = DEBUG
+05-02-2023 18:42:29:749 INFO: Log OnlineSchool: Changed settings LOG_LEVEL = DEBUG
+05-02-2023 18:42:30:942 INFO: Log OnlineSchool: Selected   - "11 - Change log level" 
+05-02-2023 18:42:35:407 INFO: Log OnlineSchool: Changed settings LOG_LEVEL = DEBUG
+05-02-2023 18:42:35:416 INFO: Log OnlineSchool: Changed settings LOG_LEVEL = DEBUG
+05-02-2023 18:42:53:111 INFO: Log OnlineSchool: 20 - Print log file with filter" 
+05-02-2023 18:44:09:460 INFO: Log OnlineSchool: 20 - Print log file with filter" 
+05-02-2023 18:44:33:881 INFO: Log OnlineSchool: 20 - Print log file with filter" 
+05-02-2023 18:44:50:407 INFO: Log OnlineSchool: Selected   - "10 - Print log file" 
+05-02-2023 18:44:55:364 INFO: Log OnlineSchool: 20 - Print log file with filter" 
+05-02-2023 18:45:05:016 INFO: Log OnlineSchool: Selected   - "11 - Change log level" 
+05-02-2023 18:49:31:200 INFO: Log OnlineSchool: Changed settings LOG_LEVEL = DEBUG
+05-02-2023 18:49:31:206 INFO: Log OnlineSchool: Changed settings LOG_LEVEL = DEBUG
+05-02-2023 18:49:35:850 INFO: Log OnlineSchool: 20 - Print log file with filter" 
+05-02-2023 18:50:58:248 INFO: Log OnlineSchool: =============== Homework 26 =====================
+05-02-2023 18:51:00:840 INFO: Log OnlineSchool: Selected   - "11 - Change log level" 
+05-02-2023 18:51:00:842 DEBUG: Log OnlineSchool: debug (for example in MenuUtils)
+05-02-2023 18:51:00:844 INFO: Log OnlineSchool: info (for example in MenuUtils)
+05-02-2023 18:51:00:846 WARNING: Log OnlineSchool: warning (for example in MenuUtils)
+05-02-2023 18:51:00:848 ERROR: Log OnlineSchool: error (for example in MenuUtils)
+05-02-2023 18:51:05:007 INFO: Log OnlineSchool: Changed settings LOG_LEVEL = DEBUG
+05-02-2023 18:51:05:017 INFO: Log OnlineSchool: Changed settings LOG_LEVEL = DEBUG
+05-02-2023 18:51:07:830 INFO: Log OnlineSchool: 20 - Print log file with filter" 
+05-02-2023 18:52:45:608 INFO: Log OnlineSchool: 20 - Print log file with filter" 
+05-02-2023 18:52:55:709 INFO: Log OnlineSchool: 20 - Print log file with filter" 
+05-02-2023 18:53:10:127 INFO: Log OnlineSchool: 20 - Print log file with filter" 
+05-02-2023 18:53:17:981 INFO: Log OnlineSchool: 20 - Print log file with filter" 
+05-02-2023 18:53:40:561 INFO: Log OnlineSchool: Selected   - "19 - Print list teachers with name < char " 
+05-02-2023 20:48:14:150 INFO: Log OnlineSchool: =============== Homework 26 =====================
+05-02-2023 21:29:10:614 INFO: Log OnlineSchool: =============== Homework 26 =====================
+05-02-2023 21:29:22:974 INFO: Log OnlineSchool: Selected   - "8 - Sort Course by name" 
+05-02-2023 21:38:59:267 INFO: Log OnlineSchool: Selected   - "7 - Get homework and add task by ID lecture" 
+05-02-2023 21:48:58:634 INFO: Log OnlineSchool: Selected   - "7 - Get homework and add task by ID lecture" 
+05-02-2023 21:49:11:366 WARNING: Log OnlineSchool: Called default  STACKTRACE [utils.MenuUtils.case7(MenuUtils.java:407), Main.main(Main.java:41)]
+05-02-2023 21:49:22:743 INFO: Log OnlineSchool: Selected   - "5 - Creating Homework" 
+05-02-2023 21:51:54:937 INFO: Log OnlineSchool: Selected   - "8 - Sort Course by name" 
+05-02-2023 21:52:29:387 INFO: Log OnlineSchool: Selected   - "15 - Creating backup" 
+05-02-2023 21:53:25:749 INFO: Log OnlineSchool: Selected   - "17 - Print list Add materials with Lambda by lectureID" 
+05-02-2023 21:53:58:796 INFO: Log OnlineSchool: Selected   - "17 - Print list Add materials with Lambda by lectureID" 
+05-02-2023 21:54:17:121 INFO: Log OnlineSchool: Selected   - "17 - Print list Add materials with Lambda by lectureID" 
+05-02-2023 21:54:35:262 INFO: Log OnlineSchool: Selected   - "17 - Print list Add materials with Lambda by lectureID" 
+05-02-2023 21:55:17:290 INFO: Log OnlineSchool: Selected   - "19 - Print list teachers with name < char " 
+05-02-2023 21:55:29:050 INFO: Log OnlineSchool: 20 - Print log file with filter" 
+06-02-2023 10:46:22:750 INFO: Log OnlineSchool: Selected   - "7 - Get homework and add task by ID lecture" 
+06-02-2023 10:46:32:575 WARNING: Log OnlineSchool: Called default  STACKTRACE [utils.MenuUtils.case7(MenuUtils.java:407), Main.main(Main.java:41)]
+06-02-2023 10:47:33:801 INFO: Log OnlineSchool: =============== Homework 26 =====================
+06-02-2023 10:47:36:770 INFO: Log OnlineSchool: Selected   - "7 - Get homework and add task by ID lecture" 
+06-02-2023 10:48:24:241 INFO: Log OnlineSchool: =============== Homework 26 =====================
+06-02-2023 10:48:27:830 INFO: Log OnlineSchool: Selected   - "7 - Get homework and add task by ID lecture" 
+06-02-2023 10:54:37:508 INFO: Log OnlineSchool: =============== Homework 26 =====================
+06-02-2023 10:54:40:333 INFO: Log OnlineSchool: Selected   - "7 - Get homework and add task by ID lecture" 
+06-02-2023 10:54:44:095 DEBUG: Log OnlineSchool: item not found
+06-02-2023 12:07:45:817 INFO: Log OnlineSchool: =============== Homework 26 =====================
+06-02-2023 12:08:09:742 INFO: Log OnlineSchool: Selected   - "7 - Get homework and add task by ID lecture" 
+06-02-2023 12:11:48:780 INFO: Log OnlineSchool: =============== Homework 26 =====================
+06-02-2023 12:11:53:283 INFO: Log OnlineSchool: Selected   - "7 - Get homework and add task by ID lecture" 
+06-02-2023 12:11:55:260 WARNING: Log OnlineSchool: EntityNotFoundException1 STACKTRACE [java.base/java.util.Optional.orElseThrow(Optional.java:403), utils.MenuUtils.case7(MenuUtils.java:378), Main.main(Main.java:41)]
+06-02-2023 12:12:06:830 INFO: Log OnlineSchool: Selected   - "7 - Get homework and add task by ID lecture" 
+06-02-2023 12:12:29:053 INFO: Log OnlineSchool: Selected   - "6 - Creating addMaterials" 
+06-02-2023 12:12:33:734 WARNING: Log OnlineSchool: Lecture id 9 - not found STACKTRACE [java.base/java.util.Optional.orElseThrow(Optional.java:403), utils.MenuUtils.case6(MenuUtils.java:356), Main.main(Main.java:40)]
+06-02-2023 12:18:02:844 INFO: Log OnlineSchool: =============== Homework 26 =====================
+06-02-2023 12:18:06:789 INFO: Log OnlineSchool: Selected   - "7 - Get homework and add task by ID lecture" 
+06-02-2023 12:18:09:076 WARNING: Log OnlineSchool: EntityNotFoundException1 STACKTRACE [java.base/java.util.Optional.orElseThrow(Optional.java:403), utils.MenuUtils.case7(MenuUtils.java:378), Main.main(Main.java:41)]
+06-02-2023 12:18:17:431 INFO: Log OnlineSchool: Selected   - "7 - Get homework and add task by ID lecture" 
+06-02-2023 12:18:47:512 INFO: Log OnlineSchool: Selected   - "7 - Get homework and add task by ID lecture" 
+06-02-2023 12:19:06:043 INFO: Log OnlineSchool: Selected   - "7 - Get homework and add task by ID lecture" 
+06-02-2023 12:24:35:014 INFO: Log OnlineSchool: =============== Homework 26 =====================
+06-02-2023 12:24:39:665 INFO: Log OnlineSchool: Selected   - "17 - Print list Add materials with Lambda by lectureID" 
+06-02-2023 12:24:49:888 INFO: Log OnlineSchool: Selected   - "17 - Print list Add materials with Lambda by lectureID" 
+06-02-2023 12:25:06:422 INFO: Log OnlineSchool: Selected   - "17 - Print list Add materials with Lambda by lectureID" 
+06-02-2023 12:25:15:140 INFO: Log OnlineSchool: Selected   - "17 - Print list Add materials with Lambda by lectureID" 
+06-02-2023 12:25:23:419 INFO: Log OnlineSchool: Selected   - "17 - Print list Add materials with Lambda by lectureID" 
+06-02-2023 12:49:33:107 INFO: Log OnlineSchool: =============== Homework 26 =====================
+06-02-2023 12:49:56:083 INFO: Log OnlineSchool: Selected   - "7 - Get homework and add task by ID lecture" 
+06-02-2023 12:50:12:136 INFO: Log OnlineSchool: Selected   - "7 - Get homework and add task by ID lecture" 
+06-02-2023 13:07:32:433 INFO: Log OnlineSchool: =============== Homework 26 =====================
+06-02-2023 13:10:59:061 INFO: Log OnlineSchool: =============== Homework 26 =====================
+06-02-2023 13:29:57:767 INFO: Log OnlineSchool: =============== Homework 26 =====================
+06-02-2023 13:57:33:298 INFO: Log OnlineSchool: =============== Homework 26 =====================
+06-02-2023 13:57:54:047 INFO: Log OnlineSchool: Selected   - "1 - Creating course" 
+06-02-2023 13:58:03:319 INFO: Log OnlineSchool: Selected   - "2 - Creating lecture" 
+06-02-2023 13:58:35:488 INFO: Log OnlineSchool: Selected   - "2 - Creating lecture" 
+06-02-2023 13:58:41:007 WARNING: Log OnlineSchool: Something wrong STACKTRACE [java.base/java.util.Optional.orElseThrow(Optional.java:403), utils.MenuUtils.case2(MenuUtils.java:277), Main.main(Main.java:36)]
+06-02-2023 13:58:59:797 INFO: Log OnlineSchool: Selected   - "5 - Creating Homework" 
+06-02-2023 13:59:05:250 WARNING: Log OnlineSchool: Something wrong STACKTRACE [java.base/java.util.Optional.orElseThrow(Optional.java:403), utils.MenuUtils.case5(MenuUtils.java:339), Main.main(Main.java:39)]
+06-02-2023 13:59:13:593 INFO: Log OnlineSchool: Selected   - "5 - Creating Homework" 
+06-02-2023 13:59:32:628 INFO: Log OnlineSchool: Selected   - "6 - Creating addMaterials" 
+06-02-2023 13:59:41:544 WARNING: Log OnlineSchool: Lecture id 9 - not found STACKTRACE [java.base/java.util.Optional.orElseThrow(Optional.java:403), utils.MenuUtils.case6(MenuUtils.java:356), Main.main(Main.java:40)]
+06-02-2023 13:59:47:093 INFO: Log OnlineSchool: Selected   - "6 - Creating addMaterials" 
+06-02-2023 14:00:59:417 INFO: Log OnlineSchool: Selected   - "6 - Creating addMaterials" 
+06-02-2023 14:01:17:115 INFO: Log OnlineSchool: Selected   - "7 - Get homework and add task by ID lecture" 
+06-02-2023 14:01:20:041 WARNING: Log OnlineSchool: EntityNotFoundException1 STACKTRACE [java.base/java.util.Optional.orElseThrow(Optional.java:403), utils.MenuUtils.case7(MenuUtils.java:378), Main.main(Main.java:41)]
+06-02-2023 14:01:31:245 INFO: Log OnlineSchool: Selected   - "7 - Get homework and add task by ID lecture" 
+06-02-2023 14:01:51:011 INFO: Log OnlineSchool: Selected   - "7 - Get homework and add task by ID lecture" 
+06-02-2023 14:02:05:840 INFO: Log OnlineSchool: Selected   - "8 - Sort Course by name" 
+06-02-2023 14:02:12:774 INFO: Log OnlineSchool: Selected   - "9 - Sort Teacher and Student by last name" 
+06-02-2023 14:02:19:433 INFO: Log OnlineSchool: Selected   - "10 - Print log file" 
+06-02-2023 14:02:31:409 INFO: Log OnlineSchool: Selected   - "15 - Creating backup" 
+06-02-2023 14:02:43:240 INFO: Log OnlineSchool: Selected   - "16 - Print backup" 
+06-02-2023 14:03:05:948 INFO: Log OnlineSchool: Selected   - "15 - Creating backup" 
+06-02-2023 14:03:16:300 INFO: Log OnlineSchool: Selected   - "16 - Print backup" 
+06-02-2023 14:03:35:028 INFO: Log OnlineSchool: Selected   - "17 - Print list Add materials with Lambda by lectureID" 
+06-02-2023 14:03:47:947 INFO: Log OnlineSchool: Selected   - "17 - Print list Add materials with Lambda by lectureID" 
+06-02-2023 14:04:08:382 INFO: Log OnlineSchool: Selected   - "19 - Print list teachers with name < char " 
+06-02-2023 14:04:17:168 INFO: Log OnlineSchool: 20 - Print log file with filter" 
+06-02-2023 14:04:32:561 INFO: Log OnlineSchool: 20 - Print log file with filter" 
+06-02-2023 14:04:44:690 INFO: Log OnlineSchool: 20 - Print log file with filter" 
+06-02-2023 14:05:47:155 INFO: Log OnlineSchool: Selected   - "15 - Creating backup" 
+06-02-2023 14:06:05:196 INFO: Log OnlineSchool: Selected   - "16 - Print backup" 
+06-02-2023 14:06:07:431 WARNING: Log OnlineSchool: Error data file STACKTRACE [java.base/java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1751), java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:514), java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:472), java.base/java.util.CollSer.readObject(ImmutableCollections.java:1442), java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method), java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77), java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43), java.base/java.lang.reflect.Method.invoke(Method.java:568), java.base/java.io.ObjectStreamClass.invokeReadObject(ObjectStreamClass.java:1231), java.base/java.io.ObjectInputStream.readSerialData(ObjectInputStream.java:2434), java.base/java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java:2268), java.base/java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1744), java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:514), java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:472), backup.ServiceBackupFile.printBackup(ServiceBackupFile.java:40), utils.MenuUtils.case16(MenuUtils.java:533), Main.main(Main.java:50)]
+06-02-2023 14:06:38:475 INFO: Log OnlineSchool: Selected   - "15 - Creating backup" 
+06-02-2023 14:06:49:093 INFO: Log OnlineSchool: Selected   - "16 - Print backup" 
+06-02-2023 14:06:58:441 INFO: Log OnlineSchool: Selected   - "16 - Print backup" 
+06-02-2023 14:07:10:220 INFO: Log OnlineSchool: Selected   - "16 - Print backup" 
+06-02-2023 14:07:12:529 WARNING: Log OnlineSchool: Something wrong STACKTRACE [java.base/java.util.Optional.orElseThrow(Optional.java:403), utils.MenuUtils.case16(MenuUtils.java:532), Main.main(Main.java:50)]
+06-02-2023 14:07:26:152 INFO: Log OnlineSchool: Selected   - "16 - Print backup" 
+06-02-2023 14:07:27:378 WARNING: Log OnlineSchool: Error data file STACKTRACE [java.base/java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1751), java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:514), java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:472), java.base/java.util.CollSer.readObject(ImmutableCollections.java:1442), java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method), java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77), java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43), java.base/java.lang.reflect.Method.invoke(Method.java:568), java.base/java.io.ObjectStreamClass.invokeReadObject(ObjectStreamClass.java:1231), java.base/java.io.ObjectInputStream.readSerialData(ObjectInputStream.java:2434), java.base/java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java:2268), java.base/java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1744), java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:514), java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:472), backup.ServiceBackupFile.printBackup(ServiceBackupFile.java:40), utils.MenuUtils.case16(MenuUtils.java:533), Main.main(Main.java:50)]
+06-02-2023 14:08:15:447 INFO: Log OnlineSchool: Selected   - "15 - Creating backup" 
+06-02-2023 14:08:38:556 INFO: Log OnlineSchool: Selected   - "16 - Print backup" 
+06-02-2023 14:08:40:314 WARNING: Log OnlineSchool: Error data file STACKTRACE [java.base/java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1751), java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:514), java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:472), java.base/java.util.CollSer.readObject(ImmutableCollections.java:1442), java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method), java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77), java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43), java.base/java.lang.reflect.Method.invoke(Method.java:568), java.base/java.io.ObjectStreamClass.invokeReadObject(ObjectStreamClass.java:1231), java.base/java.io.ObjectInputStream.readSerialData(ObjectInputStream.java:2434), java.base/java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java:2268), java.base/java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1744), java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:514), java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:472), backup.ServiceBackupFile.printBackup(ServiceBackupFile.java:40), utils.MenuUtils.case16(MenuUtils.java:533), Main.main(Main.java:50)]
+06-02-2023 14:09:22:032 INFO: Log OnlineSchool: Selected   - "15 - Creating backup" 
+06-02-2023 14:09:23:726 WARNING: Log OnlineSchool: Something wrong STACKTRACE [java.base/java.util.Optional.orElseThrow(Optional.java:403), utils.MenuUtils.case15(MenuUtils.java:512), Main.main(Main.java:49)]
+06-02-2023 14:11:57:436 INFO: Log OnlineSchool: Selected   - "16 - Print backup" 
+06-02-2023 14:11:59:522 WARNING: Log OnlineSchool: Something wrong STACKTRACE [java.base/java.util.Optional.orElseThrow(Optional.java:403), utils.MenuUtils.case16(MenuUtils.java:532), Main.main(Main.java:50)]
+06-02-2023 14:12:08:650 INFO: Log OnlineSchool: Selected   - "16 - Print backup" 
+06-02-2023 14:12:10:423 WARNING: Log OnlineSchool: Error data file STACKTRACE [java.base/java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1751), java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:514), java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:472), java.base/java.util.CollSer.readObject(ImmutableCollections.java:1442), java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method), java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77), java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43), java.base/java.lang.reflect.Method.invoke(Method.java:568), java.base/java.io.ObjectStreamClass.invokeReadObject(ObjectStreamClass.java:1231), java.base/java.io.ObjectInputStream.readSerialData(ObjectInputStream.java:2434), java.base/java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java:2268), java.base/java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1744), java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:514), java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:472), backup.ServiceBackupFile.printBackup(ServiceBackupFile.java:40), utils.MenuUtils.case16(MenuUtils.java:533), Main.main(Main.java:50)]
+06-02-2023 14:13:02:878 INFO: Log OnlineSchool: Selected   - "16 - Print backup" 
+06-02-2023 14:13:32:818 INFO: Log OnlineSchool: Selected   - "15 - Creating backup" 
+06-02-2023 14:13:37:804 INFO: Log OnlineSchool: Selected   - "16 - Print backup" 
+06-02-2023 14:13:42:907 WARNING: Log OnlineSchool: Error data file STACKTRACE [java.base/java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1751), java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:514), java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:472), java.base/java.util.CollSer.readObject(ImmutableCollections.java:1442), java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method), java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77), java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43), java.base/java.lang.reflect.Method.invoke(Method.java:568), java.base/java.io.ObjectStreamClass.invokeReadObject(ObjectStreamClass.java:1231), java.base/java.io.ObjectInputStream.readSerialData(ObjectInputStream.java:2434), java.base/java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java:2268), java.base/java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1744), java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:514), java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:472), backup.ServiceBackupFile.printBackup(ServiceBackupFile.java:40), utils.MenuUtils.case16(MenuUtils.java:533), Main.main(Main.java:50)]
+06-02-2023 14:16:05:925 INFO: Log OnlineSchool: =============== Homework 26 =====================
+06-02-2023 14:16:12:145 INFO: Log OnlineSchool: Selected   - "15 - Creating backup" 
+06-02-2023 14:16:18:819 INFO: Log OnlineSchool: Selected   - "16 - Print backup" 
+06-02-2023 14:17:26:251 INFO: Log OnlineSchool: Selected   - "15 - Creating backup" 
+06-02-2023 14:17:30:925 INFO: Log OnlineSchool: Selected   - "16 - Print backup" 
+06-02-2023 14:17:32:546 WARNING: Log OnlineSchool: Something wrong STACKTRACE [java.base/java.util.Optional.orElseThrow(Optional.java:403), utils.MenuUtils.case16(MenuUtils.java:532), Main.main(Main.java:50)]
+06-02-2023 14:17:40:237 INFO: Log OnlineSchool: Selected   - "16 - Print backup" 
+06-02-2023 14:17:41:318 WARNING: Log OnlineSchool: Error data file STACKTRACE [java.base/java.io.FileInputStream.open0(Native Method), java.base/java.io.FileInputStream.open(FileInputStream.java:216), java.base/java.io.FileInputStream.<init>(FileInputStream.java:157), java.base/java.io.FileInputStream.<init>(FileInputStream.java:111), backup.ServiceBackupFile.printBackup(ServiceBackupFile.java:37), utils.MenuUtils.case16(MenuUtils.java:533), Main.main(Main.java:50)]
+06-02-2023 14:17:47:217 INFO: Log OnlineSchool: Selected   - "16 - Print backup" 
+06-02-2023 14:18:05:295 INFO: Log OnlineSchool: Selected   - "15 - Creating backup" 
+06-02-2023 14:18:09:062 INFO: Log OnlineSchool: Selected   - "16 - Print backup" 
+06-02-2023 16:54:40:740 INFO: Log OnlineSchool: 20 - Print log file with filter" 
+06-02-2023 16:55:16:029 INFO: Log OnlineSchool: 20 - Print log file with filter" 

@@ -17,6 +17,7 @@ import utils.log.Log;
 import utils.log.LogLevel;
 import utils.log.LogProperty;
 import utils.log.LogToFile;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -34,7 +35,7 @@ public class MenuUtils {
     public int checkCorrect() {
 
         final int MENU_ITEM_START = 0;
-        final int MENU_ITEM_FINISH = 18;
+        final int MENU_ITEM_FINISH = 20;
 
         Scanner scanner = new Scanner(System.in);
 
@@ -59,6 +60,8 @@ public class MenuUtils {
             System.out.println("16 - Print backup");
             System.out.println("17 - Print list with Lambda by lectureID");
             System.out.println("18 - Print list with Lambda by DateTime");
+            System.out.println("19 - Print list teachers with name < char");
+            System.out.println("20 - Print log file with filter");
 
 
             try {
@@ -128,7 +131,7 @@ public class MenuUtils {
         }
     }
 
-    public int itemLogLevel() {
+    public LogLevel itemLogLevel() {
         final int MENU_LOG_LEVEL_ITEM_START = 0;
         final int MENU_LOG_LEVEL_ITEM_FINISH = 4;
         Scanner scanner = new Scanner(System.in);
@@ -143,9 +146,17 @@ public class MenuUtils {
 
 
             try {
+                LogLevel logLevel;
                 String item = scanner.next();
                 if (Integer.parseInt(item) >= MENU_LOG_LEVEL_ITEM_START && Integer.parseInt(item) <= MENU_LOG_LEVEL_ITEM_FINISH) {
-                    return Integer.parseInt(item);
+                    switch (Integer.parseInt(item)) {
+                        case 1 -> logLevel = LogLevel.DEBUG;
+                        case 2 -> logLevel = LogLevel.INFO;
+                        case 3 -> logLevel = LogLevel.WARNING;
+                        case 4 -> logLevel = LogLevel.ERROR;
+                        default -> logLevel = LogLevel.OFF;
+                    }
+                    return logLevel;
                 } else throw new NumberFormatException();
             } catch (NumberFormatException e) {
 
@@ -210,9 +221,9 @@ public class MenuUtils {
         // creating Lecture
         Lecture lecture;
         for (int i = 0; i < 5; i++) {
-            lectureRepository.getRepository().add(new LectureService().create("Lecture " + i, javaCourse, LocalDateTime.now()) );
+            lectureRepository.getRepository().add(new LectureService().create("Lecture " + i, javaCourse, LocalDateTime.now()));
         }
-        lectureRepository.getRepository().add( lecture = new LectureService().create("Lecture6 ", pythonCourse, LocalDateTime.now()));
+        lectureRepository.getRepository().add(lecture = new LectureService().create("Lecture6 ", pythonCourse, LocalDateTime.now()));
 
         // creating AddMaterials
         addMaterialsRepository.getRepository().add(new AddMaterialsService()
@@ -224,18 +235,21 @@ public class MenuUtils {
 
         try {
             addMaterialsRepository.getRepository().add(new AddMaterialsService()
-                    .create("Text book", ResourceType.BOOK, lectureRepository.getById(3)));
+                    .create("Text book", ResourceType.BOOK
+                            , lectureRepository.getById(3).orElseThrow(NoSuchElementException::new)));
             addMaterialsRepository.getRepository().add(new AddMaterialsService()
-                    .create("Text book", ResourceType.BOOK, lectureRepository.getById(2)));
+                    .create("Text book", ResourceType.BOOK
+                            , lectureRepository.getById(2).orElseThrow(NoSuchElementException::new)));
             addMaterialsRepository.getRepository().add(new AddMaterialsService()
-                    .create("Text book", ResourceType.BOOK, lectureRepository.getById(1)));
-        } catch (EntityNotFoundException e) {
-            throw new RuntimeException(e);
+                    .create("Text book", ResourceType.BOOK
+                            , lectureRepository.getById(1).orElseThrow(NoSuchElementException::new)));
+        } catch (NoSuchElementException e) {
+            Log.warning(nameLog, "NoSuchElementException in MenuUtils", e.getStackTrace());
         }
 
 
         // creating Homework
-        homeWorkRepository.getRepository().add(new HomeworkService().create("homeworkLecture",lecture));
+        homeWorkRepository.getRepository().add(new HomeworkService().create("homeworkLecture", lecture));
 
         // printing repository objects
         courseRepository.printRepository();
@@ -260,10 +274,10 @@ public class MenuUtils {
         System.out.println("Enter Course ID for lecture");
         int inputCourseID = inputDigit();
         try {
-            Course course = courseRepository.getById(inputCourseID);
+            Course course = courseRepository.getById(inputCourseID).orElseThrow(NoSuchElementException::new);
             LocalDateTime lectureDate = enterDate(STR_ENTER_FORMAT_DATE);
             lectureRepository.getRepository().add(new LectureService().create(nameLecture, course, lectureDate));
-        } catch (EntityNotFoundException e) {
+        } catch (NoSuchElementException e) {
             Log.warning(nameLog, "Something wrong", e.getStackTrace());
         }
 
@@ -278,12 +292,12 @@ public class MenuUtils {
         int inputCourseID = inputDigit();
 
         try {
-            Course course = courseRepository.getById(inputCourseID);
+            Course course = courseRepository.getById(inputCourseID).orElseThrow(NoSuchElementException::new);
             Person personTeacher = new PersonService().create(new RegexUtil().personAttribute(),
                     Role.TEACHER, course);
             personRepository.getRepository().add(personTeacher);
 
-        } catch (EntityNotFoundException e) {
+        } catch (NoSuchElementException e) {
             Log.warning(nameLog, "Course not found", e.getStackTrace());
         } catch (ValidationException e) {
             Log.warning(nameLog, "Something wrong, try again", e.getStackTrace());
@@ -298,13 +312,13 @@ public class MenuUtils {
         int inputCourseID = inputDigit();
 
         try {
-            Course course = courseRepository.getById(inputCourseID);
+            Course course = courseRepository.getById(inputCourseID).orElseThrow(NoSuchElementException::new);
             Person personStudent = new PersonService().create(new RegexUtil().personAttribute(),
                     Role.STUDENT, course);
             personRepository.getRepository().add(personStudent);
-        } catch (EntityNotFoundException e) {
-        Log.warning(nameLog, "Course not found", e.getStackTrace());
-    } catch (ValidationException e) {
+        } catch (NoSuchElementException e) {
+            Log.warning(nameLog, "Course not found", e.getStackTrace());
+        } catch (ValidationException e) {
             Log.warning(nameLog, "Something wrong, try again", e.getStackTrace());
         }
         // printing repository objects
@@ -319,13 +333,12 @@ public class MenuUtils {
         System.out.println("Enter lecture ID for homework");
         int lectureID = inputDigit();
         Lecture lecture;
-        Course course;
+
         try {
             lectureRepository.getById(lectureID);
-            lecture = lectureRepository.getById(lectureID);
-            course = lecture.getCourse();
+            lecture = lectureRepository.getById(lectureID).orElseThrow(NoSuchElementException::new);
             homeworkRepository.getRepository().add(new HomeworkService().create(nameHomework, lecture));
-        } catch (EntityNotFoundException e) {
+        } catch (NoSuchElementException e) {
             Log.warning(nameLog, "Something wrong", e.getStackTrace());
         }
 
@@ -338,18 +351,18 @@ public class MenuUtils {
 
         System.out.println("Enter lecture ID for add materials");
 
-         int inputID = inputDigit();
-         try {
-             Lecture lecture = lectureRepository.getById(inputID);
-             System.out.println("Enter name addMaterials");
-             AddMaterials addMaterials = new AddMaterialsService().create(inputString(),resourceType(),lecture );
-             addMaterialsRepository.getRepository().add(addMaterials);
-         } catch (EntityNotFoundException e) {
-             Log.warning(nameLog, "Lecture id " + inputID + " - not found", e.getStackTrace());
-             return;
-         } catch (ValidationException e) {
-             throw new RuntimeException(e);
-         }
+        int inputID = inputDigit();
+        try {
+            Lecture lecture = lectureRepository.getById(inputID).orElseThrow(NoSuchElementException::new);
+            System.out.println("Enter name addMaterials");
+            AddMaterials addMaterials = new AddMaterialsService().create(inputString(), resourceType(), lecture);
+            addMaterialsRepository.getRepository().add(addMaterials);
+        } catch (NoSuchElementException e) {
+            Log.warning(nameLog, "Lecture id " + inputID + " - not found", e.getStackTrace());
+            return;
+        } catch (ValidationException e) {
+            throw new RuntimeException(e);
+        }
 
         // printing repository objects
         addMaterialsRepository.printRepository();
@@ -362,7 +375,7 @@ public class MenuUtils {
         System.out.print("Enter lecture ID ");
         int inputLectureID = inputDigit();
         try {
-            Lecture lecture = lectureRepository.getById(inputLectureID);
+            Lecture lecture = lectureRepository.getById(inputLectureID).orElseThrow(NoSuchElementException::new);
             // filter && printing lecture by ID
             System.out.println('\n' + "=============Lecture Id = " + inputLectureID + "=============");
             System.out.println(lectureRepository.getById(inputLectureID));
@@ -378,7 +391,6 @@ public class MenuUtils {
             switch (addRemoveHomework()) {
                 case 1 -> {
                     System.out.println("Enter name Homework");
-                    Course course = lecture.getCourse();
                     homeworkRepository.getRepository().add(new HomeworkService().create(inputString(), lecture));
                 }
                 case 2 -> {
@@ -386,22 +398,21 @@ public class MenuUtils {
                     try {
                         addMaterialsRepository.getRepository()
                                 .add(new AddMaterialsService().create(inputString(),
-                                        resourceType(), lecture ));
+                                        resourceType(), lecture));
                     } catch (ValidationException e) {
                         e.printStackTrace();
                     }
                 }
-                case 3 -> homeworkRepository.getRepository().removeIf(obj -> obj.getLectureID() == inputLectureID);
-                case 4 -> addMaterialsRepository.getRepository().removeIf(obj -> obj.getLectureID() == inputLectureID);
+                case 3 -> homeworkRepository.getRepository()
+                        .removeIf(obj -> obj.getLectureID().orElseThrow(NoSuchElementException::new) == inputLectureID);
+                case 4 -> addMaterialsRepository.getRepository()
+                        .removeIf(obj -> obj.getLectureID().orElseThrow(NoSuchElementException::new) == inputLectureID);
                 default -> {
-                    throw new ValidationException("id object not found");
+                    System.out.println("exit...");
                 }
             }
-
-        } catch (EntityNotFoundException e) {
-            e.printStackTrace();
-        } catch (ValidationException e) {
-            Log.warning(nameLog, "Called default ", e.getStackTrace());
+        } catch (NoSuchElementException e) {
+            Log.warning(nameLog, "EntityNotFoundException1", e.getStackTrace());
         }
     }
 
@@ -426,19 +437,13 @@ public class MenuUtils {
                 + ". What log types are being printed now: ");
         System.out.println("==============================");
         Log.info(nameLog, "Selected   - \"11 - Change log level\" ");
-        Log.debug(nameLog, "debug");
-        Log.info(nameLog, "info");
-        Log.warning(nameLog, "warning", null);
-        Log.error(nameLog, "error", null);
+        Log.debug(nameLog, "debug (for example in MenuUtils)");
+        Log.info(nameLog, "info (for example in MenuUtils)");
+        Log.warning(nameLog, "warning (for example in MenuUtils)", null);
+        Log.error(nameLog, "error (for example in MenuUtils)", null);
         //================================
 
-        switch (itemLogLevel()) {
-            case 1 -> LogToFile.getInstance().saveToServiceFile(LogProperty.LOG_LEVEL, LogLevel.DEBUG);
-            case 2 -> LogToFile.getInstance().saveToServiceFile(LogProperty.LOG_LEVEL, LogLevel.INFO);
-            case 3 -> LogToFile.getInstance().saveToServiceFile(LogProperty.LOG_LEVEL, LogLevel.WARNING);
-            case 4 -> LogToFile.getInstance().saveToServiceFile(LogProperty.LOG_LEVEL, LogLevel.ERROR);
-            default -> LogToFile.getInstance().saveToServiceFile(LogProperty.LOG_LEVEL, LogLevel.OFF);
-        }
+        LogToFile.getInstance().saveToServiceFile(LogProperty.LOG_LEVEL, itemLogLevel());
     }
 
     public void case12() {
@@ -465,8 +470,8 @@ public class MenuUtils {
 
         ExecutorService executorService = Executors.newFixedThreadPool(students);
 
-                for (Student student : StudentRepo.getInstance().getRepoStudent()) {
-                    executorService.execute(student);
+        for (Student student : StudentRepo.getInstance().getRepoStudent()) {
+            executorService.execute(student);
         }
 
         examStart();
@@ -504,15 +509,15 @@ public class MenuUtils {
         System.out.println("Enter ID course for backup");
         int inputCourseID = inputDigit();
         try {
-            courseRepository.getById(inputCourseID);
+            courseRepository.getById(inputCourseID).orElseThrow(NoSuchElementException::new);
             sb.createBackup(
                     AddMaterialsRepository.getInstance().getRepository()
                     , HomeWorkRepository.getInstance().getRepository()
                     , LectureRepository.getInstance().getRepository()
                     , PersonRepository.getInstance().getRepository()
                     , inputCourseID, ServiceBackupFile.NAME_FILE_LECTURE);
-        } catch (EntityNotFoundException e) {
-            Log.warning(nameLog, "Something wrong", e.getStackTrace());
+        } catch (NoSuchElementException e) {
+            Log.warning(nameLog, "NoSuchElementException", e.getStackTrace());
         }
     }
 
@@ -524,20 +529,17 @@ public class MenuUtils {
         System.out.println("Enter ID course for printingBackup");
         int inputCourseID = inputDigit();
         try {
-            courseRepository.getById(inputCourseID);
+            courseRepository.getById(inputCourseID).orElseThrow(NoSuchElementException::new);
             sr.printBackup(inputCourseID, ServiceBackupFile.NAME_FILE_LECTURE);
-        } catch (EntityNotFoundException e) {
+        } catch (NoSuchElementException e) {
             Log.warning(nameLog, "Something wrong", e.getStackTrace());
         }
     }
+
     public void case17(AddMaterialsRepository addMaterialsRepository) {
         Log.info(nameLog, "Selected   - \"17 - Print list Add materials with Lambda by lectureID\" ");
         System.out.println("Enter ID lecture  for printing Add materials");
-        try {
-            addMaterialsRepository.printAddMaterialsByLectureId(inputDigit());
-        } catch (EntityNotFoundException e) {
-            Log.warning(nameLog, "id Lecture object not found", e.getStackTrace());
-        }
+        addMaterialsRepository.printAddMaterialsByLectureId(inputDigit());
     }
 
     public void case18(LectureRepository lectureRepository) {
@@ -547,14 +549,24 @@ public class MenuUtils {
         System.out.println("Start dateTime");
         LocalDateTime startDateTime = enterDate(formatDate);
         System.out.println("Finish dateTime (should be First dataTime "
-                + formatDateMenu(startDateTime, formatDate,Locale.US) + ")");
+                + formatDateMenu(startDateTime, formatDate, Locale.US) + ")");
         LocalDateTime finishDateTime;
-        while ((finishDateTime = enterDate("MM-dd-yyy HH:mm")).isBefore(startDateTime) ) {
+        while ((finishDateTime = enterDate("MM-dd-yyy HH:mm")).isBefore(startDateTime)) {
             System.out.println("First dateTime > Second dateTime, try again");
         }
         lectureRepository.printAfterBeforeDate(startDateTime, finishDateTime);
     }
 
+    public void case19(PersonRepository personRepository) {
+        Log.info(nameLog, "Selected   - \"19 - Print list teachers with name < char \" ");
+        char charFilter = 'Ж';
+        personRepository.printNameFilter(charFilter);
+    }
+
+    public void case20() {
+        Log.info(nameLog, "20 - Print log file with filter\" ");
+        LogToFile.getInstance().loadFromLogFileFilter(itemLogLevel());
+    }
 
 
     private void examStart() {
@@ -568,7 +580,7 @@ public class MenuUtils {
         }
     }
 
-    private LocalDateTime enterDate (String enterFormatData) {
+    private LocalDateTime enterDate(String enterFormatData) {
         String dateString;
         DateTimeFormatter df = DateTimeFormatter.ofPattern(enterFormatData);
         Scanner inputScanner = new Scanner(System.in);
@@ -577,9 +589,8 @@ public class MenuUtils {
         while (true) {
             dateString = inputScanner.nextLine();
             try {
-                LocalDateTime inputDate = LocalDateTime.parse(dateString, df);
-                return inputDate;
-            } catch (DateTimeParseException dtpe) {
+                return LocalDateTime.parse(dateString, df);
+            } catch (DateTimeParseException e) {
                 System.out.println("Invalid date: " + dateString + ". Re-enter again...");
             }
         }
@@ -596,6 +607,5 @@ public class MenuUtils {
 
         return formatDate;
     }
-
 
 }

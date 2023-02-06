@@ -1,20 +1,17 @@
 package repositories;
 
 
-import exceptions.EntityNotFoundException;
 import models.Lecture;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class LectureRepository implements Repository<Lecture>, Serializable {
-    private static LectureRepository instance;
 
+    private static LectureRepository instance;
     private final List<Lecture> repository;
 
     private LectureRepository() {
@@ -39,13 +36,8 @@ public class LectureRepository implements Repository<Lecture>, Serializable {
     }
 
     @Override
-    public Lecture getById(Integer id) throws EntityNotFoundException {
-        for (Lecture element : repository) {
-            if (element.getID().equals(id)) {
-                return element;
-            }
-        }
-        throw new EntityNotFoundException("id object not found");
+    public Optional<Lecture> getById(Integer id) {
+        return repository.stream().filter(element -> element.getID().equals(id)).findAny();
     }
 
     @Override
@@ -55,7 +47,7 @@ public class LectureRepository implements Repository<Lecture>, Serializable {
                 .collect(Collectors.toList());
     }
 
-    public void printAfterBeforeDate (LocalDateTime startDateTime, LocalDateTime finishDateTime) {
+    public void printAfterBeforeDate(LocalDateTime startDateTime, LocalDateTime finishDateTime) {
         Predicate<Lecture> plAfter = element -> element.getCreationDate().isAfter(startDateTime);
         System.out.println('\n' + "Lecture after " + startDateTime);
         System.out.println("========================================");
@@ -66,9 +58,9 @@ public class LectureRepository implements Repository<Lecture>, Serializable {
         System.out.println("========================================");
         repository.stream().filter(plBefore).forEach(System.out::println);
 
-                Predicate<Lecture> pb = element -> element.getCreationDate().isAfter(startDateTime)
+        Predicate<Lecture> pb = element -> element.getCreationDate().isAfter(startDateTime)
                 && element.getCreationDate().isBefore(finishDateTime);
-        System.out.println('\n' + "Lecture between startDate : " + startDateTime +  " - finishDate:  " + finishDateTime);
+        System.out.println('\n' + "Lecture between startDate : " + startDateTime + " - finishDate:  " + finishDateTime);
         System.out.println("========================================");
         repository.stream().filter(pb).forEach(System.out::println);
 
