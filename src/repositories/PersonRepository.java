@@ -63,5 +63,9 @@ public class PersonRepository implements Repository<Person> {
 
     }
 
+    public boolean checkDoubleEmail (String email) {
+        return  repository.stream().anyMatch(el->el.getEmail().equals(email));
+    }
+
 
 }

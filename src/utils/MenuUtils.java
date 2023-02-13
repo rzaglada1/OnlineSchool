@@ -1,7 +1,6 @@
 package utils;
 
 import backup.ServiceBackupFile;
-import exceptions.EntityNotFoundException;
 import models.*;
 import models.model_enum.ResourceType;
 import exceptions.ValidationException;
@@ -35,7 +34,7 @@ public class MenuUtils {
     public int checkCorrect() {
 
         final int MENU_ITEM_START = 0;
-        final int MENU_ITEM_FINISH = 20;
+        final int MENU_ITEM_FINISH = 22;
 
         Scanner scanner = new Scanner(System.in);
 
@@ -62,6 +61,8 @@ public class MenuUtils {
             System.out.println("18 - Print list with Lambda by DateTime");
             System.out.println("19 - Print list teachers with name < char");
             System.out.println("20 - Print log file with filter");
+            System.out.println("21 - Print first Lecture with max AddMaterials");
+            System.out.println("22 - Print line count in logs with Level = INFO. Start from  middle the file.");
 
 
             try {
@@ -221,28 +222,32 @@ public class MenuUtils {
         // creating Lecture
         Lecture lecture;
         for (int i = 0; i < 5; i++) {
+            //sleep for difference in creation date Lecture
+            try {
+                Thread.sleep(0);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
             lectureRepository.getRepository().add(new LectureService().create("Lecture " + i, javaCourse, LocalDateTime.now()));
         }
         lectureRepository.getRepository().add(lecture = new LectureService().create("Lecture6 ", pythonCourse, LocalDateTime.now()));
 
-        // creating AddMaterials
-        addMaterialsRepository.getRepository().add(new AddMaterialsService()
-                .create("Video", ResourceType.VIDEO, lecture));
-        addMaterialsRepository.getRepository().add(new AddMaterialsService()
-                .create("Text URL", ResourceType.URL, lecture));
-        addMaterialsRepository.getRepository().add(new AddMaterialsService()
-                .create("Text book", ResourceType.BOOK, lecture));
 
+        // creating AddMaterials
         try {
+            addMaterialsRepository.getRepository().add(new AddMaterialsService()
+                    .create("Text book", ResourceType.BOOK
+                            , lectureRepository.getById(0).orElseThrow(NoSuchElementException::new)));
             addMaterialsRepository.getRepository().add(new AddMaterialsService()
                     .create("Text book", ResourceType.BOOK
                             , lectureRepository.getById(3).orElseThrow(NoSuchElementException::new)));
             addMaterialsRepository.getRepository().add(new AddMaterialsService()
                     .create("Text book", ResourceType.BOOK
-                            , lectureRepository.getById(2).orElseThrow(NoSuchElementException::new)));
+                            , lectureRepository.getById(0).orElseThrow(NoSuchElementException::new)));
             addMaterialsRepository.getRepository().add(new AddMaterialsService()
                     .create("Text book", ResourceType.BOOK
-                            , lectureRepository.getById(1).orElseThrow(NoSuchElementException::new)));
+                            , lectureRepository.getById(3).orElseThrow(NoSuchElementException::new)));
         } catch (NoSuchElementException e) {
             Log.warning(nameLog, "NoSuchElementException in MenuUtils", e.getStackTrace());
         }
@@ -566,6 +571,21 @@ public class MenuUtils {
     public void case20() {
         Log.info(nameLog, "20 - Print log file with filter\" ");
         LogToFile.getInstance().loadFromLogFileFilter(itemLogLevel());
+    }
+
+    public void case21() {
+        Log.info(nameLog, "21 - Print first Lecture with max AddMaterials\" ");
+        try {
+            LectureRepository.getInstance().firstLectureMaxMaterials();
+        } catch (NoSuchElementException e) {
+            Log.warning(nameLog, "There is no lecture that satisfies the conditions", e.getStackTrace());
+        }
+    }
+
+    public void case22() {
+        Log.info(nameLog, "22 - Print line count in logs with Level = INFO. Start from  middle the file\" ");
+
+        LogToFile.getInstance().loadFromLogFileFilterByMiddle(LogLevel.INFO);
     }
 
 

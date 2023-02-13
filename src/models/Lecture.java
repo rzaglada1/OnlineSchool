@@ -120,9 +120,10 @@ public class Lecture implements Model, Serializable {
                     ", personRole=" + person.getRole() +
                     ", idCourse=" + idCourse +
                     ", courseName=" + course.getName() +
-                    ", dateCreated= " + formatDate(getCreationDate(), DATE_LECTURE_FORMAT, locale) +
+//                    ", dateCreated= " + formatDate(getCreationDate(), DATE_LECTURE_FORMAT, locale) +
+                    ", dateCreated= " + getCreationDate() +
                     ", dateStartLecture= " + formatDate(getLectureDate(), DATE_LECTURE_FORMAT, locale) +
-                    '}';
+                    '}' + '\n';
         } else {
             return "Lecture{" +
                     "LectureName=" + getName() +
@@ -130,9 +131,10 @@ public class Lecture implements Model, Serializable {
                     ", arrayHomework=" + Arrays.toString(homework) +
                     ", idCourse=" + idCourse +
                     ", courseName=" + course.getName() +
-                    ", dateCreated= " + formatDate(getCreationDate(), DATE_LECTURE_FORMAT, locale) +
+//                    ", dateCreated= " + formatDate(getCreationDate(), DATE_LECTURE_FORMAT, locale) +
+                    ", dateCreated= " + getCreationDate() +
                     ", dateStartLecture= " + formatDate(getLectureDate(), DATE_LECTURE_FORMAT, locale) +
-                    '}';
+                    '}' + '\n';
         }
     }
 

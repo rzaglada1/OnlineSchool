@@ -78,10 +78,10 @@ public class Course implements Model, Serializable {
         return "Course{" +
                 "idCourse=" + getID() +
                 ", nameCourse='" + getName() + '\'' +
-                ", person=" + person +
-                ", lecture=" + lecture +
-                ", homework=" + homework +
-                ", addTask=" + task +
+                ", person=" + getPerson().or(Optional::empty) +
+                ", lecture=" + getLecture().or(Optional::empty) +
+                ", homework=" + getHomework().or(Optional::empty) +
+                ", addTask=" + getAddTask().or(Optional::empty) +
                 '}';
     }
 

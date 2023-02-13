@@ -14,9 +14,9 @@ import java.util.stream.Stream;
 
 public class LogToFile {
 
-    public static final  String STR_PATH_SERVICE = "./src/utils/log/";
-    public static final  String STR_PATH_LOG = "./src/utils/log/";
-    public static final  String STR_NAME_LOG = "log.txt";
+    public static final String STR_PATH_SERVICE = "./src/utils/log/";
+    public static final String STR_PATH_LOG = "./src/utils/log/";
+    public static final String STR_NAME_LOG = "log.txt";
     public final static String STR_NAME_SERVICE = "Service.log";
 
     private final String DATE_FORMAT = "dd-MM-yyyy HH:mm:ss:SSS";
@@ -28,8 +28,8 @@ public class LogToFile {
     private LogLevel defaultLogLevel = LogLevel.DEBUG;
 
     private LogToFile() {
-        pathLogFile = Path.of(STR_PATH_LOG,STR_NAME_LOG);
-        pathServiceFile = Path.of(STR_PATH_SERVICE,STR_NAME_SERVICE);
+        pathLogFile = Path.of(STR_PATH_LOG, STR_NAME_LOG);
+        pathServiceFile = Path.of(STR_PATH_SERVICE, STR_NAME_SERVICE);
         createServiceFile(pathServiceFile);
         createLogFile(pathLogFile);
     }
@@ -87,16 +87,34 @@ public class LogToFile {
 
     public void loadFromLogFileFilter(LogLevel logLevel) {
         if (Files.exists(pathLogFile)) {
-            try (Stream<String> fromFile = Files.lines(Paths.get(STR_PATH_LOG, STR_NAME_LOG))){
+            try (Stream<String> fromFile = Files.lines(Paths.get(STR_PATH_LOG, STR_NAME_LOG))) {
                 fromFile.filter(element -> element.contains(logLevel.name())).forEach(System.out::println);
             } catch (IOException e) {
                 System.out.println("Error reading log file");
             }
-
-
-
         }
     }
+
+    public void loadFromLogFileFilterByMiddle(LogLevel logLevel) {
+        if (Files.exists(pathLogFile)) {
+            Path file = Path.of(STR_PATH_LOG, STR_NAME_LOG);
+            try (Stream<String> fromFileNumberLine = Files.lines(file); Stream<String> fromFile = Files.lines(file)) {
+                long countLine = fromFileNumberLine.count();
+                if (countLine % 2 != 0) {
+                    countLine++;
+                }
+                countLine = countLine / 2;
+                System.out.println(countLine);
+
+                fromFile.skip(countLine)
+                        .filter(element -> element.contains(logLevel.name()))
+                        .forEach(System.out::println);
+            } catch (IOException e) {
+                System.out.println("Error reading log file");
+            }
+        }
+    }
+
 
     public void loadFromLogFile() {
         if (Files.exists(pathLogFile)) {
@@ -112,21 +130,21 @@ public class LogToFile {
         }
     }
 
-    public LogLevel loadFromServiceFile(LogProperty logProperty)  {
+    public LogLevel loadFromServiceFile(LogProperty logProperty) {
         LogLevel level = defaultLogLevel;
-            try (BufferedReader reader = Files.newBufferedReader(pathServiceFile)) {
-                String value = reader.readLine();
-                while (value != null) {
-                    if (value.contains(logProperty.name()) && value.contains("=") ) {
-                        level = LogLevel.valueOf(value.substring(value.indexOf("=") + 1).trim());
-                        break;
-                    }
-                    value = reader.readLine();
+        try (BufferedReader reader = Files.newBufferedReader(pathServiceFile)) {
+            String value = reader.readLine();
+            while (value != null) {
+                if (value.contains(logProperty.name()) && value.contains("=")) {
+                    level = LogLevel.valueOf(value.substring(value.indexOf("=") + 1).trim());
+                    break;
                 }
+                value = reader.readLine();
+            }
 
         } catch (Exception e) {
-                System.out.println( "File service " + '\"' + STR_NAME_SERVICE  + '\"'
-                    + " reading  error. Default LOG_LEVEL = " + defaultLogLevel );
+            System.out.println("File service " + '\"' + STR_NAME_SERVICE + '\"'
+                    + " reading  error. Default LOG_LEVEL = " + defaultLogLevel);
 
         }
         return level;
@@ -136,7 +154,7 @@ public class LogToFile {
     private String createStringLog(Log log) {
         String result;
         if (log.getStacktrace() != null) {
-            result = formatDate(log.getDate(), DATE_FORMAT,locale) + " "
+            result = formatDate(log.getDate(), DATE_FORMAT, locale) + " "
                     + log.getLevel() + ": "
                     + log.getName() + ": "
                     + log.getMessage()
@@ -144,7 +162,7 @@ public class LogToFile {
                     + Arrays.toString(log.getStacktrace())
                     + '\n';
         } else {
-            result = formatDate(log.getDate(), DATE_FORMAT,locale) + " "
+            result = formatDate(log.getDate(), DATE_FORMAT, locale) + " "
                     + log.getLevel() + ": "
                     + log.getName() + ": "
                     + log.getMessage()
@@ -153,7 +171,7 @@ public class LogToFile {
         return result;
     }
 
-    private  String formatDate (LocalDateTime dateTime, String strFormat, Locale locale) {
+    private String formatDate(LocalDateTime dateTime, String strFormat, Locale locale) {
         DateTimeFormatter df = DateTimeFormatter.ofPattern(strFormat, locale);
         return dateTime.format(df);
     }

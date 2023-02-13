@@ -1,11 +1,14 @@
 package utils;
 
 import exceptions.ValidationException;
+import repositories.PersonRepository;
+import utils.log.Log;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegexUtil {
+    String nameLog = "Log OnlineSchool";
     public static final String REGEX_FIRST_NAME = "^[А-ЯІЇ][а-яії']+$";
     public static final String REGEX_LAST_NAME = "^[А-ЯІЇ][а-яії']+$";
     public static final String REGEX_PHONE = "^\\+\\d{12}$";
@@ -53,7 +56,12 @@ public class RegexUtil {
             email = new MenuUtils().inputString();
         }
 
+        if (PersonRepository.getInstance().checkDoubleEmail(email) ) {
+            Log.info(nameLog, "Warning: this email is present in another person");
+        }
         return new String[]{firstName, lastName, phone, email};
     }
+
+
 
 }

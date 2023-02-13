@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Homework implements Model, Serializable {
 
@@ -83,7 +84,7 @@ public class Homework implements Model, Serializable {
                 "ID=" + ID +
                 ", name='" + name + '\'' +
                 ", lectureID=" + lectureID +
-                ", courseName =" + course.getName() +
+                ", courseName = " + getCourse().stream().filter(Objects::nonNull).toList() +
                 ", deadline =" + formatDate(deadlineDate, DATE_FORMAT, locale) +
                 ", task=" + task +
                 '}';

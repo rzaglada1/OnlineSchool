@@ -44,8 +44,8 @@ public class AddMaterials implements Model, Serializable {
                 .getById(lectureID).orElseThrow(NoSuchElementException::new).getCourse();
     }
 
-    public Optional<Lecture> getLecture() {
-        return Optional.ofNullable(lecture);
+    public Lecture getLecture() {
+        return lecture;
     }
 
     public void setLecture(Lecture lecture) {
@@ -98,7 +98,7 @@ public class AddMaterials implements Model, Serializable {
                 ", ResourceType =" + resourceType +
                 ", lectureID=" + lectureID +
                 ", courseName=" + course.getName() +
-                '}';
+                '}' + '\n';
     }
 
 
