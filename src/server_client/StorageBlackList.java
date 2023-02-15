@@ -16,7 +16,7 @@ public class StorageBlackList {
     private List<String> blackList;
 
     String nameLog = "Log OnlineSchool";
-    public final static String STR_DIR_BLACK_LIST = "./src/server_client/";
+    public final static String STR_DIR_BLACK_LIST = "./src/files/";
     public final static String STR_NAME_BLACK_LIST = "BlackList.txt";
     private Path pathBlackListFile;
 

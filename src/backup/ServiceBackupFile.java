@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public class ServiceBackupFile {
-    public final static String NAME_FILE_LECTURE = "./src/backup/Backup.";
+    public final static String NAME_FILE_LECTURE = "./src/files/Backup.";
     String nameLog = "Log OnlineSchool";
 
     public void createBackup(

@@ -133,7 +133,7 @@ public class Person implements Model, Serializable {
                 ", lastName='" + lastName + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
-                '}';
+                '}'+  '\n';
     }
 
     @Override

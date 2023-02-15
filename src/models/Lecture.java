@@ -36,27 +36,14 @@ public class Lecture implements Model, Serializable {
 
     }
 
-    public Lecture(String name) {
+    public Lecture(String name, Course course, LocalDateTime lectureDate, Person person) {
         this();
         setName(name);
-    }
-
-
-    public Lecture(String name, Course course) {
-        this(name);
         this.course = course;
         this.idCourse = course.getID();
-    }
-
-    public Lecture(String name, Course course, LocalDateTime lectureDate) {
-        this(name, course);
         this.lectureDate = lectureDate;
-    }
-
-
-    public Lecture(String name, Course course, Person person) {
-        this(name, course);
         this.idCourse = course.getID();
+        this.person = person;
         this.personID = person.getID();
     }
 
@@ -82,8 +69,8 @@ public class Lecture implements Model, Serializable {
         this.personID = personID;
     }
 
-    public Person getPerson() {
-        return person;
+    public Optional<Person> getPerson() {
+        return Optional.ofNullable(person);
     }
 
     public void setPerson(Person person) {
@@ -137,6 +124,8 @@ public class Lecture implements Model, Serializable {
                     '}' + '\n';
         }
     }
+
+
 
     public Optional<Course> getCourse() {
         return Optional.ofNullable(course);

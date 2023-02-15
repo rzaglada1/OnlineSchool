@@ -3,6 +3,7 @@ package repositories;
 
 import models.AddMaterials;
 import models.Lecture;
+import models.model_enum.Role;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -131,5 +132,14 @@ public class LectureRepository implements Repository<Lecture>, Serializable {
         System.out.println("--------Work result  - Lecture/s ---------");
         repository.stream().filter(e -> lectureIDResult.contains(e.getID())).forEach(System.out::println);
     }
+
+    public void printLectureGroupByTeacher() {
+        repository.stream()
+                .collect(Collectors.groupingBy(
+                        teacher -> teacher.getPerson().filter(p -> p.getRole().equals(Role.TEACHER))))
+                .forEach((k, v) -> System.out.println(k + " : " + v));
+    }
+
+
 
 }

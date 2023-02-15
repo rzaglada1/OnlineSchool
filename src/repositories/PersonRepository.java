@@ -2,6 +2,13 @@ package repositories;
 
 import models.Person;
 import models.model_enum.Role;
+import utils.log.Log;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -10,6 +17,10 @@ import java.util.stream.Collectors;
 
 public class PersonRepository implements Repository<Person> {
     private static PersonRepository instance;
+
+    private final String STR_PATH_FILE = "./src/files/";
+    private final String STR_NAME_FILE = "emails.txt";
+    String nameLog = "Log OnlineSchool";
 
     private final List<Person> repository;
 
@@ -30,6 +41,10 @@ public class PersonRepository implements Repository<Person> {
 
     public void printRepositoryTeacher() {
         repository.stream().filter(element -> element.getRole() == Role.TEACHER).forEach(System.out::println);
+    }
+
+    public Optional<Person> getByIdPerson(Integer id, Role role) {
+        return repository.stream().filter(element -> element.getID().equals(id) && element.getRole() == role).findAny();
     }
 
     @Override
@@ -63,9 +78,42 @@ public class PersonRepository implements Repository<Person> {
 
     }
 
-    public boolean checkDoubleEmail (String email) {
-        return  repository.stream().anyMatch(el->el.getEmail().equals(email));
+    public boolean checkDoubleEmail(String email) {
+        return repository.stream().anyMatch(el -> el.getEmail().equals(email));
     }
 
+    public void printMap() {
+        repository.stream()
+                .collect(Collectors.toMap(
+                        Person::getEmail,
+                        v -> v.getName() + " " + v.getLastName()
+                ))
+                .forEach((k, v) -> System.out.println(k + " : " + v));
+    }
 
+    public void emailToFile() throws IOException {
+        Path filePath = Paths.get(STR_PATH_FILE, STR_NAME_FILE);
+        System.out.println("Result in file - " + filePath);
+        creatFile(filePath);
+        repository.stream()
+                .map(Person::getEmail)
+                .sorted((String::compareTo))
+                .forEach(str -> {
+                    try {
+                        Files.write(filePath, (str + "\n").getBytes(), StandardOpenOption.APPEND);
+                    } catch (IOException e) {
+                        Log.error(nameLog, "Error in PersonRepository emailToFile", e.getStackTrace());
+                    }
+                });
+    }
+
+    private void creatFile(Path path) {
+        try {
+            Files.deleteIfExists(path);
+            Files.createFile(path);
+        } catch (IOException e) {
+            Log.warning(nameLog, "Warning in PersonRepository  createFile method", e.getStackTrace());
+        }
+    }
 }
+

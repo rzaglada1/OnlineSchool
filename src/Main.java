@@ -26,7 +26,7 @@ public class Main {
 
 
         System.out.println('\n');
-        Log.info(nameLog, "=============== Homework 29 =====================");
+        Log.info(nameLog, "=============== Homework 30 =====================");
 
 
 
@@ -55,6 +55,10 @@ public class Main {
                 case 20 -> menuUtils.case20();
                 case 21 -> menuUtils.case21();
                 case 22 -> menuUtils.case22();
+                case 23 -> menuUtils.case23(lectureRepository);
+                case 24 -> menuUtils.case24(addMaterialsRepository);
+                case 25 -> menuUtils.case25(personRepository);
+                case 26 -> menuUtils.case26(personRepository);
                 default -> System.out.println("Try again...");
             }
         }

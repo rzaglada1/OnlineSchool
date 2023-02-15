@@ -1,6 +1,7 @@
 package repositories;
 
 import models.AddMaterials;
+import models.model_enum.Role;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -60,4 +61,9 @@ public class AddMaterialsRepository implements Repository<AddMaterials> {
     }
 
 
+    public void printAddMaterialsGroupByLecture() {
+        repository.stream()
+                .collect(Collectors.groupingBy(AddMaterials::getLecture))
+                .forEach((k, v) -> System.out.println(k + " : " + v));
+    }
 }

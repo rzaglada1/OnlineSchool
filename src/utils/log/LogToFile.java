@@ -14,8 +14,8 @@ import java.util.stream.Stream;
 
 public class LogToFile {
 
-    public static final String STR_PATH_SERVICE = "./src/utils/log/";
-    public static final String STR_PATH_LOG = "./src/utils/log/";
+    public static final String STR_PATH_SERVICE = "./src/files/";
+    public static final String STR_PATH_LOG = "./src/files/";
     public static final String STR_NAME_LOG = "log.txt";
     public final static String STR_NAME_SERVICE = "Service.log";
 

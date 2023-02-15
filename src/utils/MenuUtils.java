@@ -17,6 +17,7 @@ import utils.log.LogLevel;
 import utils.log.LogProperty;
 import utils.log.LogToFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -34,7 +35,7 @@ public class MenuUtils {
     public int checkCorrect() {
 
         final int MENU_ITEM_START = 0;
-        final int MENU_ITEM_FINISH = 22;
+        final int MENU_ITEM_FINISH = 26;
 
         Scanner scanner = new Scanner(System.in);
 
@@ -63,6 +64,10 @@ public class MenuUtils {
             System.out.println("20 - Print log file with filter");
             System.out.println("21 - Print first Lecture with max AddMaterials");
             System.out.println("22 - Print line count in logs with Level = INFO. Start from  middle the file.");
+            System.out.println("23 - Print Lecture grouped by Teacher");
+            System.out.println("24 - Print Add Materials grouped by Lecture");
+            System.out.println("25 - Print Map key - Email, value - Name+LastName");
+            System.out.println("26 - Save to file email students sorted by");
 
 
             try {
@@ -206,32 +211,47 @@ public class MenuUtils {
         courseRepository.getRepository().add(pythonCourse);
 
         // creating Person
-        personRepository.getRepository().add(new PersonService().create(new String[]{"Олена", "Романенко"
-                , "+380989584545", "Dasdasd@sdf.sdf"}, Role.STUDENT, javaCourse));
-        personRepository.getRepository().add(new PersonService().create(new String[]{"Олена", "Водерацький"
-                , "+380989584545", "Dasdasd@sdf.sdf"}, Role.TEACHER, javaCourse));
+        personRepository.getRepository().add(new PersonService().create(new String[]{"Наталія", "Романенко"
+                , "+380989584545", "Roma1@gmail.com"}, Role.STUDENT, javaCourse));
+        personRepository.getRepository().add(new PersonService().create(new String[]{"Михайло", "Водерацький"
+                , "+380989584545", "Miha@gmail.com"}, Role.TEACHER, javaCourse));
         personRepository.getRepository().add(new PersonService().create(new String[]{"Олена", "Ломачевський"
-                , "+380989584545", "Dasdasd@sdf.sdf"}, Role.STUDENT, javaCourse));
-        personRepository.getRepository().add(new PersonService().create(new String[]{"Олена", "Андрієнко"
-                , "+380989584545", "Dasdasd@sdf.sdf"}, Role.STUDENT, javaCourse));
-        personRepository.getRepository().add(new PersonService().create(new String[]{"Олена", "Командний"
-                , "+380989584545", "Dasdasd@sdf.sdf"}, Role.TEACHER, javaCourse));
-        personRepository.getRepository().add(new PersonService().create(new String[]{"Олена", "Солітер"
-                , "+380989584545", "Dasdasd@sdf.sdf"}, Role.STUDENT, javaCourse));
+                , "+380989584545", "Olena@gmail.com"}, Role.STUDENT, javaCourse));
+        personRepository.getRepository().add(new PersonService().create(new String[]{"Зоя", "Андрієнко"
+                , "+380989584545", "Andry@meta.org"}, Role.STUDENT, javaCourse));
+        personRepository.getRepository().add(new PersonService().create(new String[]{"Олена", "Командна"
+                , "+380989584545", "Koman@tele.com"}, Role.TEACHER, javaCourse));
+        personRepository.getRepository().add(new PersonService().create(new String[]{"Галина", "Заворотнюк"
+                , "+380989584545", "Depend@ukr.ua"}, Role.STUDENT, javaCourse));
 
         // creating Lecture
         Lecture lecture;
-        for (int i = 0; i < 5; i++) {
-            //sleep for difference in creation date Lecture
-            try {
-                Thread.sleep(0);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+        try {
+            for (int i = 0; i < 5; i++) {
+            Thread.sleep(1);
+                lectureRepository.getRepository().add(new LectureService()
+                        .create(
+                                "Lecture " + i
+                                , javaCourse
+                                , LocalDateTime.now()
+                                , personRepository.getByIdPerson(1,Role.TEACHER).orElseThrow()
+                        ));
+            }
+            for (int i = 0; i < 3; i++) {
+                lectureRepository.getRepository().add(new LectureService()
+                        .create(
+                                "LectureSecond " + i
+                                , javaCourse
+                                , LocalDateTime.now()
+                                , personRepository.getByIdPerson(4,Role.TEACHER).orElseThrow()
+                        ));
             }
 
-            lectureRepository.getRepository().add(new LectureService().create("Lecture " + i, javaCourse, LocalDateTime.now()));
+        }  catch (InterruptedException   e) {
+            Log.error(nameLog," Error Thread Sleep in Menu Utils", e.getStackTrace());
+        } catch (NoSuchElementException e) {
+            Log.warning(nameLog, "Element not found in Menu Utils",e.getStackTrace());
         }
-        lectureRepository.getRepository().add(lecture = new LectureService().create("Lecture6 ", pythonCourse, LocalDateTime.now()));
 
 
         // creating AddMaterials
@@ -254,7 +274,16 @@ public class MenuUtils {
 
 
         // creating Homework
-        homeWorkRepository.getRepository().add(new HomeworkService().create("homeworkLecture", lecture));
+        try {
+            homeWorkRepository.getRepository().add(new HomeworkService()
+                    .create(
+                            "homeworkLecture"
+                            , lectureRepository.getById(0).orElseThrow()
+                    ));
+        } catch (NoSuchElementException e) {
+            Log.warning(nameLog, "Object is null in creating Homework", e.getStackTrace());
+        }
+
 
         // printing repository objects
         courseRepository.printRepository();
@@ -281,7 +310,13 @@ public class MenuUtils {
         try {
             Course course = courseRepository.getById(inputCourseID).orElseThrow(NoSuchElementException::new);
             LocalDateTime lectureDate = enterDate(STR_ENTER_FORMAT_DATE);
-            lectureRepository.getRepository().add(new LectureService().create(nameLecture, course, lectureDate));
+            lectureRepository.getRepository().add(new LectureService()
+                    .create (
+                            nameLecture
+                            , course
+                            , lectureDate,
+                    PersonRepository.getInstance().getByIdPerson(1,Role.TEACHER).orElseThrow()
+            ));
         } catch (NoSuchElementException e) {
             Log.warning(nameLog, "Something wrong", e.getStackTrace());
         }
@@ -587,6 +622,37 @@ public class MenuUtils {
 
         LogToFile.getInstance().loadFromLogFileFilterByMiddle(LogLevel.INFO);
     }
+
+    public void case23(LectureRepository lectureRepository) {
+        Log.info(nameLog, "23 - Print Lecture grouped by Teacher\" ");
+        lectureRepository.printLectureGroupByTeacher();
+    }
+
+    public void case24(AddMaterialsRepository addMaterialsRepository) {
+        Log.info(nameLog, "24 - Print Add Materials grouped by Lecture\" ");
+        addMaterialsRepository.printAddMaterialsGroupByLecture();
+    }
+
+    public void case25(PersonRepository personRepository) {
+        Log.info(nameLog, "25 - Print Map key - Email, value - Name+LastName\" ");
+        try {
+            personRepository.printMap();
+        } catch (IllegalStateException e) {
+            Log.error(nameLog, "IllegalStateException in Menu Utils. Case 25", e.getStackTrace());
+        }
+
+    }
+
+    public void case26(PersonRepository personRepository) {
+        Log.info(nameLog, "26 - Save to file email students sorted by\" ");
+        try {
+            personRepository.emailToFile();
+        } catch (IOException e ) {
+            Log.warning(nameLog, "Warning in Menu Utils Case 26", e.getStackTrace());
+        }
+    }
+
+
 
 
     private void examStart() {
