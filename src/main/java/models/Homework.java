@@ -39,9 +39,6 @@ public class Homework implements Model, Serializable {
         } catch (NullPointerException e ) {
             Log.error("Model Homework", "NullPointerException", e.getStackTrace());
         }
-
-
-
     }
 
 

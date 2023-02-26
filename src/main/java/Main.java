@@ -25,7 +25,7 @@ public class Main {
 
 
         System.out.println('\n');
-        Log.info(nameLog, "=============== Homework 35 =====================");
+        Log.info(nameLog, "=============== Homework 36 =====================");
 
 
 

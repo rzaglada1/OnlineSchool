@@ -1,8 +1,6 @@
 package repositories;
 
 import models.AddMaterials;
-import models.model_enum.Role;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -49,7 +47,7 @@ public class AddMaterialsRepository implements Repository<AddMaterials> {
     }
 
     public List<AddMaterials> getAddMaterialsByLectureId(int lectureId) {
-        return repository.stream()
+        return getRepository().stream()
                 .filter(element -> element.getLectureID().isPresent()
                         && element.getLectureID().get() == lectureId).collect(Collectors.toList());
     }
