@@ -2,12 +2,10 @@ package models;
 
 import models.model_enum.Role;
 import utils.RegexUtil;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
-
 
 public class Person implements Model, Serializable {
 

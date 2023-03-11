@@ -23,7 +23,7 @@ public class Homework implements Model, Serializable {
     private Course course;
     private Lecture lecture;
     private Integer lectureID;
-    private Task task;
+
 
     private static Integer createCount = 0;
 
@@ -54,14 +54,6 @@ public class Homework implements Model, Serializable {
         this.lectureID = lectureID;
     }
 
-    public Optional<Task> getTask() {
-        return Optional.ofNullable(task);
-    }
-
-    public void setTask(Task task) {
-        this.task = task;
-    }
-
     public Optional<Course> getCourse() {
         return Optional.ofNullable(course);
     }
@@ -83,7 +75,7 @@ public class Homework implements Model, Serializable {
                 ", lectureID=" + lectureID +
                 ", courseName = " + getCourse().stream().filter(Objects::nonNull).toList() +
                 ", deadline =" + formatDate(deadlineDate, DATE_FORMAT, locale) +
-                ", task=" + task +
+
                 '}';
     }
 
@@ -107,11 +99,11 @@ public class Homework implements Model, Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Homework homework = (Homework) o;
-        return Objects.equals(ID, homework.ID) && Objects.equals(name, homework.name) && Objects.equals(lectureID, homework.lectureID) && Objects.equals(task, homework.task);
+        return Objects.equals(ID, homework.ID) && Objects.equals(name, homework.name) && Objects.equals(lectureID, homework.lectureID) ;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ID, name, lectureID, task);
+        return Objects.hash(ID, name, lectureID);
     }
 }

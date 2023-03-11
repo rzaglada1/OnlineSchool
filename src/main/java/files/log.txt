@@ -731,3 +731,7 @@
 26-02-2023 11:56:28:489 INFO: Log OnlineSchool: 22 - Print line count in logs with Level = INFO. Start from  middle the file" 
 26-02-2023 11:56:39:523 INFO: Log OnlineSchool: 25 - Print Map key - Email, value - Name+LastName" 
 26-02-2023 11:57:15:340 INFO: Log OnlineSchool: 26 - Save to file email students sorted by" 
+11-03-2023 16:44:18:437 INFO: Log OnlineSchool: =============== Homework 36 =====================
+11-03-2023 16:44:26:856 INFO: Log OnlineSchool: Selected   - "7 - Get homework and add task by ID lecture" 
+11-03-2023 16:56:39:890 INFO: Log OnlineSchool: =============== Homework 36 =====================
+11-03-2023 16:57:18:902 INFO: Log OnlineSchool: =============== Homework 36 =====================

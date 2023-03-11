@@ -14,7 +14,6 @@ public class Course implements Model, Serializable {
     private Person person;
     private Lecture lecture;
     private Homework homework;
-    private Task task;
     private static Integer createCount = 0;
 
     public Course() {
@@ -45,9 +44,6 @@ public class Course implements Model, Serializable {
         return Optional.ofNullable(homework);
     }
 
-    public Optional<Task> getAddTask() {
-        return Optional.ofNullable(task);
-    }
 
     public static Integer getCreateCount() {
         return createCount;
@@ -65,10 +61,6 @@ public class Course implements Model, Serializable {
         this.homework = homework;
     }
 
-    public void setAddTask(Task task) {
-        this.task = task;
-    }
-
     public LocalDateTime getCreationDate() {
         return CreationDate;
     }
@@ -81,7 +73,7 @@ public class Course implements Model, Serializable {
                 ", person=" + getPerson().or(Optional::empty) +
                 ", lecture=" + getLecture().or(Optional::empty) +
                 ", homework=" + getHomework().or(Optional::empty) +
-                ", addTask=" + getAddTask().or(Optional::empty) +
+
                 '}';
     }
 
@@ -110,11 +102,12 @@ public class Course implements Model, Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Course course = (Course) o;
-        return Objects.equals(ID, course.ID) && Objects.equals(name, course.name) && Objects.equals(person, course.person) && Objects.equals(lecture, course.lecture) && Objects.equals(homework, course.homework) && Objects.equals(task, course.task);
+        return Objects.equals(ID, course.ID) && Objects.equals(name, course.name) && Objects.equals(person
+                , course.person) && Objects.equals(lecture, course.lecture) && Objects.equals(homework, course.homework);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ID, name, person, lecture, homework, task);
+        return Objects.hash(ID, name, person, lecture, homework);
     }
 }
