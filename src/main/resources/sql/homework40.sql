@@ -4,12 +4,12 @@ use online_school;
 select * from persons where role='STUDENT' order by name;
 
 # 2 name lecture and amount of add materials where create date < 2023
-select  lectures.name, lectures.create_date, count(add_materials.lecture_id) as 'numb add materials'
+select  lectures.name, lectures.lecture_date, count(add_materials.lecture_id) as 'numb add materials'
 from lectures, add_materials
 where  lectures.id = add_materials.lecture_id
-  and year(lectures.create_date) < '2023'
-group by lectures.name, lectures.create_date
-order by lectures.create_date;
+  and year(lectures.lecture_date) < '2023'
+group by lectures.name, lectures.lecture_date
+order by lectures.lecture_date;
 
 #3
 select    lectures.name, count(homework.lecture_id) as 'numb_homework'

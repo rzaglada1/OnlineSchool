@@ -41,12 +41,18 @@ INSERT INTO online_school.courses_persons (course_id, person_id)
 VALUES (3, 1);
 
 # lectures
-INSERT INTO online_school.lectures (name, create_count, create_date, course_id)
-VALUES ('Introduce in Java', 1, now(), 1);
-INSERT INTO online_school.lectures (name, create_count, create_date, course_id)
-VALUES ('Lecture 2 Java', 2, now(), 1);
-INSERT INTO online_school.lectures (name, create_count, create_date, course_id)
-VALUES ('Lecture 3 Java', 3, now(), 1);
+INSERT INTO online_school.lectures (name, create_count, create_date, lecture_date, course_id)
+VALUES ('Introduce in Java', 1, now(), date('2022-03-11 20:35:27.000000'), 1);
+INSERT INTO online_school.lectures (name, create_count, create_date, lecture_date, course_id)
+VALUES ('Lecture 2 Java', 2, now(), date('2021-03-11 20:35:27.000000'), 1);
+INSERT INTO online_school.lectures (name, create_count, create_date, lecture_date, course_id)
+VALUES ('Lecture 3 Java', 3, now(), date('2021-03-11 20:35:27.000000'), 1);
+INSERT INTO online_school.lectures (name, create_count, create_date, lecture_date, course_id)
+VALUES ('Lecture 1 Python', 4, now(),now(), 2);
+INSERT INTO online_school.lectures (name, create_count, create_date, lecture_date, course_id)
+VALUES ('Lecture 2 Python', 5, now(),now(), 2);
+INSERT INTO online_school.lectures (name, create_count, create_date, lecture_date, course_id)
+VALUES ('Lecture 1 C++', 6, now(),now(), 3);
 
 INSERT INTO online_school.lectures (name, create_count, create_date, course_id)
 VALUES ('Lecture 1 Python', 4, now(), 2);

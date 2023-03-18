@@ -19,6 +19,7 @@ CREATE TABLE online_school.lectures
     name varchar(255),
     create_count bigint,
     create_date datetime(6),
+    lecture_date datetime(6),
     course_id bigint not null,
     primary key (id),
     constraint lecture_fk foreign key (course_id) references courses (id) on delete cascade
