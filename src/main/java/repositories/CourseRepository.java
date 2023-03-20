@@ -75,9 +75,9 @@ public class CourseRepository implements Repository<Course> {
         List<Course> repository = new ArrayList<>();
         try (Connection connection = DriverManager
                 .getConnection(properties.get("URL"), properties.get("USER"), properties.get("PASSWORD"));
-             Statement statement = connection.createStatement()) {
-
-            ResultSet resultSet = statement.executeQuery(query);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query);
+             ) {
             while (resultSet.next()) {
                 int id = resultSet.getInt("id") ;
                 String name = resultSet.getString("name");
