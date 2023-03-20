@@ -24,7 +24,7 @@ public class Log {
 
 
 
-    private static String nameLog = "Log OnlineSchool";
+    private final static String nameLog = "Log OnlineSchool";
     private static Log log;
     private static final LogLevel logLevelDefault = LogLevel.INFO;
     private static LogLevel logLevel;
@@ -104,12 +104,7 @@ public class Log {
     }
 
     public static boolean checkLevelLog (LogLevel lg, LogLevel level) {
-        boolean checkLevel = false;
-
-        if (lg.getCheckNumber() <= level.getCheckNumber() && level.getCheckNumber() != 5) {
-            checkLevel = true;
-        }
-        return checkLevel;
+        return lg.getCheckNumber() <= level.getCheckNumber() && level.getCheckNumber() != 5;
     }
 
     public String getName() {

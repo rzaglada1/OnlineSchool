@@ -16,7 +16,6 @@ import utils.log.Log;
 import utils.log.LogLevel;
 import utils.log.LogProperty;
 import utils.log.LogToFile;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
@@ -30,6 +29,11 @@ public class MenuUtils {
 
     String nameLog = "Log OnlineSchool";
 
+
+
+    public static final String STR_PATH_DATA_BASE_PROPERTY = "./src/main/resources/application.properties";
+    //public final static String NAME_FILE_BACKUP = "./src/files/Backup.";
+    public final static String NAME_FILE_BACKUP = "./src/main/java/files/Backup.";
     public static final String STR_PATH_DIRECTORY = "./src/main/java/files";
     public static final String STR_NAME_LOG = "log.txt";
     public final static String STR_NAME_SERVICE = "Service.log";
@@ -210,37 +214,29 @@ public class MenuUtils {
         System.out.println('\n' + "What is in the repository?");
         System.out.println("================================");
 
-        // creating Course
-        Course javaCourse = new CourseService().create("Java course");
-        Course cPlusCourse = new CourseService().create("C++ course");
-        Course pythonCourse = new CourseService().create("Python course");
-        courseRepository.getRepository().add(javaCourse);
-        courseRepository.getRepository().add(cPlusCourse);
-        courseRepository.getRepository().add(pythonCourse);
 
         // creating Person
         personRepository.getRepository().add(new PersonService().create(new String[]{"Наталія", "Романенко"
-                , "+380989584545", "Roma1@gmail.com"}, Role.STUDENT, javaCourse));
+                , "+380989584545", "Roma1@gmail.com"}, Role.STUDENT, courseRepository.getById(1).orElseThrow()));
         personRepository.getRepository().add(new PersonService().create(new String[]{"Михайло", "Водерацький"
-                , "+380989584545", "Miha@gmail.com"}, Role.TEACHER, javaCourse));
+                , "+380989584545", "Miha@gmail.com"}, Role.TEACHER, courseRepository.getById(1).orElseThrow()));
         personRepository.getRepository().add(new PersonService().create(new String[]{"Олена", "Ломачевський"
-                , "+380989584545", "Olena@gmail.com"}, Role.STUDENT, javaCourse));
+                , "+380989584545", "Olena@gmail.com"}, Role.STUDENT, courseRepository.getById(1).orElseThrow()));
         personRepository.getRepository().add(new PersonService().create(new String[]{"Зоя", "Андрієнко"
-                , "+380989584545", "Andry@meta.org"}, Role.STUDENT, javaCourse));
+                , "+380989584545", "Andry@meta.org"}, Role.STUDENT, courseRepository.getById(1).orElseThrow()));
         personRepository.getRepository().add(new PersonService().create(new String[]{"Олена", "Командна"
-                , "+380989584545", "Koman@tele.com"}, Role.TEACHER, javaCourse));
+                , "+380989584545", "Koman@tele.com"}, Role.TEACHER, courseRepository.getById(1).orElseThrow()));
         personRepository.getRepository().add(new PersonService().create(new String[]{"Галина", "Заворотнюк"
-                , "+380989584545", "Depend@ukr.ua"}, Role.STUDENT, javaCourse));
+                , "+380989584545", "Depend@ukr.ua"}, Role.STUDENT, courseRepository.getById(2).orElseThrow()));
 
         // creating Lecture
-        Lecture lecture;
         try {
             for (int i = 0; i < 5; i++) {
             Thread.sleep(1);
                 lectureRepository.getRepository().add(new LectureService()
                         .create(
                                 "Lecture " + i
-                                , javaCourse
+                                , courseRepository.getById(1).orElseThrow()
                                 , LocalDateTime.now()
                                 , personRepository.getByIdPerson(1,Role.TEACHER).orElseThrow()
                         ));
@@ -249,7 +245,7 @@ public class MenuUtils {
                 lectureRepository.getRepository().add(new LectureService()
                         .create(
                                 "LectureSecond " + i
-                                , javaCourse
+                                , courseRepository.getById(1).orElseThrow()
                                 , LocalDateTime.now()
                                 , personRepository.getByIdPerson(4,Role.TEACHER).orElseThrow()
                         ));
@@ -304,7 +300,9 @@ public class MenuUtils {
     public void case1(CourseRepository courseRepository) {
         Log.info(nameLog, "Selected   - \"1 - Creating course\" ");
         System.out.println("Enter name Course");
-        courseRepository.getRepository().add(new CourseService().create(inputString()));
+
+        courseRepository.saveToRepository(new CourseService().create(inputString()));
+
         // printing repository objects
         courseRepository.printRepository();
     }
@@ -565,7 +563,7 @@ public class MenuUtils {
                     , HomeWorkRepository.getInstance().getRepository()
                     , LectureRepository.getInstance().getRepository()
                     , PersonRepository.getInstance().getRepository()
-                    , inputCourseID, ServiceBackupFile.NAME_FILE_LECTURE);
+                    , inputCourseID, MenuUtils.NAME_FILE_BACKUP);
         } catch (NoSuchElementException e) {
             Log.warning(nameLog, "NoSuchElementException", e.getStackTrace());
         }
@@ -580,7 +578,7 @@ public class MenuUtils {
         int inputCourseID = inputDigit();
         try {
             courseRepository.getById(inputCourseID).orElseThrow(NoSuchElementException::new);
-            sr.printBackup(inputCourseID, ServiceBackupFile.NAME_FILE_LECTURE);
+            sr.printBackup(inputCourseID, MenuUtils.NAME_FILE_BACKUP);
         } catch (NoSuchElementException e) {
             Log.warning(nameLog, "Something wrong", e.getStackTrace());
         }

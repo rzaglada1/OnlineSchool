@@ -7,29 +7,24 @@ import java.util.Optional;
 
 public class Course implements Model, Serializable {
 
-    private final Integer ID;
+    private  Integer ID;
     private String name;
-    private final LocalDateTime CreationDate;
+    private  LocalDateTime creationDate;
 
     private Person person;
     private Lecture lecture;
-    private Homework homework;
-    private static Integer createCount = 0;
 
     public Course() {
-        this.ID = createCount++;
-        CreationDate = LocalDateTime.now();
     }
 
     public Course(String name) {
-        this();
-        setName(name);
+        this.name = name;
     }
 
-    public Course(String name, Person person, Lecture lecture) {
-        this(name);
-        this.person = person;
-        this.lecture = lecture;
+    public Course(int id, String name, LocalDateTime creationDate ) {
+        this.ID = id;
+        this.name = name;
+        this.creationDate = creationDate;
     }
 
     public Optional<Person> getPerson() {
@@ -40,14 +35,6 @@ public class Course implements Model, Serializable {
         return Optional.ofNullable(lecture);
     }
 
-    public Optional<Homework> getHomework() {
-        return Optional.ofNullable(homework);
-    }
-
-
-    public static Integer getCreateCount() {
-        return createCount;
-    }
 
     public void setPerson(Person person) {
         this.person = person;
@@ -57,12 +44,8 @@ public class Course implements Model, Serializable {
         this.lecture = lecture;
     }
 
-    public void setHomework(Homework homework) {
-        this.homework = homework;
-    }
-
     public LocalDateTime getCreationDate() {
-        return CreationDate;
+        return creationDate;
     }
 
     @Override
@@ -72,8 +55,6 @@ public class Course implements Model, Serializable {
                 ", nameCourse='" + getName() + '\'' +
                 ", person=" + getPerson().or(Optional::empty) +
                 ", lecture=" + getLecture().or(Optional::empty) +
-                ", homework=" + getHomework().or(Optional::empty) +
-
                 '}';
     }
 
@@ -97,17 +78,17 @@ public class Course implements Model, Serializable {
         return Optional.of(this);
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Course course = (Course) o;
-        return Objects.equals(ID, course.ID) && Objects.equals(name, course.name) && Objects.equals(person
-                , course.person) && Objects.equals(lecture, course.lecture) && Objects.equals(homework, course.homework);
+        return Objects.equals(ID, course.ID) && Objects.equals(name, course.name) && Objects.equals(creationDate, course.creationDate) && Objects.equals(person, course.person) && Objects.equals(lecture, course.lecture);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ID, name, person, lecture, homework);
+        return Objects.hash(ID, name, creationDate, person, lecture);
     }
 }

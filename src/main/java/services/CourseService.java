@@ -13,8 +13,6 @@ public class CourseService {
         return new Course(name);
     }
 
-    public Course create(String name, Person person, Lecture lecture) {
-        return new Course(name, person, lecture);
-    }
+
 
 }
