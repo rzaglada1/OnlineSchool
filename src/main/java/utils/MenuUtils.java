@@ -290,7 +290,8 @@ public class MenuUtils {
 
 
         // printing repository objects
-        courseRepository.printRepository();
+        //courseRepository.printRepository();
+        courseRepository.getRepositoryByTableName("courses").forEach(System.out::println);
         lectureRepository.printRepository();
         addMaterialsRepository.printRepository();
         personRepository.printRepository();

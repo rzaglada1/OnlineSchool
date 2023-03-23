@@ -48,6 +48,14 @@ public class Course implements Model, Serializable {
         return creationDate;
     }
 
+    public void setID(Integer ID) {
+        this.ID = ID;
+    }
+
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+
     @Override
     public String toString() {
         return "Course{" +

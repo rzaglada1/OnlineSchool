@@ -72,3 +72,4 @@ create table online_school.courses_persons
     foreign key  (person_id) references persons (id) on delete cascade,
     UNIQUE (course_id, person_id)
 );
+
