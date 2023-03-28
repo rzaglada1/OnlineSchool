@@ -6,6 +6,9 @@
 
     <groupId>groupId</groupId>
     <artifactId>OnlineSchool</artifactId>
+
+    <packaging>war</packaging>
+
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -35,6 +38,13 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.32</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>
+            <scope>provided</scope>
         </dependency>
 
 

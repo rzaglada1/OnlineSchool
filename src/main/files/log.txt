@@ -899,3 +899,4 @@
 23-03-2023 13:51:18:527 INFO: Log OnlineSchool: Selected   - "2 - Creating lecture" 
 23-03-2023 13:51:55:675 INFO: Log OnlineSchool: Selected   - "8 - Sort Course by name" 
 23-03-2023 13:56:12:651 INFO: Log OnlineSchool: 26 - Save to file email students sorted by" 
+26-03-2023 13:18:20:024 INFO: Log OnlineSchool: Selected   - "10 - Print log file" 
