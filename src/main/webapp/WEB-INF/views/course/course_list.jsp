@@ -1,22 +1,28 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: ZRuslan
-  Date: 26.03.2023
-  Time: 9:39
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Table courses</title>
 </head>
 <body>
-<c:forEach var = "course" items = "${courses}">
 
-<p>${course.name}</p>
-
-</c:forEach>
-<p>Чому не працює цикл ?</p>
+<h1>Table courses</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Details</th>
+    </tr>
+    </thead>
+    <tbody>
+    <c:forEach var="course" items="${courses}">
+        <tr>
+            <td>${course.name}</td>
+            <td><a href="${pageContext.request.contextPath}/course_detail?Id=${course.ID}">details...</a></td>
+        </tr>
+    </c:forEach>
+    </tbody>
+</table>
 
 
 </body>

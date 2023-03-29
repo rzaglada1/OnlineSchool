@@ -12,20 +12,18 @@ public class DbConnection {
     private static DbConnection instance;
     Map<String, String> properties;
 
-    private DbConnection () {
+    private DbConnection() {
         properties = new DataBaseProperty().loadFromServiceFile();
     }
 
     public static DbConnection getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new DbConnection();
         }
         return instance;
     }
 
-    public Map<String,String> test () {
-        return properties;
-    }
+
     public Connection getConnect() throws SQLException {
         return DriverManager.getConnection(
                 properties.get(DataBaseEnum.URL.name())

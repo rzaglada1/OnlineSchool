@@ -3,6 +3,7 @@ package repositories;
 import models.Course;
 import utils.data_base.DbConnection;
 import utils.log.Log;
+
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -13,7 +14,8 @@ public class CourseRepository implements Repository<Course> {
     private static CourseRepository instance;
     private final String nameLog = "Log OnlineSchool";
 
-    private CourseRepository() {}
+    private CourseRepository() {
+    }
 
     public static CourseRepository getInstance() {
         if (instance == null) {
@@ -25,16 +27,12 @@ public class CourseRepository implements Repository<Course> {
 
     @Override
     public List<Course> getRepository() {
-        //System.out.println("11111111111111");
         String query = "SELECT * FROM  courses";
         List<Course> repository = new ArrayList<>();
         try (
-                //Connection connection = DbConnection.getInstance().getConnect();
-
-             Connection connection = DriverManager
-                     .getConnection("jdbc:mysql://127.0.0.1:3306/online_school", "root", "Ru76S");
-             PreparedStatement preparedStatement = connection.prepareStatement(query);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+                Connection connection = DbConnection.getInstance().getConnect();
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
@@ -44,7 +42,7 @@ public class CourseRepository implements Repository<Course> {
             }
         } catch (
                 SQLException e) {
-             Log.warning(nameLog, "Error getRepository in CourseRepository", e.getStackTrace());
+            Log.warning(nameLog, "Error getRepository in CourseRepository", e.getStackTrace());
         }
         return repository;
     }

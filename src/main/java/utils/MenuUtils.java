@@ -17,7 +17,9 @@ import utils.log.LogLevel;
 import utils.log.LogProperty;
 import utils.log.LogToFile;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -30,16 +32,17 @@ public class MenuUtils {
     String nameLog = "Log OnlineSchool";
 
 
-
     private final static String userDir = System.getProperty("user.home");
 
-    public final static String NAME_FILE_BACKUP = "./src/main/files/Backup.";
-    public static final String STR_PATH_DIRECTORY = "./src/main/files";
-    public static final String STR_PATH_DATA_BASE_PROPERTY = "./src/main/resources/application.properties";
+    public final static String NAME_FILE_BACKUP = userDir + "/serviceOnlineSchool/Backup.";
+    public static final String STR_PATH_DIRECTORY = userDir + "/serviceOnlineSchool/";
+    {
+        Path path = Path.of(STR_PATH_DIRECTORY);
+        if (!Files.isDirectory(path) ) {
+            createdDir(path);
+        }
 
-//    public static final String STR_PATH_DATA_BASE_PROPERTY = userDir +  "/serviceOnlineSchool/application.properties";
-//    public final static String NAME_FILE_BACKUP = userDir + "/serviceOnlineSchool/Backup.";
-//    public static final String STR_PATH_DIRECTORY = userDir + "/serviceOnlineSchool/";
+    }
 
     public static final String STR_NAME_LOG = "log.txt";
     public final static String STR_NAME_SERVICE = "Service.log";
@@ -706,6 +709,14 @@ public class MenuUtils {
         }
 
         return formatDate;
+    }
+
+    private void createdDir (Path path) {
+        try {
+            Files.createDirectories(path);
+        } catch (IOException e) {
+            Log.warning(nameLog, "Error create directory in WatchDir.class", e.getStackTrace());
+        }
     }
 
 }

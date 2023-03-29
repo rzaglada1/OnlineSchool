@@ -16,6 +16,8 @@ public class WatchDir implements Runnable {
         isActive = false;
     }
 
+
+
     public WatchDir(String stringPath, String stringName) {
         pathDir = Paths.get(stringPath);
         this.stringName = stringName;
