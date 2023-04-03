@@ -2,21 +2,41 @@ package repositories;
 
 import models.Person;
 import models.model_enum.Role;
+import services.PersonService;
 import utils.MenuUtils;
 import utils.log.Log;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
+import static java.util.stream.Collectors.toList;
+
 
 public class PersonRepository implements Repository<Person> {
+    {
+        repository = new ArrayList<>();
+
+        CourseRepository courseRepository = CourseRepository.getInstance();
+        // creating Person
+        getRepository().add(new PersonService().create(new String[]{"Наталія", "Романенко"
+                , "+380989584545", "Roma1@gmail.com"}, Role.STUDENT, courseRepository.getById(1).orElseThrow()));
+        getRepository().get(0).getCourses().add(courseRepository.getById(2).orElseThrow());
+
+        getRepository().add(new PersonService().create(new String[]{"Михайло", "Водерацький"
+                , "+380989584545", "Miha@gmail.com"}, Role.TEACHER, courseRepository.getById(1).orElseThrow()));
+        getRepository().add(new PersonService().create(new String[]{"Олена", "Ломачевський"
+                , "+380989584545", "Olena@gmail.com"}, Role.STUDENT, courseRepository.getById(1).orElseThrow()));
+        getRepository().add(new PersonService().create(new String[]{"Зоя", "Андрієнко"
+                , "+380989584545", "Andry@meta.org"}, Role.STUDENT, courseRepository.getById(1).orElseThrow()));
+        getRepository().add(new PersonService().create(new String[]{"Олена", "Командна"
+                , "+380989584545", "Koman@tele.com"}, Role.TEACHER, courseRepository.getById(1).orElseThrow()));
+        getRepository().add(new PersonService().create(new String[]{"Галина", "Заворотнюк"
+                , "+380989584545", "Depend@ukr.ua"}, Role.STUDENT, courseRepository.getById(2).orElseThrow()));
+
+    }
     private static PersonRepository instance;
 
 
@@ -25,7 +45,7 @@ public class PersonRepository implements Repository<Person> {
     private final List<Person> repository;
 
     private PersonRepository() {
-        repository = new ArrayList<>();
+
     }
 
     public static PersonRepository getInstance() {
@@ -34,6 +54,7 @@ public class PersonRepository implements Repository<Person> {
         }
         return instance;
     }
+
 
     public void printRepositoryStudent() {
         repository.stream().filter(element -> element.getRole() == Role.STUDENT).forEach(System.out::println);
@@ -66,8 +87,16 @@ public class PersonRepository implements Repository<Person> {
     public List<Person> sortedByName() {
         return repository.stream()
                 .sorted(Comparator.comparing(Person::getLastName))
-                .collect(Collectors.toList());
+                .collect(toList());
     }
+
+    public List<Person> sortedStudentByLastName() {
+        return repository.stream()
+                .filter(p->p.getRole().equals(Role.STUDENT))
+                .sorted(Comparator.comparing(Person::getLastName))
+                .collect(toList());
+    }
+
 
     public void printNameFilter(char charFilter) {
         System.out.println("Printing last names teachers which begin char < '" + charFilter + "'");
@@ -107,6 +136,7 @@ public class PersonRepository implements Repository<Person> {
                 });
     }
 
+
     private void creatFile(Path path) {
         try {
             Files.deleteIfExists(path);
@@ -115,5 +145,25 @@ public class PersonRepository implements Repository<Person> {
             Log.warning(nameLog, "Warning in PersonRepository  createFile method", e.getStackTrace());
         }
     }
+
+    public List<Person> NameFilterByChar() {
+        return repository.stream()
+                .filter(element -> element.getRole().equals(Role.TEACHER)
+                        && ( (element.getLastName().compareTo("N") < 0) || element.getLastName().compareTo("Н") < 0) )
+                .toList();
+    }
+
+    public Map<Person, Integer> sortedByCourses () {
+        Map<Person, Integer> personLongMap = repository.stream()
+                .filter(el->el.getRole().equals(Role.STUDENT))
+                .collect(
+                        Collectors.toMap(p->p, e->e.getCourses().size())
+                );
+
+        return personLongMap.entrySet().stream()
+                .sorted(Comparator.comparing(k->k.getKey().getLastName()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (k,v) -> k,LinkedHashMap::new));
+    }
+
 }
 

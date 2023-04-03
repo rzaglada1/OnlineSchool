@@ -8,7 +8,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class Homework implements Model, Serializable {
 
@@ -65,6 +64,14 @@ public class Homework implements Model, Serializable {
     public String formatDate(LocalDateTime dateTime, String strFormat, Locale locale) {
         DateTimeFormatter df = DateTimeFormatter.ofPattern(strFormat, locale);
         return dateTime.format(df);
+    }
+
+    public Lecture getLecture() {
+        return lecture;
+    }
+
+    public void setLecture(Lecture lecture) {
+        this.lecture = lecture;
     }
 
     @Override

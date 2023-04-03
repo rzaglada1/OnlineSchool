@@ -3,11 +3,17 @@
 <html>
 <head>
     <title>Table courses</title>
+    <style>
+        td, table, th {
+            border: 1px solid black;
+        }
+    </style>
+
 </head>
 <body>
 
 <h1>Table courses</h1>
-<table border="1">
+<table>
     <thead>
     <tr>
         <th>Name</th>
@@ -21,9 +27,12 @@
             <td><a href="${pageContext.request.contextPath}/course_detail?Id=${course.ID}">details...</a></td>
         </tr>
     </c:forEach>
-    </tbody>
-</table>
 
+    </tbody>
+
+</table>
+<br>
+<a href="${pageContext.request.contextPath}/">Redirect to home page</a>
 
 </body>
 </html>

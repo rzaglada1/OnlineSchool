@@ -19,7 +19,6 @@ import utils.log.LogToFile;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -223,81 +222,6 @@ public class MenuUtils {
         System.out.println('\n' + "What is in the repository?");
         System.out.println("================================");
 
-
-        // creating Person
-        personRepository.getRepository().add(new PersonService().create(new String[]{"Наталія", "Романенко"
-                , "+380989584545", "Roma1@gmail.com"}, Role.STUDENT, courseRepository.getById(1).orElseThrow()));
-        personRepository.getRepository().add(new PersonService().create(new String[]{"Михайло", "Водерацький"
-                , "+380989584545", "Miha@gmail.com"}, Role.TEACHER, courseRepository.getById(1).orElseThrow()));
-        personRepository.getRepository().add(new PersonService().create(new String[]{"Олена", "Ломачевський"
-                , "+380989584545", "Olena@gmail.com"}, Role.STUDENT, courseRepository.getById(1).orElseThrow()));
-        personRepository.getRepository().add(new PersonService().create(new String[]{"Зоя", "Андрієнко"
-                , "+380989584545", "Andry@meta.org"}, Role.STUDENT, courseRepository.getById(1).orElseThrow()));
-        personRepository.getRepository().add(new PersonService().create(new String[]{"Олена", "Командна"
-                , "+380989584545", "Koman@tele.com"}, Role.TEACHER, courseRepository.getById(1).orElseThrow()));
-        personRepository.getRepository().add(new PersonService().create(new String[]{"Галина", "Заворотнюк"
-                , "+380989584545", "Depend@ukr.ua"}, Role.STUDENT, courseRepository.getById(2).orElseThrow()));
-
-        // creating Lecture
-        try {
-            for (int i = 0; i < 5; i++) {
-            Thread.sleep(1);
-                lectureRepository.getRepository().add(new LectureService()
-                        .create(
-                                "Lecture " + i
-                                , courseRepository.getById(1).orElseThrow()
-                                , LocalDateTime.now()
-                                , personRepository.getByIdPerson(1,Role.TEACHER).orElseThrow()
-                        ));
-            }
-            for (int i = 0; i < 3; i++) {
-                lectureRepository.getRepository().add(new LectureService()
-                        .create(
-                                "LectureSecond " + i
-                                , courseRepository.getById(1).orElseThrow()
-                                , LocalDateTime.now()
-                                , personRepository.getByIdPerson(4,Role.TEACHER).orElseThrow()
-                        ));
-            }
-
-        }  catch (InterruptedException   e) {
-            Log.error(nameLog," Error Thread Sleep in Menu Utils", e.getStackTrace());
-        } catch (NoSuchElementException e) {
-            Log.warning(nameLog, "Element not found in Menu Utils",e.getStackTrace());
-        }
-
-
-        // creating AddMaterials
-        try {
-            addMaterialsRepository.getRepository().add(new AddMaterialsService()
-                    .create("Text book", ResourceType.BOOK
-                            , lectureRepository.getById(0).orElseThrow(NoSuchElementException::new)));
-            addMaterialsRepository.getRepository().add(new AddMaterialsService()
-                    .create("Text book", ResourceType.BOOK
-                            , lectureRepository.getById(3).orElseThrow(NoSuchElementException::new)));
-            addMaterialsRepository.getRepository().add(new AddMaterialsService()
-                    .create("Text book", ResourceType.BOOK
-                            , lectureRepository.getById(0).orElseThrow(NoSuchElementException::new)));
-            addMaterialsRepository.getRepository().add(new AddMaterialsService()
-                    .create("Text book", ResourceType.BOOK
-                            , lectureRepository.getById(3).orElseThrow(NoSuchElementException::new)));
-        } catch (NoSuchElementException e) {
-            Log.warning(nameLog, "NoSuchElementException in MenuUtils", e.getStackTrace());
-        }
-
-
-        // creating Homework
-        try {
-            homeWorkRepository.getRepository().add(new HomeworkService()
-                    .create(
-                            "homeworkLecture"
-                            , lectureRepository.getById(0).orElseThrow()
-                    ));
-        } catch (NoSuchElementException e) {
-            Log.warning(nameLog, "Object is null in creating Homework", e.getStackTrace());
-        }
-
-
         // printing repository objects
         courseRepository.printRepository();
         lectureRepository.printRepository();
@@ -343,13 +267,14 @@ public class MenuUtils {
     public void case3(PersonRepository personRepository) {
         Log.info(nameLog, "Selected   - \"3 - Creating teacher");
 
-        System.out.println("Enter ID course for teacher");
-        int inputCourseID = inputDigit();
+        System.out.println("Enter ID lecture for teacher");
+        int inputLectureID = inputDigit();
 
         try {
-            Course course = courseRepository.getById(inputCourseID).orElseThrow(NoSuchElementException::new);
+            Lecture lecture = LectureRepository.getInstance().getById(inputLectureID).orElseThrow(NoSuchElementException::new);
+
             Person personTeacher = new PersonService().create(new RegexUtil().personAttribute(),
-                    Role.TEACHER, course);
+                    Role.TEACHER, lecture);
             personRepository.getRepository().add(personTeacher);
 
         } catch (NoSuchElementException e) {

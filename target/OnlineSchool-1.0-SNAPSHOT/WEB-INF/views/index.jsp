@@ -6,23 +6,39 @@
 </head>
 <body>
 
-<h1>Table courses</h1>
-<table border="1">
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Details</th>
-    </tr>
-    </thead>
-    <tbody>
-    <c:forEach var="course" items="${courses}">
-        <tr>
-            <td>${course.name}</td>
-            <td><a href="${pageContext.request.contextPath}/course_detail?Id=${course.ID}">details...</a></td>
-        </tr>
-    </c:forEach>
-    </tbody>
-</table>
+<h1>Menu</h1>
+<h1>Online school</h1>
+
+<ol>
+
+    <li>
+        <a href="${pageContext.request.contextPath}/courses">General entity information Course </a>
+    </li>
+    <li>
+        <a href="${pageContext.request.contextPath}/courses/new">New Course</a>
+    </li>
+    <li>
+        <a href="${pageContext.request.contextPath}/persons/students">List students sorted by last name</a>
+    </li>
+    <li>
+        <a href="${pageContext.request.contextPath}/lectures/materials">List lectures sorted by date</a>
+    </li>
+    <li>
+        <a href="${pageContext.request.contextPath}/lectures/homeworks">List lectures with max homework</a>
+    </li>
+    <li>
+        <a href="${pageContext.request.contextPath}/materials/category">Count AddMaterials by category</a>
+    </li>
+    <li>
+        <a href="${pageContext.request.contextPath}/persons/sort">List teachers selected by last name begin with <"N" or "Н"</a>
+    </li>
+    <li>
+        <a href="${pageContext.request.contextPath}/persons/courses">List Persons sorted by last name and courses</a>
+    </li>
+
+
+
+</ol>
 
 
 </body>

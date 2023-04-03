@@ -1,6 +1,6 @@
 package models;
 
-import java.util.Optional;
+
 
 public interface Model  {
 
@@ -10,6 +10,6 @@ public interface Model  {
 
     void setName(String name) ;
 
-    Optional<Course> getCourse() ;
+
 
 }

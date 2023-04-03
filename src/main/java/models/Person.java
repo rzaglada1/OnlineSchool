@@ -4,8 +4,9 @@ import models.model_enum.Role;
 import utils.RegexUtil;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 public class Person implements Model, Serializable {
 
@@ -16,7 +17,8 @@ public class Person implements Model, Serializable {
     private static Integer createCount = 0;
 
 
-    private Course course;
+    private List<Course> courses = new ArrayList<>();
+    private Lecture lecture;
     private int courseID;
     private Role role;
 
@@ -47,8 +49,17 @@ public class Person implements Model, Serializable {
         this.phone = personAttribute[2];
         this.email = personAttribute[3];
         this.role = role;
-        this.course = course;
-        this.courseID = course.getID();
+        this.courses.add(course);
+    }
+
+    public Person(String[] personAttribute, Role role, Lecture lecture) {
+        this();
+        this.name = personAttribute[0];
+        this.lastName = personAttribute[1];
+        this.phone = personAttribute[2];
+        this.email = personAttribute[3];
+        this.role = role;
+        this.lecture = lecture;
     }
 
 
@@ -112,8 +123,20 @@ public class Person implements Model, Serializable {
 
     }
 
-    public Optional<Course> getCourse() {
-        return Optional.ofNullable(course);
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+
+    public Lecture getLecture() {
+        return lecture;
+    }
+
+    public void setLecture(Lecture lecture) {
+        this.lecture = lecture;
     }
 
     public LocalDateTime getCreationDate() {
@@ -123,15 +146,15 @@ public class Person implements Model, Serializable {
     @Override
     public String toString() {
         return "Person{" +
-                "courseID=" + courseID +
-                ", courseName=" + course.getName() +
+                "lecture=" + lecture +
+                ", courses=" + courses +
                 ", personID=" + getID() +
                 ", role=" + role +
                 ", Name='" + name + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
-                '}'+  '\n';
+                '}' + '\n';
     }
 
     @Override
@@ -154,11 +177,11 @@ public class Person implements Model, Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Person person = (Person) o;
-        return courseID == person.courseID && Objects.equals(ID, person.ID) && Objects.equals(name, person.name) && role == person.role && Objects.equals(lastName, person.lastName) && Objects.equals(phone, person.phone) && Objects.equals(email, person.email);
+        return courseID == person.courseID && Objects.equals(ID, person.ID) && Objects.equals(name, person.name) && Objects.equals(CreationDate, person.CreationDate) && Objects.equals(courses, person.courses) && Objects.equals(lecture, person.lecture) && role == person.role && Objects.equals(lastName, person.lastName) && Objects.equals(phone, person.phone) && Objects.equals(email, person.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ID, name, courseID, role, lastName, phone, email);
+        return Objects.hash(ID, name, CreationDate, courses, lecture, courseID, role, lastName, phone, email);
     }
 }

@@ -2,6 +2,7 @@ package models;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -11,8 +12,8 @@ public class Course implements Model, Serializable {
     private String name;
     private  LocalDateTime creationDate;
 
-    private Person person;
-    private Lecture lecture;
+    private List<Person> persons;
+    private List<Lecture> lectures;
 
     public Course() {
     }
@@ -27,21 +28,21 @@ public class Course implements Model, Serializable {
         this.creationDate = creationDate;
     }
 
-    public Optional<Person> getPerson() {
-        return Optional.ofNullable(person);
+    public List<Person> getPersons() {
+        return persons;
     }
 
-    public Optional<Lecture> getLecture() {
-        return Optional.ofNullable(lecture);
+    public List<Lecture> getLectures() {
+        return lectures;
     }
 
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setPersons(List<Person> persons) {
+        this.persons = persons;
     }
 
-    public void setLecture(Lecture lecture) {
-        this.lecture = lecture;
+    public void setLectures(List<Lecture> lectures) {
+        this.lectures = lectures;
     }
 
     public LocalDateTime getCreationDate() {
@@ -61,8 +62,8 @@ public class Course implements Model, Serializable {
         return "Course{" +
                 "idCourse=" + getID() +
                 ", nameCourse='" + getName() + '\'' +
-                ", person=" + getPerson().or(Optional::empty) +
-                ", lecture=" + getLecture().or(Optional::empty) +
+                ", persons=" + getPersons() +
+                ", lecture=" + getLectures() +
                 '}';
     }
 
@@ -81,7 +82,6 @@ public class Course implements Model, Serializable {
         this.name = name;
     }
 
-    @Override
     public Optional<Course> getCourse() {
         return Optional.of(this);
     }
@@ -92,11 +92,11 @@ public class Course implements Model, Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Course course = (Course) o;
-        return Objects.equals(ID, course.ID) && Objects.equals(name, course.name) && Objects.equals(creationDate, course.creationDate) && Objects.equals(person, course.person) && Objects.equals(lecture, course.lecture);
+        return Objects.equals(ID, course.ID) && Objects.equals(name, course.name) && Objects.equals(creationDate, course.creationDate) && Objects.equals(persons, course.persons) && Objects.equals(lectures, course.lectures);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ID, name, creationDate, person, lecture);
+        return Objects.hash(ID, name, creationDate, persons, lectures);
     }
 }

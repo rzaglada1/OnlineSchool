@@ -2,18 +2,48 @@ package repositories;
 
 
 import models.Homework;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import services.HomeworkService;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class HomeWorkRepository implements Repository<Homework> {
+    {
+        LectureRepository lectureRepository = LectureRepository.getInstance();
+        repository = new ArrayList<>();
+        try {
+
+            getRepository().add(new HomeworkService()
+                    .create(
+                            "homeworkLecture"
+                            , lectureRepository.getById(0).orElseThrow()
+                    ));
+            getRepository().add(new HomeworkService()
+                    .create(
+                            "homeworkLecture"
+                            , lectureRepository.getById(1).orElseThrow()
+                    ));
+
+            getRepository().add(new HomeworkService()
+                    .create(
+                            "homeworkLecture"
+                            , lectureRepository.getById(1).orElseThrow()
+                    ));
+            getRepository().add(new HomeworkService()
+                    .create(
+                            "homeworkLecture"
+                            , lectureRepository.getById(2).orElseThrow()
+                    ));
+        } catch (NoSuchElementException e) {
+            e.getStackTrace();
+        }
+    }
+
+
     private static HomeWorkRepository instance;
     private final List<Homework> repository;
 
     private HomeWorkRepository() {
-        repository = new ArrayList<>();
+
     }
 
     public static HomeWorkRepository getInstance() {

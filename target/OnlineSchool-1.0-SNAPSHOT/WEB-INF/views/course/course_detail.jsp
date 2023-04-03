@@ -3,11 +3,16 @@
 <html>
 <head>
     <title>Table courses</title>
+    <style>
+        td, table, th {
+            border: 1px solid black;
+        }
+    </style>
 </head>
 <body>
 
 <h1>Course detail</h1>
-<table border="1">
+<table>
     <thead>
     <tr>
         <th>id</th>
@@ -25,6 +30,6 @@
     </tbody>
 </table>
 
-<td><a href="${pageContext.request.contextPath}/">Redirect to home page</a></td>
+<a href="${pageContext.request.contextPath}/">Redirect to home page</a>
 </body>
 </html>

@@ -1,23 +1,21 @@
-package controllers;
+package controllers.person;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import models.Course;
-import repositories.CourseRepository;
+import models.Person;
+import repositories.PersonRepository;
 import utils.data_base.DbConnection;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Optional;
+import java.util.List;
 
-@WebServlet(value = "/course_detail")
-public class CourseDetailController extends HttpServlet {
-
-    private final CourseRepository courseRepository = CourseRepository.getInstance();
-
+@WebServlet("/persons/sort")
+public class PersonListSortedCharController extends HttpServlet {
+    PersonRepository personRepository = PersonRepository.getInstance();
     public void init() {
         try {
             DbConnection.getInstance().getConnect();
@@ -28,14 +26,10 @@ public class CourseDetailController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Person> persons = personRepository.NameFilterByChar();
+        request.setAttribute("persons", persons);
 
-        int id = Integer.parseInt(request.getParameter("Id"));
-        Optional<Course> course = courseRepository.getById(id);
-
-        course.ifPresent(value -> request.setAttribute("course", value));
-
-        request.getRequestDispatcher("/WEB-INF/views/course/course_detail.jsp")
+        request.getRequestDispatcher("/WEB-INF/views/person/person_list_filter_name_char.jsp")
                 .forward(request, response);
     }
-
 }

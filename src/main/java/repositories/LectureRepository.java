@@ -2,9 +2,10 @@ package repositories;
 
 
 import models.AddMaterials;
+import models.Homework;
 import models.Lecture;
 import models.model_enum.Role;
-
+import services.LectureService;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -13,11 +14,43 @@ import java.util.stream.Collectors;
 
 public class LectureRepository implements Repository<Lecture>, Serializable {
 
+    {
+        CourseRepository courseRepository = CourseRepository.getInstance();
+        PersonRepository personRepository = PersonRepository.getInstance();
+
+        repository = new ArrayList<>();
+
+        try {
+            for (int i = 0; i < 5; i++) {
+                //Thread.sleep(1);
+                getRepository().add(new LectureService()
+                        .create(
+                                "Lecture " + i
+                                , courseRepository.getById(1).orElseThrow()
+                                , LocalDateTime.of(2022, 4, 8-i, 19,30 )
+                                , personRepository.getByIdPerson(1,Role.TEACHER).orElseThrow()
+                        ));
+            }
+            for (int i = 0; i < 3; i++) {
+                getRepository().add(new LectureService()
+                        .create(
+                                "LectureSecond " + i
+                                , courseRepository.getById(1).orElseThrow()
+                                , LocalDateTime.now()
+                                , personRepository.getByIdPerson(4,Role.TEACHER).orElseThrow()
+                        ));
+            }
+
+        }  catch (NoSuchElementException e) {
+            e.getStackTrace();
+        }
+
+    }
     private static LectureRepository instance;
     private final List<Lecture> repository;
 
     private LectureRepository() {
-        repository = new ArrayList<>();
+
     }
 
     public static LectureRepository getInstance() {
@@ -69,6 +102,19 @@ public class LectureRepository implements Repository<Lecture>, Serializable {
     }
 
 
+    // List LectureID with min created time
+    private List<Integer> lectureMinDateCreate () {
+        LocalDateTime localDateTimeMin = repository.stream()
+                .map(Lecture::getCreationDate)
+                .min(LocalDateTime::compareTo).orElseThrow();
+        return repository.stream()
+                .filter(el -> el.getCreationDate().equals(localDateTimeMin))
+                .map(Lecture::getID)
+                .toList();
+    }
+
+
+
     public void firstLectureMaxMaterials() throws NoSuchElementException {
         /*  1) Знайти лекцію, що була створена раніше за всіх
          *  2) Знайти у мапі по її Map<Integer(lectureId), List<AdditionalMaterial» лекції, які задовільняють першій умові
@@ -78,18 +124,9 @@ public class LectureRepository implements Repository<Lecture>, Serializable {
         List<AddMaterials> addMaterials = AddMaterialsRepository.getInstance().getRepository();
 
         // 1) Знайти лекцію, що була створена раніше за всіх
+        List<Integer> lectureIDMinDate  = lectureMinDateCreate();
 
-        // List LectureID with min created time
-        LocalDateTime localDateTimeMin = repository.stream()
-                .map(Lecture::getCreationDate)
-                .min(LocalDateTime::compareTo).orElseThrow();
-
-        List<Integer> lectureIDMinDate = repository.stream()
-                .filter(el -> el.getCreationDate().equals(localDateTimeMin))
-                .map(Lecture::getID)
-                .toList();
-
-        System.out.println("---List lectureIDMinDate----");
+         System.out.println("---List lectureIDMinDate----");
         System.out.println(lectureIDMinDate);
         System.out.println("==========================\n");
 
@@ -141,5 +178,50 @@ public class LectureRepository implements Repository<Lecture>, Serializable {
     }
 
 
+    public List<Lecture> lectureAddMaterialSortedByDate () {
+        List<Lecture> lectureList;
+        lectureList = repository.stream()
+                .filter(v-> v.getLectureDate().getYear() < 2023)
+                .sorted(Comparator.comparing(Lecture::getLectureDate))
+                .toList();
+                return lectureList;
+    }
+
+    public List<Lecture> firstLectureMaxHomework() throws NoSuchElementException {
+
+        List<Homework> homeworks = HomeWorkRepository.getInstance().getRepository();
+
+        // 1) Знайти лекцію, що була створена раніше за всіх
+        List<Integer> lectureIDMinDate = lectureMinDateCreate();
+
+        // 2) Знайти у мапі по її Map<Integer(lectureId), List<AdditionalMaterial» лекції, які задовільняють першій умові
+
+        // Creating Map with key - LecturesID, Value - number of homeworks
+        Map<Integer, List<Homework>> mapHomeworksByLectureID = homeworks.stream()
+                .collect(Collectors.groupingBy(el -> el.getLecture().getID()));
+
+
+        // Search in Map LectureID  with min DateCreation
+        Map<Integer, List<Homework>> filterMinTimeMap = mapHomeworksByLectureID.entrySet().stream()
+                .filter(el -> lectureIDMinDate.contains(el.getKey()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        // 3) Якщо їх декілька, обрати ті, що мають size List<Homework>.size()  - max(може бути одна або декілько)
+
+        // search LectureID with max Homeworks
+
+        Integer maxCountHomeworks = filterMinTimeMap.values().stream()
+                .map(List::size)
+                .max(Comparator.naturalOrder())
+                .orElseThrow();
+
+        List<Integer> lectureIDResult = filterMinTimeMap.entrySet().stream()
+                .filter(e -> e.getValue().size() == maxCountHomeworks)
+                .map(Map.Entry::getKey)
+                .toList();
+
+        return repository.stream().filter(e -> lectureIDResult.contains(e.getID())).toList();
+
+    }
 
 }

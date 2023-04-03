@@ -1,14 +1,12 @@
 package models;
 
+import repositories.AddMaterialsRepository;
+import repositories.HomeWorkRepository;
 import utils.log.Log;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class Lecture implements Model, Serializable {
 
@@ -17,11 +15,13 @@ public class Lecture implements Model, Serializable {
 
     private final String DATE_LECTURE_FORMAT = "MMM d, EEEE HH:mm:ss";
     private final Locale locale = Locale.US;
-    private final LocalDateTime CreationDate;
+    private final LocalDateTime creationDate;
     private LocalDateTime lectureDate;
+    private List<AddMaterials> addMaterialsList;
+    private long addMaterialsCount;
 
 
-    private Homework[] homework;
+    private List<Homework> homeworks;
 
     private static Integer createCount = 0;
 
@@ -32,7 +32,8 @@ public class Lecture implements Model, Serializable {
 
     public Lecture() {
         this.ID = createCount++;
-        CreationDate = LocalDateTime.now();
+        //creationDate = LocalDateTime.now();
+        creationDate = LocalDateTime.of(2023, 9, 19, 14, 5);
 
     }
 
@@ -78,20 +79,36 @@ public class Lecture implements Model, Serializable {
         this.personID = person.getID();
     }
 
-    public Homework[] getHomework() {
-        return homework;
+    public List<Homework> getHomework() {
+        return HomeWorkRepository.getInstance().getHomeworkByLectureId(this.ID);
     }
 
-    public void setHomework(Homework[] homework) {
-        this.homework = homework;
+    public void setHomework(List<Homework> homeworks) {
+        this.homeworks = homeworks;
     }
 
     public LocalDateTime getCreationDate() {
-        return CreationDate;
+        return creationDate;
     }
 
     public LocalDateTime getLectureDate() {
         return lectureDate;
+    }
+
+    public List<AddMaterials> getAddMaterialsList() {
+        return AddMaterialsRepository.getInstance().getAddMaterialsByLectureId(this.ID);
+    }
+
+    public void setAddMaterialsList(List<AddMaterials> addMaterialsList) {
+        this.addMaterialsList = addMaterialsList;
+    }
+
+    public long getAddMaterialsCount() {
+        return getAddMaterialsList().size();
+    }
+
+    public void setAddMaterialsCount(long addMaterialsCount) {
+        this.addMaterialsCount = addMaterialsCount;
     }
 
     @Override
@@ -100,7 +117,7 @@ public class Lecture implements Model, Serializable {
             return "Lecture{" +
                     "LectureName=" + getName() +
                     ", idLecture=" + getID() +
-                    ", arrayHomework=" + Arrays.toString(homework) +
+                    ", listHomework=" + getHomework() +
                     ", personID=" + personID +
                     ", personName=" + person.getName() +
                     ", personLastName=" + person.getLastName() +
@@ -115,10 +132,9 @@ public class Lecture implements Model, Serializable {
             return "Lecture{" +
                     "LectureName=" + getName() +
                     ", idLecture=" + getID() +
-                    ", arrayHomework=" + Arrays.toString(homework) +
+                    ", listHomework=" + getHomework() +
                     ", idCourse=" + idCourse +
                     ", courseName=" + course.getName() +
-//                    ", dateCreated= " + formatDate(getCreationDate(), DATE_LECTURE_FORMAT, locale) +
                     ", dateCreated= " + getCreationDate() +
                     ", dateStartLecture= " + formatDate(getLectureDate(), DATE_LECTURE_FORMAT, locale) +
                     '}' + '\n';
@@ -159,18 +175,17 @@ public class Lecture implements Model, Serializable {
         this.name = name;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Lecture lecture = (Lecture) o;
-        return idCourse == lecture.idCourse && personID == lecture.personID && Objects.equals(ID, lecture.ID) && Objects.equals(name, lecture.name) && Arrays.equals(homework, lecture.homework) && Objects.equals(person, lecture.person);
+        return addMaterialsCount == lecture.addMaterialsCount && idCourse == lecture.idCourse && personID == lecture.personID && Objects.equals(ID, lecture.ID) && Objects.equals(name, lecture.name) && Objects.equals(DATE_LECTURE_FORMAT, lecture.DATE_LECTURE_FORMAT) && Objects.equals(locale, lecture.locale) && Objects.equals(creationDate, lecture.creationDate) && Objects.equals(lectureDate, lecture.lectureDate) && Objects.equals(addMaterialsList, lecture.addMaterialsList) && Objects.equals(homeworks, lecture.homeworks) && Objects.equals(course, lecture.course) && Objects.equals(person, lecture.person);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(ID, name, idCourse, personID, person);
-        result = 31 * result + Arrays.hashCode(homework);
-        return result;
+        return Objects.hash(ID, name, DATE_LECTURE_FORMAT, locale, creationDate, lectureDate, addMaterialsList, addMaterialsCount, homeworks, course, idCourse, personID, person);
     }
 }
