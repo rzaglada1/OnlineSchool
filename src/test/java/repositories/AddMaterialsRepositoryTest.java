@@ -4,6 +4,8 @@ import models.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import services.AddMaterialsService;
+
 import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,7 +35,7 @@ class AddMaterialsRepositoryTest {
 
     @Test
     void testGetAddMaterialsByLectureId () {
-        List<AddMaterials> actualList = AddMaterialsRepository.getInstance().getAddMaterialsByLectureId(1);
+        List<AddMaterials> actualList = new AddMaterialsService(AddMaterialsRepository.getInstance()).getAddMaterialsByLectureId(1);
         List<AddMaterials> expectedList = List.of(addMaterials1);
 
         assertEquals(expectedList, actualList);

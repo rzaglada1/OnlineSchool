@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.Course;
-import repositories.CourseRepository;
+import services.CourseService;
 import utils.data_base.DbConnection;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -15,7 +15,11 @@ import java.util.List;
 @WebServlet(urlPatterns = "/courses")
 public class CourseListController extends HttpServlet {
 
-    private final CourseRepository courseRepository = CourseRepository.getInstance();
+    private final CourseService courseService;
+
+    public CourseListController(CourseService courseService) {
+        this.courseService = courseService;
+    }
 
     public void init() {
         try {
@@ -27,7 +31,7 @@ public class CourseListController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Course> courses = courseRepository.getRepository();
+        List<Course> courses = courseService.getAllCourse();
         request.setAttribute("courses", courses);
 
         request.getRequestDispatcher("/WEB-INF/views/course/course_list.jsp")

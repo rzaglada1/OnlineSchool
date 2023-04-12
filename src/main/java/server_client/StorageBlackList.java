@@ -21,6 +21,12 @@ public class StorageBlackList {
     private Path pathBlackListFile;
 
 
+    private RegexUtil regexUtil;
+
+    public void setRegexUtil(RegexUtil regexUtil) {
+        this.regexUtil = regexUtil;
+    }
+
     private StorageBlackList() {
         blackList = new ArrayList<>();
         pathBlackListFile = Path.of(MenuUtils.STR_PATH_DIRECTORY, MenuUtils.STR_NAME_BLACK_LIST);
@@ -55,7 +61,7 @@ public class StorageBlackList {
             getBlackList().clear();
             String value = reader.readLine();
             while (value != null) {
-                if (new RegexUtil().isCorrect(value, RegexUtil.REGEX_IP_ADDRESS)) {
+                if (regexUtil.isCorrect(value, RegexUtil.REGEX_IP_ADDRESS)) {
                     getBlackList().add(value);
                 }
                 value = reader.readLine();

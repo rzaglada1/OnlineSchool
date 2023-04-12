@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.Lecture;
-import repositories.LectureRepository;
+import services.LectureService;
 import utils.data_base.DbConnection;
 
 import java.io.IOException;
@@ -16,7 +16,11 @@ import java.util.List;
 @WebServlet("/lectures/homeworks")
 public class LectureListHomeworkController extends HttpServlet {
 
-    LectureRepository lectureRepository = LectureRepository.getInstance();
+    private final LectureService lectureService;
+
+    public LectureListHomeworkController(LectureService lectureService) {
+        this.lectureService = lectureService;
+    }
 
     public void init() {
         try {
@@ -28,7 +32,7 @@ public class LectureListHomeworkController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Lecture> lectures = lectureRepository.firstLectureMaxHomework();
+        List<Lecture> lectures = lectureService.firstLectureMaxHomework();
         request.setAttribute("lectures", lectures);
 
         request.getRequestDispatcher("/WEB-INF/views/lecture/lecture_list_homeworks.jsp")

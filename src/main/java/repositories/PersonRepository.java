@@ -2,6 +2,7 @@ package repositories;
 
 import models.Person;
 import models.model_enum.Role;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import services.PersonService;
 import utils.MenuUtils;
 import utils.log.Log;
@@ -19,7 +20,8 @@ public class PersonRepository implements Repository<Person> {
     {
         repository = new ArrayList<>();
 
-        CourseRepository courseRepository = CourseRepository.getInstance();
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        CourseRepository courseRepository = context.getBean("courseRepository", CourseRepository.class);
         // creating Person
         getRepository().add(new PersonService().create(new String[]{"Наталія", "Романенко"
                 , "+380989584545", "Roma1@gmail.com"}, Role.STUDENT, courseRepository.getById(1).orElseThrow()));
@@ -73,7 +75,7 @@ public class PersonRepository implements Repository<Person> {
         return repository;
     }
 
-    @Override
+
     public void printRepository() {
         repository.forEach(System.out::println);
     }

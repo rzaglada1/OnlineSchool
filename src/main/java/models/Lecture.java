@@ -1,7 +1,7 @@
 package models;
 
-import repositories.AddMaterialsRepository;
 import repositories.HomeWorkRepository;
+import services.AddMaterialsService;
 import utils.log.Log;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -9,6 +9,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Lecture implements Model, Serializable {
+
+    private AddMaterialsService addMaterialsService;
+
+    public void setAddMaterialsService(AddMaterialsService addMaterialsService) {
+        this.addMaterialsService = addMaterialsService;
+    }
+
+
 
     private final Integer ID;
     private String name;
@@ -96,7 +104,8 @@ public class Lecture implements Model, Serializable {
     }
 
     public List<AddMaterials> getAddMaterialsList() {
-        return AddMaterialsRepository.getInstance().getAddMaterialsByLectureId(this.ID);
+//        return new AddMaterialsService(AddMaterialsRepository.getInstance()).getAddMaterialsByLectureId(this.ID);
+        return addMaterialsService.getAddMaterialsByLectureId(this.ID);
     }
 
     public void setAddMaterialsList(List<AddMaterials> addMaterialsList) {

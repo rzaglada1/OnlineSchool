@@ -10,6 +10,12 @@ import java.util.Objects;
 
 public class Person implements Model, Serializable {
 
+    private RegexUtil regexUtil;
+
+    public void setRegexUtil(RegexUtil regexUtil) {
+        this.regexUtil = regexUtil;
+    }
+
     private final Integer ID;
     private String name;
     private final LocalDateTime CreationDate;
@@ -97,7 +103,7 @@ public class Person implements Model, Serializable {
 
 
     public boolean setLastName(String lastName) {
-        if (new RegexUtil().isCorrect(lastName, RegexUtil.REGEX_LAST_NAME)) {
+        if (regexUtil.isCorrect(lastName, RegexUtil.REGEX_LAST_NAME)) {
             this.lastName = lastName;
             return true;
         }
@@ -106,7 +112,7 @@ public class Person implements Model, Serializable {
     }
 
     public boolean setPhone(String phone) {
-        if (new RegexUtil().isCorrect(phone, RegexUtil.REGEX_PHONE)) {
+        if (regexUtil.isCorrect(phone, RegexUtil.REGEX_PHONE)) {
             this.phone = phone;
             return true;
         }
@@ -115,7 +121,7 @@ public class Person implements Model, Serializable {
     }
 
     public boolean setEmail(String email) {
-        if (new RegexUtil().isCorrect(email, RegexUtil.REGEX_EMAIL)) {
+        if (regexUtil.isCorrect(email, RegexUtil.REGEX_EMAIL)) {
             this.email = email;
             return true;
         }

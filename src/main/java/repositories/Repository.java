@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface Repository<E extends Model> {
-    void printRepository();
 
     List<E> getRepository();
 

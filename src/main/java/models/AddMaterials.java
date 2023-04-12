@@ -1,9 +1,8 @@
 package models;
 
 import models.model_enum.ResourceType;
-import repositories.LectureRepository;
+import services.LectureService;
 import utils.log.Log;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
@@ -12,15 +11,26 @@ import java.util.Optional;
 
 public class AddMaterials implements Model, Serializable {
 
-    private final Integer ID;
+    private  LectureService lectureService;
+
+
+
+    public AddMaterials() {
+    }
+
+    public void setLectureService(LectureService lectureService) {
+        this.lectureService = lectureService;
+    }
+
+    private  Integer ID;
     private String name;
     private static Integer createCount = 0;
-    private final LocalDateTime CreationDate;
+    private  LocalDateTime CreationDate;
 
 
     private Lecture lecture;
     private Course course;
-    private final Integer lectureID;
+    private  Integer lectureID;
     private ResourceType resourceType;
 
 
@@ -40,8 +50,8 @@ public class AddMaterials implements Model, Serializable {
 
 
     private Optional<Course> getCourse(int lectureID) {
-        return LectureRepository.getInstance()
-                .getById(lectureID).orElseThrow(NoSuchElementException::new).getCourse();
+        return lectureService
+                .getLectureById(lectureID).orElseThrow(NoSuchElementException::new).getCourse();
     }
 
     public Lecture getLecture() {

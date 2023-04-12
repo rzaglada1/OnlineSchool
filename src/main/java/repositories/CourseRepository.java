@@ -3,7 +3,6 @@ package repositories;
 import models.Course;
 import utils.data_base.DbConnection;
 import utils.log.Log;
-
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -11,18 +10,8 @@ import java.util.stream.Collectors;
 
 public class CourseRepository implements Repository<Course> {
 
-    private static CourseRepository instance;
+
     private final String nameLog = "Log OnlineSchool";
-
-    private CourseRepository() {
-    }
-
-    public static CourseRepository getInstance() {
-        if (instance == null) {
-            instance = new CourseRepository();
-        }
-        return instance;
-    }
 
 
     @Override
@@ -47,10 +36,8 @@ public class CourseRepository implements Repository<Course> {
         return repository;
     }
 
-    @Override
-    public void printRepository() {
-        getRepository().forEach(System.out::println);
-    }
+
+
 
     @Override
     public Optional<Course> getById(Integer id) {
@@ -83,7 +70,7 @@ public class CourseRepository implements Repository<Course> {
     }
 
 
-    public void saveToRepository(Course course) {
+    public void saveCourseToRepository(Course course) {
         String query = "INSERT INTO courses (name, create_date) VALUES (?, now()) ";
 
         try (Connection connection = DbConnection.getInstance().getConnect();
@@ -96,6 +83,7 @@ public class CourseRepository implements Repository<Course> {
             Log.warning(nameLog, "Error saveRepository in CourseRepository", e.getStackTrace());
         }
     }
+
 
 
 }

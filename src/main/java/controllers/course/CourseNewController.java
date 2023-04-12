@@ -5,7 +5,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import repositories.CourseRepository;
+import models.Course;
+import org.springframework.beans.factory.annotation.Autowired;
 import services.CourseService;
 import utils.data_base.DbConnection;
 import java.io.IOException;
@@ -16,7 +17,12 @@ import java.sql.SQLException;
 
 public class CourseNewController extends HttpServlet {
 
-    CourseRepository courseRepository = CourseRepository.getInstance();
+    private final CourseService courseService;
+
+
+    public CourseNewController(CourseService courseService) {
+        this.courseService = courseService;
+    }
 
     public void init() {
         try {
@@ -36,7 +42,7 @@ public class CourseNewController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         String name = request.getParameter("Name" );
-        courseRepository.saveToRepository(new CourseService().create(name));
+        courseService.saveCourse(new Course(name));
         response.sendRedirect("/");
     }
 }
