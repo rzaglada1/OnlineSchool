@@ -1,5 +1,6 @@
 package controllers.person;
 
+import controllers.MainController;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,7 +18,7 @@ import java.util.List;
 @WebServlet("/persons/students")
 public class PersonListController extends HttpServlet {
 
-    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+    ClassPathXmlApplicationContext context = MainController.context;
     PersonService personService = context.getBean("personService", PersonService.class);
 
     public void init() {

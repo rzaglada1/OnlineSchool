@@ -1,13 +1,13 @@
 package controllers.course;
 
+import controllers.MainController;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.Course;
-import org.springframework.beans.factory.annotation.Autowired;
-import repositories.CourseRepository;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import services.CourseService;
 import utils.data_base.DbConnection;
 
@@ -19,22 +19,11 @@ import java.util.List;
 @WebServlet(urlPatterns = "/courses")
 public class CourseListController extends HttpServlet {
 
-    // Це працює
-//    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-//    CourseService courseService = context.getBean("courseService", CourseService.class);
+
+    ClassPathXmlApplicationContext context = MainController.context;
+    CourseService courseService = context.getBean("courseService", CourseService.class);
 
 
-    // Це теж працює
- //   CourseService courseService = new CourseService(new CourseRepository());
-
-
-
-    // Чому це не працює ?
-    CourseService courseService;
-
-    public CourseListController(CourseService courseService) {
-        this.courseService = courseService;
-    }
 
     public void init() {
         try {

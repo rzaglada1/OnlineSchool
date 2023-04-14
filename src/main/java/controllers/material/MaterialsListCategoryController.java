@@ -1,5 +1,6 @@
 package controllers.material;
 
+import controllers.MainController;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,7 +17,7 @@ import java.util.Map;
 @WebServlet("/materials/category")
 public class MaterialsListCategoryController extends HttpServlet {
 
-    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+    ClassPathXmlApplicationContext context = MainController.context;
     AddMaterialsService addMaterialsService = context.getBean("addMaterialsService", AddMaterialsService.class);
 
     public void init() {
@@ -36,5 +37,7 @@ public class MaterialsListCategoryController extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/views/materials/material_list_category.jsp")
                 .forward(request, response);
     }
+
+
 
 }

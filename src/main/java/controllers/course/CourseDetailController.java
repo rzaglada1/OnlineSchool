@@ -1,5 +1,6 @@
 package controllers.course;
 
+import controllers.MainController;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,7 +18,7 @@ import java.util.Optional;
 @WebServlet(value = "/course_detail")
 public class CourseDetailController extends HttpServlet {
 
-    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+    ClassPathXmlApplicationContext context = MainController.context;
     CourseService courseService = context.getBean("courseService", CourseService.class);
 
     public void init() {

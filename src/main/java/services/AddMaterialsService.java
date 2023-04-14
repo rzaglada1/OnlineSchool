@@ -3,7 +3,7 @@ package services;
 
 import models.model_enum.ResourceType;
 import models.AddMaterials;
-import repositories.Repository;
+import repositories.AddMaterialsRepository;
 
 import java.util.List;
 import java.util.Map;
@@ -13,10 +13,10 @@ import java.util.stream.Collectors;
 
 public class AddMaterialsService implements Service {
 
-    private final Repository<AddMaterials> addMaterialsRepository;
+    private final AddMaterialsRepository addMaterialsRepository;
 
 
-    public AddMaterialsService(Repository<AddMaterials> addMaterialsRepository) {
+    public AddMaterialsService(AddMaterialsRepository addMaterialsRepository) {
         this.addMaterialsRepository = addMaterialsRepository;
     }
 
@@ -59,7 +59,7 @@ public class AddMaterialsService implements Service {
 
     public Map<ResourceType, Long> countCategory() {
 
-        getAllAddMaterials().forEach(System.out::println);
+      //  getAllAddMaterials().forEach(System.out::println);
 
         return getAllAddMaterials().stream().collect(
                 Collectors.groupingBy(AddMaterials::getResourceType, Collectors.counting()));

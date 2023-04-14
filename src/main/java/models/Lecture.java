@@ -121,7 +121,6 @@ public class Lecture implements Model, Serializable {
             return "Lecture{" +
                     "LectureName=" + getName() +
                     ", idLecture=" + getID() +
-                    ", listHomework=" + getHomework() +
                     ", personID=" + personID +
                     ", personName=" + person.getName() +
                     ", personLastName=" + person.getLastName() +
@@ -136,7 +135,6 @@ public class Lecture implements Model, Serializable {
             return "Lecture{" +
                     "LectureName=" + getName() +
                     ", idLecture=" + getID() +
-//                    ", listHomework=" + getHomework() +
                     ", idCourse=" + idCourse +
                     ", courseName=" + course.getName() +
                     ", dateCreated= " + getCreationDate() +

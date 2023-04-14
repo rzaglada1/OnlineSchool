@@ -1,5 +1,6 @@
 package controllers.lecture;
 
+import controllers.MainController;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,7 +18,7 @@ import java.util.List;
 @WebServlet("/lectures/homeworks")
 public class LectureListHomeworkController extends HttpServlet {
 
-    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+    ClassPathXmlApplicationContext context = MainController.context;
     LectureService lectureService = context.getBean("lectureService", LectureService.class);
 
     public void init() {
@@ -33,8 +34,11 @@ public class LectureListHomeworkController extends HttpServlet {
         List<Lecture> lectures = lectureService.firstLectureMaxHomework();
         request.setAttribute("lectures", lectures);
 
+
         request.getRequestDispatcher("/WEB-INF/views/lecture/lecture_list_homeworks.jsp")
                 .forward(request, response);
     }
+
+
 
 }

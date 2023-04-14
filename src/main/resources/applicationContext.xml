@@ -87,10 +87,11 @@
     </bean>
 
 
-    <bean id="courseListController" class="controllers.course.CourseListController">
-
-    <constructor-arg ref="courseService"/>
-    </bean>
-
-
 </beans>
+
+
+
+
+
+
+

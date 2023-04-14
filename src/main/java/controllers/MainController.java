@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import utils.data_base.DbConnection;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -13,6 +14,8 @@ import java.sql.SQLException;
 public class MainController extends HttpServlet {
 
 
+    public static ClassPathXmlApplicationContext context =
+            new ClassPathXmlApplicationContext("applicationContext.xml");
 
     public void init() {
         try {
