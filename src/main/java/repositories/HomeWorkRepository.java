@@ -2,69 +2,28 @@ package repositories;
 
 
 import models.Homework;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import services.HomeworkService;
+import org.springframework.beans.factory.InitializingBean;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class HomeWorkRepository implements Repository<Homework> {
-//    {
-//        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-//        LectureRepository lectureRepository = context.getBean("lectureRepository", LectureRepository.class);
-//
-//        repository = new ArrayList<>();
-//        try {
-//
-//            getRepository().add(new HomeworkService()
-//                    .create(
-//                            "homeworkLecture"
-//                            , lectureRepository.getById(0).orElseThrow()
-//                    ));
-//            getRepository().add(new HomeworkService()
-//                    .create(
-//                            "homeworkLecture"
-//                            , lectureRepository.getById(1).orElseThrow()
-//                    ));
-//
-//            getRepository().add(new HomeworkService()
-//                    .create(
-//                            "homeworkLecture"
-//                            , lectureRepository.getById(1).orElseThrow()
-//                    ));
-//            getRepository().add(new HomeworkService()
-//                    .create(
-//                            "homeworkLecture"
-//                            , lectureRepository.getById(2).orElseThrow()
-//                    ));
-//        } catch (NoSuchElementException e) {
-//            e.getStackTrace();
-//        }
-//    }
+public class HomeWorkRepository implements Repository<Homework>, InitializingBean {
 
 
-    private static HomeWorkRepository instance;
+    private LectureRepository lectureRepository;
+
+    public void setLectureRepository(LectureRepository lectureRepository) {
+        this.lectureRepository = lectureRepository;
+    }
+
     private final List<Homework> repository = new ArrayList<>();
 
-    private HomeWorkRepository() {
-
-    }
-
-    public static HomeWorkRepository getInstance() {
-        if (instance == null) {
-            instance = new HomeWorkRepository();
-        }
-        return instance;
-    }
 
     @Override
     public List<Homework> getRepository() {
         return repository;
     }
 
-
-    public void printRepository() {
-        repository.forEach(System.out::println);
-    }
 
     @Override
     public Optional<Homework> getById(Integer id) {
@@ -78,10 +37,30 @@ public class HomeWorkRepository implements Repository<Homework> {
                 .collect(Collectors.toList());
     }
 
-    public List<Homework> getHomeworkByLectureId(int lectureId) {
-        return repository.stream()
-                .filter(element -> element.getLectureID().isPresent()
-                        && element.getLectureID().get()  == lectureId).collect(Collectors.toList());
-    }
 
+    @Override
+    public void afterPropertiesSet() {
+        //create homeworks
+        try {
+            getRepository().add(new Homework(
+                    "homeworkLecture"
+                    , lectureRepository.getById(1).orElseThrow()
+            ));
+            getRepository().add(new Homework(
+                    "homeworkLecture"
+                    , lectureRepository.getById(2).orElseThrow()
+            ));
+
+            getRepository().add(new Homework(
+                    "homeworkLecture"
+                    , lectureRepository.getById(2).orElseThrow()
+            ));
+            getRepository().add(new Homework(
+                    "homeworkLecture"
+                    , lectureRepository.getById(3).orElseThrow()
+            ));
+        } catch (NoSuchElementException e) {
+            e.getStackTrace();
+        }
+    }
 }

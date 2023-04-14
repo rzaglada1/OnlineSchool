@@ -5,6 +5,7 @@ import models.*;
 import models.model_enum.Role;
 import repositories.HomeWorkRepository;
 import repositories.LectureRepository;
+
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Predicate;
@@ -13,7 +14,9 @@ import java.util.stream.Collectors;
 
 public class LectureService implements Service {
     private final LectureRepository lectureRepository;
+
     private AddMaterialsService addMaterialsService;
+    private HomeWorkRepository homeWorkRepository;
 
     public LectureService(LectureRepository lectureRepository) {
         this.lectureRepository = lectureRepository;
@@ -23,11 +26,16 @@ public class LectureService implements Service {
         this.addMaterialsService = addMaterialsService;
     }
 
+    public void setHomeWorkRepository(HomeWorkRepository homeWorkRepository) {
+        this.homeWorkRepository = homeWorkRepository;
+    }
+
     public List<Lecture> getAllLecture() {
         return lectureRepository.getRepository();
     }
+
     public void printRepository() {
-       getAllLecture().forEach(System.out::println);
+        getAllLecture().forEach(System.out::println);
     }
 
     public Optional<Lecture> getLectureById(Integer id) {
@@ -60,7 +68,7 @@ public class LectureService implements Service {
 
 
     // List LectureID with min created time
-    private List<Integer> lectureMinDateCreate () {
+    private List<Integer> lectureMinDateCreate() {
         LocalDateTime localDateTimeMin = getAllLecture().stream()
                 .map(Lecture::getCreationDate)
                 .min(LocalDateTime::compareTo).orElseThrow();
@@ -69,7 +77,6 @@ public class LectureService implements Service {
                 .map(Lecture::getID)
                 .toList();
     }
-
 
 
     public void firstLectureMaxMaterials() throws NoSuchElementException {
@@ -81,7 +88,7 @@ public class LectureService implements Service {
         List<AddMaterials> addMaterials = addMaterialsService.getAllAddMaterials();
 
         // 1) Знайти лекцію, що була створена раніше за всіх
-        List<Integer> lectureIDMinDate  = lectureMinDateCreate();
+        List<Integer> lectureIDMinDate = lectureMinDateCreate();
 
         System.out.println("---List lectureIDMinDate----");
         System.out.println(lectureIDMinDate);
@@ -135,18 +142,19 @@ public class LectureService implements Service {
     }
 
 
-    public List<Lecture> lectureAddMaterialSortedByDate () {
+    public List<Lecture> lectureAddMaterialSortedByDate() {
         List<Lecture> lectureList;
         lectureList = getAllLecture().stream()
-                .filter(v-> v.getLectureDate().getYear() < 2023)
+                .filter(v -> v.getLectureDate().getYear() < 2023)
                 .sorted(Comparator.comparing(Lecture::getLectureDate))
                 .toList();
+        lectureList.forEach(System.out::println);
         return lectureList;
     }
 
     public List<Lecture> firstLectureMaxHomework() throws NoSuchElementException {
 
-        List<Homework> homeworks = HomeWorkRepository.getInstance().getRepository();
+        List<Homework> homeworks = homeWorkRepository.getRepository();
 
         // 1) Знайти лекцію, що була створена раніше за всіх
         List<Integer> lectureIDMinDate = lectureMinDateCreate();
@@ -180,7 +188,6 @@ public class LectureService implements Service {
         return getAllLecture().stream().filter(e -> lectureIDResult.contains(e.getID())).toList();
 
     }
-
 
 
 

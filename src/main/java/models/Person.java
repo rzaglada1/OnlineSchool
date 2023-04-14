@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public class Person implements Model, Serializable {
 
-    private RegexUtil regexUtil;
+    RegexUtil regexUtil;
 
     public void setRegexUtil(RegexUtil regexUtil) {
         this.regexUtil = regexUtil;

@@ -6,7 +6,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.Person;
-import repositories.PersonRepository;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import services.PersonService;
 import utils.data_base.DbConnection;
 
 import java.io.IOException;
@@ -16,7 +17,9 @@ import java.util.List;
 @WebServlet("/persons/students")
 public class PersonListController extends HttpServlet {
 
-    PersonRepository personRepository = PersonRepository.getInstance();
+    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+    PersonService personService = context.getBean("personService", PersonService.class);
+
     public void init() {
         try {
             DbConnection.getInstance().getConnect();
@@ -27,7 +30,7 @@ public class PersonListController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Person> persons = personRepository.sortedStudentByLastName();
+        List<Person> persons = personService.sortedStudentByLastName();
         request.setAttribute("persons", persons);
 
         request.getRequestDispatcher("/WEB-INF/views/person/person_list.jsp")

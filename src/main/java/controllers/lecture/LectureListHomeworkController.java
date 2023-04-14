@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.Lecture;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import services.LectureService;
 import utils.data_base.DbConnection;
 
@@ -16,11 +17,8 @@ import java.util.List;
 @WebServlet("/lectures/homeworks")
 public class LectureListHomeworkController extends HttpServlet {
 
-    private final LectureService lectureService;
-
-    public LectureListHomeworkController(LectureService lectureService) {
-        this.lectureService = lectureService;
-    }
+    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+    LectureService lectureService = context.getBean("lectureService", LectureService.class);
 
     public void init() {
         try {
@@ -38,4 +36,5 @@ public class LectureListHomeworkController extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/views/lecture/lecture_list_homeworks.jsp")
                 .forward(request, response);
     }
+
 }

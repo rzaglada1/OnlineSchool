@@ -12,6 +12,8 @@ import java.sql.SQLException;
 @WebServlet(urlPatterns = "/")
 public class MainController extends HttpServlet {
 
+
+
     public void init() {
         try {
             DbConnection.getInstance().getConnect();
@@ -22,7 +24,6 @@ public class MainController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 
         request.getRequestDispatcher("/WEB-INF/views/index.jsp")
                 .forward(request, response);

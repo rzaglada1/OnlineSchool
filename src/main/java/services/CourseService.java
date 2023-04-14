@@ -2,12 +2,12 @@ package services;
 
 import models.*;
 import repositories.CourseRepository;
+
 import java.util.List;
 import java.util.Optional;
 
 
 public class CourseService implements Service {
-    private final String nameLog = "Log OnlineSchool";
 
     private final CourseRepository courseRepository;
 

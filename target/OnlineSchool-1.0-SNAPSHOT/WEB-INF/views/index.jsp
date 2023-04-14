@@ -61,9 +61,6 @@
                 <a href="${pageContext.request.contextPath}/persons/students">List students sorted by last name</a>
             </li>
             <li>
-                <a href="${pageContext.request.contextPath}/lectures/materials">List lectures sorted by date</a>
-            </li>
-            <li>
                 <a href="${pageContext.request.contextPath}/lectures/homeworks">List lectures with max homework</a>
             </li>
             <li>

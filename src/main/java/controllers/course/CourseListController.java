@@ -6,16 +6,31 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.Course;
+import org.springframework.beans.factory.annotation.Autowired;
+import repositories.CourseRepository;
 import services.CourseService;
 import utils.data_base.DbConnection;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+
 @WebServlet(urlPatterns = "/courses")
 public class CourseListController extends HttpServlet {
 
-    private final CourseService courseService;
+    // Це працює
+//    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+//    CourseService courseService = context.getBean("courseService", CourseService.class);
+
+
+    // Це теж працює
+ //   CourseService courseService = new CourseService(new CourseRepository());
+
+
+
+    // Чому це не працює ?
+    CourseService courseService;
 
     public CourseListController(CourseService courseService) {
         this.courseService = courseService;

@@ -6,7 +6,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.Person;
-import repositories.PersonRepository;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import services.PersonService;
 import utils.data_base.DbConnection;
 
 import java.io.IOException;
@@ -15,8 +16,9 @@ import java.util.Map;
 
 @WebServlet("/persons/courses")
 public class PersonListCourseController extends HttpServlet {
+    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+    PersonService personService = context.getBean("personService", PersonService.class);
 
-    PersonRepository personRepository = PersonRepository.getInstance();
     public void init() {
         try {
             DbConnection.getInstance().getConnect();
@@ -27,7 +29,7 @@ public class PersonListCourseController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       Map<Person, Integer> personIntegerMap = personRepository.sortedByCourses();
+       Map<Person, Integer> personIntegerMap = personService.sortedByCourses();
 
         request.setAttribute("personIntegerMap", personIntegerMap);
 

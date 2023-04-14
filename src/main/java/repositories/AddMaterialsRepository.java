@@ -2,43 +2,34 @@ package repositories;
 
 import models.AddMaterials;
 import models.model_enum.ResourceType;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.InitializingBean;
+import services.AddMaterialsService;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class AddMaterialsRepository implements Repository<AddMaterials> {
+public class AddMaterialsRepository implements Repository<AddMaterials>, InitializingBean {
 
 
-//    {
-//        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-//        LectureRepository lectureRepository = context.getBean("lectureRepository", LectureRepository.class);
-//
-//        repository = new ArrayList<>();
-//        try {
-//            getRepository().add(new AddMaterials ("Text book", ResourceType.BOOK
-//                            , lectureRepository.getById(0).orElseThrow(NoSuchElementException::new)));
-//            getRepository().add(new AddMaterials ("Text book", ResourceType.BOOK
-//                            , lectureRepository.getById(3).orElseThrow(NoSuchElementException::new)));
-//            getRepository().add(new AddMaterials("Text url", ResourceType.URL
-//                            , lectureRepository.getById(0).orElseThrow(NoSuchElementException::new)));
-//            getRepository().add(new AddMaterials("Text video", ResourceType.VIDEO
-//                            , lectureRepository.getById(3).orElseThrow(NoSuchElementException::new)));
-//            getRepository().add(new AddMaterials("Text video", ResourceType.VIDEO
-//                            , lectureRepository.getById(2).orElseThrow(NoSuchElementException::new)));
-//        } catch (NoSuchElementException e) {
-//            e.getStackTrace();
-//        }
-//    }
+    private LectureRepository lectureRepository;
+    private AddMaterialsService addMaterialsService;
 
-    private final List<AddMaterials> repository = new ArrayList<>();;
+
+    public void setLectureRepository(LectureRepository lectureRepository) {
+        this.lectureRepository = lectureRepository;
+    }
+
+    public void setAddMaterialsService(AddMaterialsService addMaterialsService) {
+        this.addMaterialsService = addMaterialsService;
+    }
+
+    private final List<AddMaterials> repository = new ArrayList<>();
 
 
     @Override
     public List<AddMaterials> getRepository() {
         return repository;
     }
-
 
 
     @Override
@@ -54,4 +45,24 @@ public class AddMaterialsRepository implements Repository<AddMaterials> {
     }
 
 
+    @Override
+    public void afterPropertiesSet() {
+        //creating materials
+        try {
+            getRepository().add(new AddMaterials("Text book", ResourceType.BOOK
+                    , lectureRepository.getById(1).orElseThrow(NoSuchElementException::new)));
+            getRepository().add(new AddMaterials("Text book", ResourceType.BOOK
+                    , lectureRepository.getById(3).orElseThrow(NoSuchElementException::new)));
+            getRepository().add(new AddMaterials("Text url", ResourceType.URL
+                    , lectureRepository.getById(1).orElseThrow(NoSuchElementException::new)));
+            getRepository().add(new AddMaterials("Text video", ResourceType.VIDEO
+                    , lectureRepository.getById(3).orElseThrow(NoSuchElementException::new)));
+            getRepository().add(new AddMaterials("Text video", ResourceType.VIDEO
+                    , lectureRepository.getById(2).orElseThrow(NoSuchElementException::new)));
+
+
+        } catch (NoSuchElementException e) {
+            e.getStackTrace();
+        }
+    }
 }

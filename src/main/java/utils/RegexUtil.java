@@ -1,7 +1,7 @@
 package utils;
 
 import exceptions.ValidationException;
-import repositories.PersonRepository;
+import services.PersonService;
 import utils.log.Log;
 
 import java.util.regex.Matcher;
@@ -16,10 +16,15 @@ public class RegexUtil {
     public static final String REGEX_EMAIL = "^[A-Za-z0-9+_.-]+@.+\\..+";
     public static final String REGEX_IP_ADDRESS = "^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\.(?!$)|$)){4}$";
 
-    private  MenuUtils menuUtils;
+    private MenuUtils menuUtils;
+    private PersonService personService;
 
     public void setMenuUtils(MenuUtils menuUtils) {
         this.menuUtils = menuUtils;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
 
     public boolean isCorrect(String str, String regex) {
@@ -62,12 +67,11 @@ public class RegexUtil {
             email = menuUtils.inputString();
         }
 
-        if (PersonRepository.getInstance().checkDoubleEmail(email) ) {
+        if (personService.checkDoubleEmail(email)) {
             Log.info(nameLog, "Warning: this email is present in another person");
         }
         return new String[]{firstName, lastName, phone, email};
     }
-
 
 
 }

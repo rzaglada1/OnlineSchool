@@ -16,6 +16,7 @@ import utils.log.Log;
 import utils.log.LogLevel;
 import utils.log.LogProperty;
 import utils.log.LogToFile;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,10 +31,23 @@ public class MenuUtils {
 
     String nameLog = "Log OnlineSchool";
 
-    private  AddMaterialsService addMaterialsService;
+    private AddMaterialsService addMaterialsService;
     private CourseService courseService;
     private LectureService lectureService;
-    private  RegexUtil regexUtil;
+    private PersonService personService;
+    private HomeworkService homeworkService;
+
+    // ===================for create repository data========
+    private HomeWorkRepository homeWorkRepository;
+
+
+    public void setHomeWorkRepository(HomeWorkRepository homeWorkRepository) {
+        this.homeWorkRepository = homeWorkRepository;
+    }
+
+    //========================================================
+
+    private RegexUtil regexUtil;
 
     public void setAddMaterialsService(AddMaterialsService addMaterialsService) {
         this.addMaterialsService = addMaterialsService;
@@ -52,13 +66,22 @@ public class MenuUtils {
         this.lectureService = lectureService;
     }
 
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
+    }
+
+    public void setHomeworkService(HomeworkService homeworkService) {
+        this.homeworkService = homeworkService;
+    }
+
     private final static String userDir = System.getProperty("user.home");
 
     public final static String NAME_FILE_BACKUP = userDir + "/serviceOnlineSchool/Backup.";
     public static final String STR_PATH_DIRECTORY = userDir + "/serviceOnlineSchool/";
+
     {
         Path path = Path.of(STR_PATH_DIRECTORY);
-        if (!Files.isDirectory(path) ) {
+        if (!Files.isDirectory(path)) {
             createdDir(path);
         }
 
@@ -236,7 +259,7 @@ public class MenuUtils {
         }
     }
 
-    public void createObjects(PersonRepository personRepository, HomeWorkRepository homeWorkRepository) {
+    public void createObjects() {
         System.out.println('\n' + "What is in the repository?");
         System.out.println("================================");
 
@@ -244,8 +267,8 @@ public class MenuUtils {
         courseService.printRepository();
         lectureService.printRepository();
         addMaterialsService.printRepository();
-        personRepository.printRepository();
-        homeWorkRepository.printRepository();
+        personService.printRepository();
+        homeworkService.printRepository();
     }
 
     public void case1() {
@@ -268,10 +291,10 @@ public class MenuUtils {
             Course course = courseService.getCourseById(inputCourseID).orElseThrow(NoSuchElementException::new);
             LocalDateTime lectureDate = enterDate(STR_ENTER_FORMAT_DATE);
             lectureService.getAllLecture().add(new Lecture(
-                            nameLecture
-                            , course
-                            , lectureDate,
-                    PersonRepository.getInstance().getByIdPerson(1,Role.TEACHER).orElseThrow()
+                    nameLecture
+                    , course
+                    , lectureDate,
+                    personService.getByIdPerson(1, Role.TEACHER).orElseThrow()
             ));
         } catch (NoSuchElementException e) {
             Log.warning(nameLog, "Something wrong", e.getStackTrace());
@@ -281,7 +304,7 @@ public class MenuUtils {
         lectureService.printRepository();
     }
 
-    public void case3(PersonRepository personRepository) {
+    public void case3() {
         Log.info(nameLog, "Selected   - \"3 - Creating teacher");
 
         System.out.println("Enter ID lecture for teacher");
@@ -290,9 +313,9 @@ public class MenuUtils {
         try {
             Lecture lecture = lectureService.getLectureById(inputLectureID).orElseThrow(NoSuchElementException::new);
 
-            Person personTeacher = new PersonService().create(regexUtil.personAttribute(),
+            Person personTeacher = new Person(regexUtil.personAttribute(),
                     Role.TEACHER, lecture);
-            personRepository.getRepository().add(personTeacher);
+            personService.getAllPerson().add(personTeacher);
 
         } catch (NoSuchElementException e) {
             Log.warning(nameLog, "Course not found", e.getStackTrace());
@@ -300,29 +323,29 @@ public class MenuUtils {
             Log.warning(nameLog, "Something wrong, try again", e.getStackTrace());
         }
 
-        personRepository.printRepositoryTeacher();
+        personService.printRepositoryTeacher();
     }
 
-    public void case4(PersonRepository personRepository) {
+    public void case4() {
         Log.info(nameLog, "Selected   - \"4 - Creating student");
         System.out.println("Enter ID course for student");
         int inputCourseID = inputDigit();
 
         try {
             Course course = courseService.getCourseById(inputCourseID).orElseThrow(NoSuchElementException::new);
-            Person personStudent = new PersonService().create(regexUtil.personAttribute(),
+            Person personStudent = new Person(regexUtil.personAttribute(),
                     Role.STUDENT, course);
-            personRepository.getRepository().add(personStudent);
+            personService.getAllPerson().add(personStudent);
         } catch (NoSuchElementException e) {
             Log.warning(nameLog, "Course not found", e.getStackTrace());
         } catch (ValidationException e) {
             Log.warning(nameLog, "Something wrong, try again", e.getStackTrace());
         }
         // printing repository objects
-        personRepository.printRepositoryStudent();
+        personService.printRepositoryStudent();
     }
 
-    public void case5(HomeWorkRepository homeworkRepository) {
+    public void case5() {
         Log.info(nameLog, "Selected   - \"5 - Creating Homework\" ");
 
         System.out.println("Enter name Homework");
@@ -334,13 +357,13 @@ public class MenuUtils {
         try {
             lectureService.getLectureById(lectureID);
             lecture = lectureService.getLectureById(lectureID).orElseThrow(NoSuchElementException::new);
-            homeworkRepository.getRepository().add(new HomeworkService().create(nameHomework, lecture));
+            homeWorkRepository.getRepository().add(new Homework(nameHomework, lecture));
         } catch (NoSuchElementException e) {
             Log.warning(nameLog, "Something wrong", e.getStackTrace());
         }
 
         // printing repository objects
-        homeworkRepository.printRepository();
+        homeworkService.printRepository();
     }
 
     public void case6() {
@@ -365,7 +388,7 @@ public class MenuUtils {
         addMaterialsService.printRepository();
     }
 
-    public void case7(HomeWorkRepository homeworkRepository) {
+    public void case7() {
         Log.info(nameLog, "Selected   - \"7 - Get homework and add task by ID lecture\" ");
 
         System.out.print("Enter lecture ID ");
@@ -378,7 +401,7 @@ public class MenuUtils {
 
             // filter && printing homework by lecture ID
             System.out.println('\n' + "==================Homework ==============");
-            System.out.println(homeworkRepository.getHomeworkByLectureId(inputLectureID));
+            //  System.out.println(homeworkService.getHomeworkByLectureId(inputLectureID));
 
             // filter && printing add materials by lecture ID
             System.out.println('\n' + "==================Add materials =========");
@@ -387,7 +410,7 @@ public class MenuUtils {
             switch (addRemoveHomework()) {
                 case 1 -> {
                     System.out.println("Enter name Homework");
-                    homeworkRepository.getRepository().add(new HomeworkService().create(inputString(), lecture));
+                    homeWorkRepository.getRepository().add(new Homework(inputString(), lecture));
                 }
                 case 2 -> {
                     System.out.println("Enter name addMaterials");
@@ -399,7 +422,7 @@ public class MenuUtils {
                         e.printStackTrace();
                     }
                 }
-                case 3 -> homeworkRepository.getRepository()
+                case 3 -> homeWorkRepository.getRepository()
                         .removeIf(obj -> obj.getLectureID().orElseThrow(NoSuchElementException::new) == inputLectureID);
                 case 4 -> addMaterialsService.getAllAddMaterials()
                         .removeIf(obj -> obj.getLectureID().orElseThrow(NoSuchElementException::new) == inputLectureID);
@@ -417,9 +440,9 @@ public class MenuUtils {
         courseService.sortedCourseByName().forEach(System.out::println);
     }
 
-    public void case9(PersonRepository personRepository) {
+    public void case9() {
         Log.info(nameLog, "Selected   - \"9 - Sort Teacher and Student by last name\" ");
-        personRepository.sortedByName().forEach(System.out::println);
+        personService.sortedByName().forEach(System.out::println);
     }
 
     public void case10() {
@@ -509,9 +532,9 @@ public class MenuUtils {
             courseService.getCourseById(inputCourseID).orElseThrow(NoSuchElementException::new);
             sb.createBackup(
                     addMaterialsService.getAllAddMaterials()
-                    , HomeWorkRepository.getInstance().getRepository()
+                    , homeworkService.getAllHomework()
                     , lectureService.getAllLecture()
-                    , PersonRepository.getInstance().getRepository()
+                    , personService.getAllPerson()
                     , inputCourseID, MenuUtils.NAME_FILE_BACKUP);
         } catch (NoSuchElementException e) {
             Log.warning(nameLog, "NoSuchElementException", e.getStackTrace());
@@ -554,10 +577,10 @@ public class MenuUtils {
         lectureService.printAfterBeforeDate(startDateTime, finishDateTime);
     }
 
-    public void case19(PersonRepository personRepository) {
+    public void case19() {
         Log.info(nameLog, "Selected   - \"19 - Print list teachers with name < char \" ");
         char charFilter = 'Ж';
-        personRepository.printNameFilter(charFilter);
+        personService.printNameFilter(charFilter);
     }
 
     public void case20() {
@@ -585,31 +608,29 @@ public class MenuUtils {
         lectureService.printLectureGroupByTeacher();
     }
 
-    public void case24( ) {
+    public void case24() {
         Log.info(nameLog, "24 - Print Add Materials grouped by Lecture\" ");
         addMaterialsService.printAddMaterialsGroupByLecture();
     }
 
-    public void case25(PersonRepository personRepository) {
+    public void case25() {
         Log.info(nameLog, "25 - Print Map key - Email, value - Name+LastName\" ");
         try {
-            personRepository.printMap();
+            personService.printMap();
         } catch (IllegalStateException e) {
             Log.error(nameLog, "IllegalStateException in Menu Utils. Case 25", e.getStackTrace());
         }
 
     }
 
-    public void case26(PersonRepository personRepository) {
+    public void case26() {
         Log.info(nameLog, "26 - Save to file email students sorted by\" ");
         try {
-            personRepository.emailToFile();
-        } catch (IOException e ) {
+            personService.emailToFile();
+        } catch (IOException e) {
             Log.warning(nameLog, "Warning in Menu Utils Case 26", e.getStackTrace());
         }
     }
-
-
 
 
     private void examStart() {
@@ -651,7 +672,7 @@ public class MenuUtils {
         return formatDate;
     }
 
-    private void createdDir (Path path) {
+    private void createdDir(Path path) {
         try {
             Files.createDirectories(path);
         } catch (IOException e) {

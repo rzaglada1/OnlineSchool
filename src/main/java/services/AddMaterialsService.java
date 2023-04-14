@@ -4,6 +4,7 @@ package services;
 import models.model_enum.ResourceType;
 import models.AddMaterials;
 import repositories.Repository;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -20,8 +21,7 @@ public class AddMaterialsService implements Service {
     }
 
 
-
-    public List<AddMaterials> getAllAddMaterials () {
+    public List<AddMaterials> getAllAddMaterials() {
         return addMaterialsRepository.getRepository();
     }
 
@@ -29,7 +29,7 @@ public class AddMaterialsService implements Service {
         getAllAddMaterials().forEach(System.out::println);
     }
 
-    public Optional<AddMaterials> getAddMaterialsById (Integer id) {
+    public Optional<AddMaterials> getAddMaterialsById(Integer id) {
         return addMaterialsRepository.getById(id);
     }
 
@@ -57,13 +57,14 @@ public class AddMaterialsService implements Service {
                 .forEach((k, v) -> System.out.println(k + " : " + v));
     }
 
-    public Map<ResourceType, Long> countCategory () {
+    public Map<ResourceType, Long> countCategory() {
+
+        getAllAddMaterials().forEach(System.out::println);
+
         return getAllAddMaterials().stream().collect(
                 Collectors.groupingBy(AddMaterials::getResourceType, Collectors.counting()));
 
     }
-
-
 
 
 }

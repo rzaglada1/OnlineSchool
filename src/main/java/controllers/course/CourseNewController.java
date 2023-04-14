@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.Course;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import services.CourseService;
 import utils.data_base.DbConnection;
 import java.io.IOException;
@@ -17,12 +17,8 @@ import java.sql.SQLException;
 
 public class CourseNewController extends HttpServlet {
 
-    private final CourseService courseService;
-
-
-    public CourseNewController(CourseService courseService) {
-        this.courseService = courseService;
-    }
+    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+    CourseService courseService = context.getBean("courseService", CourseService.class);
 
     public void init() {
         try {

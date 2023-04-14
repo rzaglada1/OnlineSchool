@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.model_enum.ResourceType;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import services.AddMaterialsService;
 import utils.data_base.DbConnection;
 import java.io.IOException;
@@ -15,11 +16,8 @@ import java.util.Map;
 @WebServlet("/materials/category")
 public class MaterialsListCategoryController extends HttpServlet {
 
-    private final AddMaterialsService addMaterialsService;
-
-    public MaterialsListCategoryController(AddMaterialsService addMaterialsService) {
-        this.addMaterialsService = addMaterialsService;
-    }
+    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+    AddMaterialsService addMaterialsService = context.getBean("addMaterialsService", AddMaterialsService.class);
 
     public void init() {
         try {
@@ -34,7 +32,9 @@ public class MaterialsListCategoryController extends HttpServlet {
         Map<ResourceType,Long> mapMaterials = addMaterialsService.countCategory();
         request.setAttribute("mapMaterials", mapMaterials);
 
+
         request.getRequestDispatcher("/WEB-INF/views/materials/material_list_category.jsp")
                 .forward(request, response);
     }
+
 }

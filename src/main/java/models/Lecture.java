@@ -1,7 +1,8 @@
 package models;
 
-import repositories.HomeWorkRepository;
-import services.AddMaterialsService;
+
+
+import services.HomeworkService;
 import utils.log.Log;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -10,13 +11,11 @@ import java.util.*;
 
 public class Lecture implements Model, Serializable {
 
-    private AddMaterialsService addMaterialsService;
+    private HomeworkService homeworkService;
 
-    public void setAddMaterialsService(AddMaterialsService addMaterialsService) {
-        this.addMaterialsService = addMaterialsService;
+    public void setHomeworkService(HomeworkService homeworkService) {
+        this.homeworkService = homeworkService;
     }
-
-
 
     private final Integer ID;
     private String name;
@@ -88,7 +87,8 @@ public class Lecture implements Model, Serializable {
     }
 
     public List<Homework> getHomework() {
-        return HomeWorkRepository.getInstance().getHomeworkByLectureId(this.ID);
+
+        return homeworkService.getHomeworkByLectureId(this.ID);
     }
 
     public void setHomework(List<Homework> homeworks) {
@@ -103,18 +103,13 @@ public class Lecture implements Model, Serializable {
         return lectureDate;
     }
 
-    public List<AddMaterials> getAddMaterialsList() {
-//        return new AddMaterialsService(AddMaterialsRepository.getInstance()).getAddMaterialsByLectureId(this.ID);
-        return addMaterialsService.getAddMaterialsByLectureId(this.ID);
-    }
+
 
     public void setAddMaterialsList(List<AddMaterials> addMaterialsList) {
         this.addMaterialsList = addMaterialsList;
     }
 
-    public long getAddMaterialsCount() {
-        return getAddMaterialsList().size();
-    }
+
 
     public void setAddMaterialsCount(long addMaterialsCount) {
         this.addMaterialsCount = addMaterialsCount;
@@ -141,7 +136,7 @@ public class Lecture implements Model, Serializable {
             return "Lecture{" +
                     "LectureName=" + getName() +
                     ", idLecture=" + getID() +
-                    ", listHomework=" + getHomework() +
+//                    ", listHomework=" + getHomework() +
                     ", idCourse=" + idCourse +
                     ", courseName=" + course.getName() +
                     ", dateCreated= " + getCreationDate() +

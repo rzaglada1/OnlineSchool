@@ -3,10 +3,12 @@ package repositories;
 import models.Course;
 import utils.data_base.DbConnection;
 import utils.log.Log;
+
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
+
 
 public class CourseRepository implements Repository<Course> {
 
@@ -35,8 +37,6 @@ public class CourseRepository implements Repository<Course> {
         }
         return repository;
     }
-
-
 
 
     @Override
@@ -83,7 +83,6 @@ public class CourseRepository implements Repository<Course> {
             Log.warning(nameLog, "Error saveRepository in CourseRepository", e.getStackTrace());
         }
     }
-
 
 
 }
