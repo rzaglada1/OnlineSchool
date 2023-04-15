@@ -5,6 +5,7 @@ import models.*;
 import models.model_enum.ResourceType;
 import exceptions.ValidationException;
 import models.model_enum.Role;
+import org.springframework.beans.factory.annotation.Autowired;
 import repositories.*;
 import server_client.MyClient;
 import server_client.MyServer;
@@ -38,9 +39,10 @@ public class MenuUtils {
     private HomeworkService homeworkService;
 
     // ===================for create repository data========
+
     private HomeWorkRepository homeWorkRepository;
 
-
+    @Autowired
     public void setHomeWorkRepository(HomeWorkRepository homeWorkRepository) {
         this.homeWorkRepository = homeWorkRepository;
     }
@@ -49,27 +51,33 @@ public class MenuUtils {
 
     private RegexUtil regexUtil;
 
+    @Autowired
     public void setAddMaterialsService(AddMaterialsService addMaterialsService) {
         this.addMaterialsService = addMaterialsService;
     }
 
+    @Autowired
     public void setRegexUtil(RegexUtil regexUtil) {
         this.regexUtil = regexUtil;
     }
 
+    @Autowired
     public void setCourseService(CourseService courseService) {
         this.courseService = courseService;
     }
 
 
+    @Autowired
     public void setLectureService(LectureService lectureService) {
         this.lectureService = lectureService;
     }
 
+    @Autowired
     public void setPersonService(PersonService personService) {
         this.personService = personService;
     }
 
+    @Autowired
     public void setHomeworkService(HomeworkService homeworkService) {
         this.homeworkService = homeworkService;
     }
@@ -401,7 +409,7 @@ public class MenuUtils {
 
             // filter && printing homework by lecture ID
             System.out.println('\n' + "==================Homework ==============");
-            //  System.out.println(homeworkService.getHomeworkByLectureId(inputLectureID));
+            System.out.println(homeworkService.getHomeworkByLectureId(inputLectureID));
 
             // filter && printing add materials by lecture ID
             System.out.println('\n' + "==================Add materials =========");

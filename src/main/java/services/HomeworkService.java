@@ -1,6 +1,7 @@
 package services;
 
 import models.Homework;
+import org.springframework.beans.factory.annotation.Autowired;
 import repositories.HomeWorkRepository;
 
 import java.util.List;
@@ -10,10 +11,13 @@ import java.util.stream.Collectors;
 
 public class HomeworkService {
 
-    private final HomeWorkRepository homeWorkRepository;
+    private  HomeWorkRepository homeWorkRepository;
+
+    public HomeworkService(){}
 
 
-    public HomeworkService(HomeWorkRepository homeWorkRepository) {
+    @Autowired
+    public void setHomeWorkRepository(HomeWorkRepository homeWorkRepository) {
         this.homeWorkRepository = homeWorkRepository;
     }
 

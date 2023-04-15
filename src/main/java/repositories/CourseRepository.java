@@ -1,9 +1,9 @@
 package repositories;
 
 import models.Course;
-import utils.data_base.DbConnection;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import utils.log.Log;
-
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -13,6 +13,14 @@ import java.util.stream.Collectors;
 public class CourseRepository implements Repository<Course> {
 
 
+
+    private DriverManagerDataSource dataSource;
+
+    @Autowired
+    public void setDataSource(DriverManagerDataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
     private final String nameLog = "Log OnlineSchool";
 
 
@@ -21,7 +29,7 @@ public class CourseRepository implements Repository<Course> {
         String query = "SELECT * FROM  courses";
         List<Course> repository = new ArrayList<>();
         try (
-                Connection connection = DbConnection.getInstance().getConnect();
+               Connection connection = dataSource.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
                 ResultSet resultSet = preparedStatement.executeQuery()) {
 
@@ -43,7 +51,8 @@ public class CourseRepository implements Repository<Course> {
     public Optional<Course> getById(Integer id) {
         String query = "SELECT * FROM  courses WHERE id=?";
         Course course = new Course();
-        try (Connection connection = DbConnection.getInstance().getConnect();
+        try ( //Connection connection = dbConnection.getConnect();
+              Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -72,8 +81,7 @@ public class CourseRepository implements Repository<Course> {
 
     public void saveCourseToRepository(Course course) {
         String query = "INSERT INTO courses (name, create_date) VALUES (?, now()) ";
-
-        try (Connection connection = DbConnection.getInstance().getConnect();
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, course.getName());
             preparedStatement.executeUpdate();

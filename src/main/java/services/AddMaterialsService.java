@@ -3,6 +3,7 @@ package services;
 
 import models.model_enum.ResourceType;
 import models.AddMaterials;
+import org.springframework.beans.factory.annotation.Autowired;
 import repositories.AddMaterialsRepository;
 
 import java.util.List;
@@ -13,13 +14,15 @@ import java.util.stream.Collectors;
 
 public class AddMaterialsService implements Service {
 
-    private final AddMaterialsRepository addMaterialsRepository;
 
+    private  AddMaterialsRepository addMaterialsRepository;
 
-    public AddMaterialsService(AddMaterialsRepository addMaterialsRepository) {
+   public AddMaterialsService(){};
+
+   @Autowired
+    public void setAddMaterialsRepository(AddMaterialsRepository addMaterialsRepository) {
         this.addMaterialsRepository = addMaterialsRepository;
     }
-
 
     public List<AddMaterials> getAllAddMaterials() {
         return addMaterialsRepository.getRepository();

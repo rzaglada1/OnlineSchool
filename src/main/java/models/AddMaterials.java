@@ -1,6 +1,7 @@
 package models;
 
 import models.model_enum.ResourceType;
+import org.springframework.beans.factory.annotation.Autowired;
 import services.LectureService;
 import utils.log.Log;
 import java.io.Serializable;
@@ -13,11 +14,10 @@ public class AddMaterials implements Model, Serializable {
 
     private  LectureService lectureService;
 
-
-
     public AddMaterials() {
     }
 
+    @Autowired
     public void setLectureService(LectureService lectureService) {
         this.lectureService = lectureService;
     }

@@ -2,7 +2,9 @@ package repositories;
 
 
 import models.Homework;
+import models.Lecture;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -12,6 +14,7 @@ public class HomeWorkRepository implements Repository<Homework>, InitializingBea
 
     private LectureRepository lectureRepository;
 
+    @Autowired
     public void setLectureRepository(LectureRepository lectureRepository) {
         this.lectureRepository = lectureRepository;
     }
@@ -42,6 +45,7 @@ public class HomeWorkRepository implements Repository<Homework>, InitializingBea
     public void afterPropertiesSet() {
         //create homeworks
         try {
+
             getRepository().add(new Homework(
                     "homeworkLecture"
                     , lectureRepository.getById(1).orElseThrow()

@@ -17,7 +17,7 @@ public class Homework implements Model, Serializable {
 
     private final String DATE_FORMAT = "MMM d,  HH:mm";
     private final Locale locale = Locale.US;
-    private final LocalDateTime deadlineDate;
+    private LocalDateTime deadlineDate;
 
     private Course course;
     private Lecture lecture;
@@ -26,13 +26,18 @@ public class Homework implements Model, Serializable {
 
     private static Integer createCount = 0;
 
-    public Homework(String name, Lecture lecture) {
+    public Homework(){
         this.ID = createCount++;
         CreationDate = LocalDateTime.now();
+    }
+
+    public Homework(String name, Lecture lecture) {
+        this();
         this.name = name;
         this.lectureID = lecture.getID();
         this.lecture = lecture;
         this.deadlineDate = lecture.getLectureDate().plusDays(1).withHour(12).withMinute(0);
+
         try {
             course = lecture.getCourse().orElseThrow(NullPointerException::new);
         } catch (NullPointerException e ) {

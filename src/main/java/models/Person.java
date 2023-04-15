@@ -1,6 +1,7 @@
 package models;
 
 import models.model_enum.Role;
+import org.springframework.beans.factory.annotation.Autowired;
 import utils.RegexUtil;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ public class Person implements Model, Serializable {
 
     RegexUtil regexUtil;
 
+    @Autowired
     public void setRegexUtil(RegexUtil regexUtil) {
         this.regexUtil = regexUtil;
     }

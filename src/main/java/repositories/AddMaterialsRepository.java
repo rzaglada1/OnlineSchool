@@ -3,6 +3,7 @@ package repositories;
 import models.AddMaterials;
 import models.model_enum.ResourceType;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import services.AddMaterialsService;
 
 import java.util.*;
@@ -15,10 +16,12 @@ public class AddMaterialsRepository implements Repository<AddMaterials>, Initial
     private AddMaterialsService addMaterialsService;
 
 
+    @Autowired
     public void setLectureRepository(LectureRepository lectureRepository) {
         this.lectureRepository = lectureRepository;
     }
 
+    @Autowired
     public void setAddMaterialsService(AddMaterialsService addMaterialsService) {
         this.addMaterialsService = addMaterialsService;
     }

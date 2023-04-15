@@ -3,6 +3,7 @@ package services;
 
 import models.Person;
 import models.model_enum.Role;
+import org.springframework.beans.factory.annotation.Autowired;
 import repositories.PersonRepository;
 import utils.MenuUtils;
 import utils.log.Log;
@@ -19,12 +20,15 @@ import static java.util.stream.Collectors.toList;
 
 public class PersonService {
     String nameLog = "Log OnlineSchool";
-    private final PersonRepository personRepository;
+    private  PersonRepository personRepository;
 
-    public PersonService(PersonRepository personRepository) {
+    public PersonService(){}
+
+
+    @Autowired
+    public void setPersonRepository(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
-
 
     public List<Person> getAllPerson() {
         return personRepository.getRepository();

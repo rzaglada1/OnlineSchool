@@ -1,6 +1,7 @@
 package utils;
 
 import exceptions.ValidationException;
+import org.springframework.beans.factory.annotation.Autowired;
 import services.PersonService;
 import utils.log.Log;
 
@@ -19,10 +20,12 @@ public class RegexUtil {
     private MenuUtils menuUtils;
     private PersonService personService;
 
+    @Autowired
     public void setMenuUtils(MenuUtils menuUtils) {
         this.menuUtils = menuUtils;
     }
 
+    @Autowired
     public void setPersonService(PersonService personService) {
         this.personService = personService;
     }

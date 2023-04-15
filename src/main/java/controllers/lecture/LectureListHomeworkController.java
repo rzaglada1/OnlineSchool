@@ -7,27 +7,18 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.Lecture;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import services.LectureService;
-import utils.data_base.DbConnection;
+
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet("/lectures/homeworks")
 public class LectureListHomeworkController extends HttpServlet {
 
-    ClassPathXmlApplicationContext context = MainController.context;
-    LectureService lectureService = context.getBean("lectureService", LectureService.class);
-
-    public void init() {
-        try {
-            DbConnection.getInstance().getConnect();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    private final AnnotationConfigApplicationContext context = MainController.context;
+    private final LectureService lectureService = context.getBean("lectureService", LectureService.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

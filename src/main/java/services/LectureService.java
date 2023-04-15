@@ -3,6 +3,7 @@ package services;
 
 import models.*;
 import models.model_enum.Role;
+import org.springframework.beans.factory.annotation.Autowired;
 import repositories.HomeWorkRepository;
 import repositories.LectureRepository;
 
@@ -13,19 +14,28 @@ import java.util.stream.Collectors;
 
 
 public class LectureService implements Service {
-    private final LectureRepository lectureRepository;
+
+
+    private LectureRepository lectureRepository;
 
     private AddMaterialsService addMaterialsService;
+
     private HomeWorkRepository homeWorkRepository;
 
-    public LectureService(LectureRepository lectureRepository) {
+    public LectureService(){}
+
+
+    @Autowired
+    public void setLectureRepository(LectureRepository lectureRepository) {
         this.lectureRepository = lectureRepository;
     }
 
+    @Autowired
     public void setAddMaterialsService(AddMaterialsService addMaterialsService) {
         this.addMaterialsService = addMaterialsService;
     }
 
+    @Autowired
     public void setHomeWorkRepository(HomeWorkRepository homeWorkRepository) {
         this.homeWorkRepository = homeWorkRepository;
     }

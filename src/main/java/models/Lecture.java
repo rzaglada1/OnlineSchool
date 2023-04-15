@@ -2,6 +2,7 @@ package models;
 
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import services.HomeworkService;
 import utils.log.Log;
 import java.io.Serializable;
@@ -13,6 +14,7 @@ public class Lecture implements Model, Serializable {
 
     private HomeworkService homeworkService;
 
+    @Autowired
     public void setHomeworkService(HomeworkService homeworkService) {
         this.homeworkService = homeworkService;
     }

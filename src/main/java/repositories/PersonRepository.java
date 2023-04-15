@@ -3,6 +3,7 @@ package repositories;
 import models.Person;
 import models.model_enum.Role;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import services.CourseService;
 
 import java.util.*;
@@ -14,6 +15,7 @@ public class PersonRepository implements Repository<Person>, InitializingBean {
 
     CourseService courseService;
 
+    @Autowired
     public void setCourseService(CourseService courseService) {
         this.courseService = courseService;
     }

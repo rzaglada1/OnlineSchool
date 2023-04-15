@@ -4,6 +4,7 @@ package repositories;
 import models.Lecture;
 import models.model_enum.Role;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import services.CourseService;
 import services.PersonService;
 
@@ -17,10 +18,12 @@ public class LectureRepository implements Repository<Lecture>, Serializable, Ini
     private CourseService courseService;
     private PersonService personService;
 
+    @Autowired
     public void setCourseService(CourseService courseService) {
         this.courseService = courseService;
     }
 
+    @Autowired
     public void setPersonService(PersonService personService) {
         this.personService = personService;
     }

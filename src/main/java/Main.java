@@ -1,4 +1,7 @@
 
+import configuration.SpringConfig;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import utils.*;
 import utils.log.Log;
@@ -10,8 +13,10 @@ public class Main {
 
 
         String nameLog = "Log OnlineSchool";
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
         MenuUtils menuUtils = context.getBean("menuUtils", MenuUtils.class);
+
 
         new Thread(new WatchDir(MenuUtils.STR_PATH_DIRECTORY, MenuUtils.STR_NAME_SERVICE)).start();
         new Thread(new WatchDir(MenuUtils.STR_PATH_DIRECTORY, MenuUtils.STR_NAME_BLACK_LIST)).start();
