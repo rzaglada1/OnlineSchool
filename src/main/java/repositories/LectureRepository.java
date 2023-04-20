@@ -53,27 +53,27 @@ public class LectureRepository implements Repository<Lecture>, Serializable, Ini
     @Override
     public void afterPropertiesSet() {
         // create lectures
-//        try {
-//            for (int i = 0; i < 5; i++) {
-//                getRepository().add(new Lecture(
-//                        "Lecture " + i
-//                        , courseService.getCourseById(1).orElseThrow()
-//                        , LocalDateTime.of(2022, 4, 8 - i, 19, 30)
-//                        , personService.getByIdPerson(1, Role.TEACHER).orElseThrow()
-//                ));
-//            }
-//
-//            for (int i = 0; i < 3; i++) {
-//                getRepository().add(new Lecture(
-//                        "LectureSecond " + i
-//                        , courseService.getCourseById(1).orElseThrow()
-//                        , LocalDateTime.now()
-//                        , personService.getByIdPerson(4, Role.TEACHER).orElseThrow()
-//                ));
-//            }
-//
-//        } catch (NoSuchElementException e) {
-//            e.getStackTrace();
-//        }
+        try {
+            for (int i = 0; i < 5; i++) {
+                getRepository().add(new Lecture(
+                        "Lecture " + i
+                        , courseService.getCourseById(1).orElseThrow()
+                        , LocalDateTime.of(2022, 4, 8 - i, 19, 30)
+                        , personService.getByIdPerson(1, Role.TEACHER).orElseThrow()
+                ));
+            }
+
+            for (int i = 0; i < 3; i++) {
+                getRepository().add(new Lecture(
+                        "LectureSecond " + i
+                        , courseService.getCourseById(1).orElseThrow()
+                        , LocalDateTime.now()
+                        , personService.getByIdPerson(4, Role.TEACHER).orElseThrow()
+                ));
+            }
+
+        } catch (NoSuchElementException e) {
+            e.getStackTrace();
+        }
     }
 }

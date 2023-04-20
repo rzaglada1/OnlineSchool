@@ -11,5 +11,7 @@
         <property name="hibernate.connection.password">Ru76S</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 
+        <mapping class="models.Course"/>
+
     </session-factory>
 </hibernate-configuration>

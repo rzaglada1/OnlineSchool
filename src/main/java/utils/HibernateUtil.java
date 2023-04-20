@@ -12,7 +12,6 @@ public class HibernateUtil {
                     .configure()
                     .buildSessionFactory();
         } catch (Throwable e) {
-            System.out.println("1212121212121212");
             throw new ExceptionInInitializerError(e);
         }
     }
