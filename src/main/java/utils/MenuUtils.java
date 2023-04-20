@@ -273,10 +273,10 @@ public class MenuUtils {
 
         // printing repository objects
         courseService.printRepository();
-        lectureService.printRepository();
-        addMaterialsService.printRepository();
-        personService.printRepository();
-        homeworkService.printRepository();
+//        lectureService.printRepository();
+//        addMaterialsService.printRepository();
+//        personService.printRepository();
+//        homeworkService.printRepository();
     }
 
     public void case1() {

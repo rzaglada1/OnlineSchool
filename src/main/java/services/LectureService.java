@@ -48,7 +48,7 @@ public class LectureService implements Service {
         getAllLecture().forEach(System.out::println);
     }
 
-    public Optional<Lecture> getLectureById(Integer id) {
+    public Optional<Lecture> getLectureById(long id) {
         return lectureRepository.getById(id);
     }
 
@@ -78,7 +78,7 @@ public class LectureService implements Service {
 
 
     // List LectureID with min created time
-    private List<Integer> lectureMinDateCreate() {
+    private List<Long> lectureMinDateCreate() {
         LocalDateTime localDateTimeMin = getAllLecture().stream()
                 .map(Lecture::getCreationDate)
                 .min(LocalDateTime::compareTo).orElseThrow();
@@ -98,7 +98,7 @@ public class LectureService implements Service {
         List<AddMaterials> addMaterials = addMaterialsService.getAllAddMaterials();
 
         // 1) Знайти лекцію, що була створена раніше за всіх
-        List<Integer> lectureIDMinDate = lectureMinDateCreate();
+        List<Long> lectureIDMinDate = lectureMinDateCreate();
 
         System.out.println("---List lectureIDMinDate----");
         System.out.println(lectureIDMinDate);
@@ -108,7 +108,7 @@ public class LectureService implements Service {
         // 2) Знайти у мапі по її Map<Integer(lectureId), List<AdditionalMaterial» лекції, які задовільняють першій умові
 
         // Creating Map with key - LecturesID, Value - number of addMaterials
-        Map<Integer, List<AddMaterials>> mapAddMaterialsByLectureID = addMaterials.stream()
+        Map<Long, List<AddMaterials>> mapAddMaterialsByLectureID = addMaterials.stream()
                 .collect(Collectors.groupingBy(el -> el.getLecture().getID()));
 
         System.out.println("---Map  key LectureID  Value AddMaterials----");
@@ -117,7 +117,7 @@ public class LectureService implements Service {
 
 
         // Search in Map LectureID  with min DateCreation
-        Map<Integer, List<AddMaterials>> filterMinTimeMap = mapAddMaterialsByLectureID.entrySet().stream()
+        Map<Long, List<AddMaterials>> filterMinTimeMap = mapAddMaterialsByLectureID.entrySet().stream()
                 .filter(el -> lectureIDMinDate.contains(el.getKey()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
@@ -134,7 +134,7 @@ public class LectureService implements Service {
                 .max(Comparator.naturalOrder())
                 .orElseThrow();
 
-        List<Integer> lectureIDResult = filterMinTimeMap.entrySet().stream()
+        List<Long> lectureIDResult = filterMinTimeMap.entrySet().stream()
                 .filter(e -> e.getValue().size() == maxCountAddMaterials)
                 .map(Map.Entry::getKey)
                 .toList();
@@ -167,17 +167,17 @@ public class LectureService implements Service {
         List<Homework> homeworks = homeWorkRepository.getRepository();
 
         // 1) Знайти лекцію, що була створена раніше за всіх
-        List<Integer> lectureIDMinDate = lectureMinDateCreate();
+        List<Long> lectureIDMinDate = lectureMinDateCreate();
 
         // 2) Знайти у мапі по її Map<Integer(lectureId), List<AdditionalMaterial» лекції, які задовільняють першій умові
 
         // Creating Map with key - LecturesID, Value - number of homeworks
-        Map<Integer, List<Homework>> mapHomeworksByLectureID = homeworks.stream()
+        Map<Long, List<Homework>> mapHomeworksByLectureID = homeworks.stream()
                 .collect(Collectors.groupingBy(el -> el.getLecture().getID()));
 
 
         // Search in Map LectureID  with min DateCreation
-        Map<Integer, List<Homework>> filterMinTimeMap = mapHomeworksByLectureID.entrySet().stream()
+        Map<Long, List<Homework>> filterMinTimeMap = mapHomeworksByLectureID.entrySet().stream()
                 .filter(el -> lectureIDMinDate.contains(el.getKey()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
@@ -190,7 +190,7 @@ public class LectureService implements Service {
                 .max(Comparator.naturalOrder())
                 .orElseThrow();
 
-        List<Integer> lectureIDResult = filterMinTimeMap.entrySet().stream()
+        List<Long> lectureIDResult = filterMinTimeMap.entrySet().stream()
                 .filter(e -> e.getValue().size() == maxCountHomeworks)
                 .map(Map.Entry::getKey)
                 .toList();

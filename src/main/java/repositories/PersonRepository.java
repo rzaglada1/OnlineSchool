@@ -30,8 +30,8 @@ public class PersonRepository implements Repository<Person>, InitializingBean {
     }
 
     @Override
-    public Optional<Person> getById(Integer id) {
-        return repository.stream().filter(element -> element.getID().equals(id)).findAny();
+    public Optional<Person> getById(long id) {
+        return repository.stream().filter(element -> element.getID() == id).findAny();
     }
 
     @Override

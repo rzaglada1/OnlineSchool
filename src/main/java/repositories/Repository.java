@@ -9,7 +9,7 @@ public interface Repository<E extends Model> {
 
     List<E> getRepository();
 
-    Optional<E> getById(Integer id);
+    Optional<E> getById(long id);
 
     List<E> sortedByName();
 }

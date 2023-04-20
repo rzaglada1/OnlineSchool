@@ -29,7 +29,7 @@ public class HomeworkService {
         getAllHomework().forEach(System.out::println);
     }
 
-    public Optional<Homework> getHomeworkById(Integer id) {
+    public Optional<Homework> getHomeworkById(long id) {
         return homeWorkRepository.getById(id);
     }
 
@@ -37,7 +37,7 @@ public class HomeworkService {
         return homeWorkRepository.sortedByName();
     }
 
-    public List<Homework> getHomeworkByLectureId(int lectureId) {
+    public List<Homework> getHomeworkByLectureId(long lectureId) {
         return getAllHomework().stream()
                 .filter(element -> element.getLectureID().isPresent()
                         && element.getLectureID().get() == lectureId).collect(Collectors.toList());

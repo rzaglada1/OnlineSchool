@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class Homework implements Model, Serializable {
 
-    private final Integer ID;
+    private final long ID;
     private String name;
     private final LocalDateTime CreationDate;
 
@@ -21,7 +21,7 @@ public class Homework implements Model, Serializable {
 
     private Course course;
     private Lecture lecture;
-    private Integer lectureID;
+    private long lectureID;
 
 
     private static Integer createCount = 0;
@@ -50,11 +50,11 @@ public class Homework implements Model, Serializable {
         return createCount;
     }
 
-    public Optional<Integer> getLectureID() {
+    public Optional<Long> getLectureID() {
         return Optional.ofNullable(lectureID);
     }
 
-    public void setLectureID(Integer lectureID) {
+    public void setLectureID(long lectureID) {
         this.lectureID = lectureID;
     }
 
@@ -92,7 +92,7 @@ public class Homework implements Model, Serializable {
     }
 
     @Override
-    public Integer getID() {
+    public long getID() {
         return ID;
     }
 

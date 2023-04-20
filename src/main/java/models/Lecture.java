@@ -19,7 +19,7 @@ public class Lecture implements Model, Serializable {
         this.homeworkService = homeworkService;
     }
 
-    private final Integer ID;
+    private final long ID;
     private String name;
 
     private final String DATE_LECTURE_FORMAT = "MMM d, EEEE HH:mm:ss";
@@ -35,8 +35,8 @@ public class Lecture implements Model, Serializable {
     private static Integer createCount = 0;
 
     private Course course;
-    private int idCourse;
-    private int personID;
+    private long idCourse;
+    private long personID;
     private Person person;
 
     public Lecture() {
@@ -58,7 +58,7 @@ public class Lecture implements Model, Serializable {
     }
 
 
-    public Integer getIdCourse() {
+    public long getIdCourse() {
         return idCourse;
     }
 
@@ -66,16 +66,16 @@ public class Lecture implements Model, Serializable {
         return createCount;
     }
 
-    public void setIdCourse(Integer idCourse) {
+    public void setIdCourse(long idCourse) {
         this.idCourse = idCourse;
     }
 
 
-    public int getPersonID() {
+    public long getPersonID() {
         return personID;
     }
 
-    public void setPersonID(int personID) {
+    public void setPersonID(long personID) {
         this.personID = personID;
     }
 
@@ -165,7 +165,7 @@ public class Lecture implements Model, Serializable {
 
 
     @Override
-    public Integer getID() {
+    public long getID() {
         return ID;
     }
 

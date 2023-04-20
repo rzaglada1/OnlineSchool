@@ -1,28 +1,51 @@
 package models;
 
+import jakarta.persistence.*;
+
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Entity
+@Table(name = "courses", schema = "online_school")
 public class Course implements Model, Serializable {
 
-    private  Integer ID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "id", nullable = false)
+    private  Long ID;
+    @Column(name = "name")
     private String name;
+    @Column(name = "create_date")
     private  LocalDateTime creationDate;
 
+    @Transient
     private List<Person> persons;
+    @Transient
     private List<Lecture> lectures;
 
     public Course() {
+    }
+
+
+    public void setID(Long ID) {
+        this.ID = ID;
+    }
+
+    public Course(Long ID, String name, LocalDateTime creationDate) {
+        this.ID = ID;
+        this.name = name;
+        this.creationDate = creationDate;
     }
 
     public Course(String name) {
         this.name = name;
     }
 
-    public Course(int id, String name, LocalDateTime creationDate ) {
+    public Course(long id, String name, LocalDateTime creationDate ) {
         this.ID = id;
         this.name = name;
         this.creationDate = creationDate;
@@ -49,7 +72,7 @@ public class Course implements Model, Serializable {
         return creationDate;
     }
 
-    public void setID(Integer ID) {
+    public void setID(long ID) {
         this.ID = ID;
     }
 
@@ -68,7 +91,7 @@ public class Course implements Model, Serializable {
     }
 
     @Override
-    public Integer getID() {
+    public long getID() {
         return ID;
     }
 

@@ -22,7 +22,7 @@ public class AddMaterials implements Model, Serializable {
         this.lectureService = lectureService;
     }
 
-    private  Integer ID;
+    private  long ID;
     private String name;
     private static Integer createCount = 0;
     private  LocalDateTime CreationDate;
@@ -30,7 +30,7 @@ public class AddMaterials implements Model, Serializable {
 
     private Lecture lecture;
     private Course course;
-    private  Integer lectureID;
+    private  long lectureID;
     private ResourceType resourceType;
 
 
@@ -49,7 +49,7 @@ public class AddMaterials implements Model, Serializable {
     }
 
 
-    private Optional<Course> getCourse(int lectureID) {
+    private Optional<Course> getCourse(long lectureID) {
         return lectureService
                 .getLectureById(lectureID).orElseThrow(NoSuchElementException::new).getCourse();
     }
@@ -62,7 +62,7 @@ public class AddMaterials implements Model, Serializable {
         this.lecture = lecture;
     }
 
-    public Optional<Integer> getLectureID() {
+    public Optional<Long> getLectureID() {
         return Optional.ofNullable(lectureID);
     }
 
@@ -80,7 +80,7 @@ public class AddMaterials implements Model, Serializable {
     }
 
     @Override
-    public Integer getID() {
+    public long getID() {
         return ID;
     }
 

@@ -1,6 +1,5 @@
 package configuration;
 
-import controllers.course.CourseListController;
 import models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,22 +21,22 @@ public class SpringConfig {
 
     private Environment environment;
 
-    @Autowired
-    public void setEnvironment(Environment environment) {
-        this.environment = environment;
-    }
-
-    @Bean
-    public DriverManagerDataSource dataSource () {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-
-        dataSource.setDriverClassName(environment.getRequiredProperty("DRIVER"));
-        dataSource.setUrl(environment.getRequiredProperty("URL"));
-        dataSource.setUsername(environment.getRequiredProperty("USER"));
-        dataSource.setPassword(environment.getRequiredProperty("PASSWORD"));
-
-        return dataSource;
-    }
+//    @Autowired
+//    public void setEnvironment(Environment environment) {
+//        this.environment = environment;
+//    }
+//
+//    @Bean
+//    public DriverManagerDataSource dataSource () {
+//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//
+//        dataSource.setDriverClassName(environment.getRequiredProperty("DRIVER"));
+//        dataSource.setUrl(environment.getRequiredProperty("URL"));
+//        dataSource.setUsername(environment.getRequiredProperty("USER"));
+//        dataSource.setPassword(environment.getRequiredProperty("PASSWORD"));
+//
+//        return dataSource;
+//    }
 
     @Bean
     public CourseRepository courseRepository () {

@@ -36,8 +36,8 @@ public class AddMaterialsRepository implements Repository<AddMaterials>, Initial
 
 
     @Override
-    public Optional<AddMaterials> getById(Integer id) {
-        return repository.stream().filter(element -> element.getID().equals(id)).findAny();
+    public Optional<AddMaterials> getById(long id) {
+        return repository.stream().filter(element -> element.getID() == id).findAny();
     }
 
     @Override

@@ -18,7 +18,7 @@ public class Person implements Model, Serializable {
         this.regexUtil = regexUtil;
     }
 
-    private final Integer ID;
+    private final long ID;
     private String name;
     private final LocalDateTime CreationDate;
 
@@ -27,7 +27,7 @@ public class Person implements Model, Serializable {
 
     private List<Course> courses = new ArrayList<>();
     private Lecture lecture;
-    private int courseID;
+    private long courseID;
     private Role role;
 
 
@@ -75,7 +75,7 @@ public class Person implements Model, Serializable {
         return createCount;
     }
 
-    public int getCourseID() {
+    public long getCourseID() {
         return courseID;
     }
 
@@ -83,7 +83,7 @@ public class Person implements Model, Serializable {
         return role;
     }
 
-    public void setCourseID(int courseID) {
+    public void setCourseID(long courseID) {
         this.courseID = courseID;
     }
 
@@ -166,7 +166,7 @@ public class Person implements Model, Serializable {
     }
 
     @Override
-    public Integer getID() {
+    public long getID() {
         return ID;
     }
 

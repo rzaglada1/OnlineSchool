@@ -2,7 +2,6 @@ package repositories;
 
 
 import models.Homework;
-import models.Lecture;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -29,8 +28,8 @@ public class HomeWorkRepository implements Repository<Homework>, InitializingBea
 
 
     @Override
-    public Optional<Homework> getById(Integer id) {
-        return repository.stream().filter(element -> element.getID().equals(id)).findAny();
+    public Optional<Homework> getById(long id) {
+        return repository.stream().filter(element -> element.getID() == id).findAny();
     }
 
     @Override

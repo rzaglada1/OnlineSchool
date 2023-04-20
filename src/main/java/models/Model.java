@@ -4,7 +4,7 @@ package models;
 
 public interface Model  {
 
-    Integer getID() ;
+    long getID() ;
 
     String getName() ;
 

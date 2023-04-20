@@ -56,7 +56,7 @@ public class PersonService {
     }
 
     public Optional<Person> getByIdPerson(Integer id, Role role) {
-        return getAllPerson().stream().filter(element -> element.getID().equals(id) && element.getRole() == role).findAny();
+        return getAllPerson().stream().filter(element -> element.getID() == id && element.getRole() == role).findAny();
     }
 
     public List<Person> sortedStudentByLastName() {
