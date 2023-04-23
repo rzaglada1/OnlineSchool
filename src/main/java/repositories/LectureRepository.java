@@ -52,14 +52,13 @@ public class LectureRepository implements Repository<Lecture>, Serializable, Ini
 
     @Override
     public void afterPropertiesSet() {
-        // create lectures
         try {
             for (int i = 0; i < 5; i++) {
                 getRepository().add(new Lecture(
                         "Lecture " + i
                         , courseService.getCourseById(1).orElseThrow()
                         , LocalDateTime.of(2022, 4, 8 - i, 19, 30)
-                        , personService.getByIdPerson(1, Role.TEACHER).orElseThrow()
+                        , personService.getByIdPerson(5, Role.TEACHER).orElseThrow()
                 ));
             }
 
@@ -68,7 +67,7 @@ public class LectureRepository implements Repository<Lecture>, Serializable, Ini
                         "LectureSecond " + i
                         , courseService.getCourseById(1).orElseThrow()
                         , LocalDateTime.now()
-                        , personService.getByIdPerson(4, Role.TEACHER).orElseThrow()
+                        , personService.getByIdPerson(6, Role.TEACHER).orElseThrow()
                 ));
             }
 

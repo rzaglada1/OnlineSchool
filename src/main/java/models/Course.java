@@ -22,8 +22,10 @@ public class Course implements Model, Serializable {
     @Column(name = "create_date")
     private  LocalDateTime creationDate;
 
-    @Transient
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "courses")
     private List<Person> persons;
+
+
     @Transient
     private List<Lecture> lectures;
 
@@ -85,8 +87,6 @@ public class Course implements Model, Serializable {
         return "Course{" +
                 "idCourse=" + getID() +
                 ", nameCourse='" + getName() + '\'' +
-                ", persons=" + getPersons() +
-                ", lecture=" + getLectures() +
                 '}';
     }
 

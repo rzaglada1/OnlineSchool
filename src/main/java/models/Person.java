@@ -1,42 +1,66 @@
 package models;
 
+import jakarta.persistence.*;
 import models.model_enum.Role;
-import org.springframework.beans.factory.annotation.Autowired;
-import utils.RegexUtil;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table(name = "persons", schema = "online_school")
 public class Person implements Model, Serializable {
 
-    RegexUtil regexUtil;
 
-    @Autowired
-    public void setRegexUtil(RegexUtil regexUtil) {
-        this.regexUtil = regexUtil;
-    }
-
-    private final long ID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "id", nullable = false)
+    private Long ID;
+    @Column(name = "name")
     private String name;
+    @Column(name = "create_date")
     private final LocalDateTime CreationDate;
-
-    private static Integer createCount = 0;
-
-
-    private List<Course> courses = new ArrayList<>();
-    private Lecture lecture;
-    private long courseID;
+    @Column(name = "last_name")
+    private String lastName;
+    @Column(name = "phone")
+    private String phone;
+    @Column(name = "email")
+    private String email;
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
     private Role role;
 
 
-    private String lastName;
-    private String phone;
-    private String email;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "courses_persons"
+            , joinColumns = @JoinColumn(name = "person_id")
+            , inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
+    private List<Course> courses = new ArrayList<>();
+
+
+    @Transient
+    private Lecture lecture;
+    @Transient
+    private long courseID;
+
+
+    public Person(long ID, String name, LocalDateTime creationDate, String lastName
+            , String phone, String email, Role role, List<Course> courses) {
+        this();
+        this.ID = ID;
+        this.name = name;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.email = email;
+        this.role = role;
+        this.courses = courses;
+    }
+
+
 
     public Person() {
-        this.ID = createCount++;
         CreationDate = LocalDateTime.now();
     }
 
@@ -71,64 +95,44 @@ public class Person implements Model, Serializable {
     }
 
 
-    public static Integer getCreateCount() {
-        return createCount;
+    public void setID(long ID) {
+        this.ID = ID;
     }
 
-    public long getCourseID() {
-        return courseID;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setCourseID(long courseID) {
-        this.courseID = courseID;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
+    public LocalDateTime getCreationDate() {
+        return CreationDate;
     }
 
     public String getLastName() {
         return lastName;
     }
 
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public String getPhone() {
         return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getEmail() {
         return email;
     }
 
-
-    public boolean setLastName(String lastName) {
-        if (regexUtil.isCorrect(lastName, RegexUtil.REGEX_LAST_NAME)) {
-            this.lastName = lastName;
-            return true;
-        }
-        return false;
-
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public boolean setPhone(String phone) {
-        if (regexUtil.isCorrect(phone, RegexUtil.REGEX_PHONE)) {
-            this.phone = phone;
-            return true;
-        }
-        return false;
-
+    public Role getRole() {
+        return role;
     }
 
-    public boolean setEmail(String email) {
-        if (regexUtil.isCorrect(email, RegexUtil.REGEX_EMAIL)) {
-            this.email = email;
-            return true;
-        }
-        return false;
-
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public List<Course> getCourses() {
@@ -147,15 +151,17 @@ public class Person implements Model, Serializable {
         this.lecture = lecture;
     }
 
-    public LocalDateTime getCreationDate() {
-        return CreationDate;
+    public long getCourseID() {
+        return courseID;
+    }
+
+    public void setCourseID(long courseID) {
+        this.courseID = courseID;
     }
 
     @Override
     public String toString() {
         return "Person{" +
-                "lecture=" + lecture +
-                ", courses=" + courses +
                 ", personID=" + getID() +
                 ", role=" + role +
                 ", Name='" + name + '\'' +
@@ -192,4 +198,6 @@ public class Person implements Model, Serializable {
     public int hashCode() {
         return Objects.hash(ID, name, CreationDate, courses, lecture, courseID, role, lastName, phone, email);
     }
+
+
 }

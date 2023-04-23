@@ -1,6 +1,7 @@
 package services;
 
 
+import models.Course;
 import models.Person;
 import models.model_enum.Role;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,10 +130,17 @@ public class PersonService {
                         Collectors.toMap(p -> p, e -> e.getCourses().size())
                 );
 
+
+        personLongMap.forEach((k,v) -> System.out.println(k +" " + v));
+
         return personLongMap.entrySet().stream()
                 .sorted(Comparator.comparing(k -> k.getKey().getLastName()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (k, v) -> k, LinkedHashMap::new));
     }
 
+
+    public void savePerson(Person person) {
+        personRepository.savePersonToRepository(person);
+    }
 
 }

@@ -1,67 +1,78 @@
 package repositories;
 
+
+import models.Course;
 import models.Person;
-import models.model_enum.Role;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import services.CourseService;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+import utils.HibernateUtil;
+import utils.log.Log;
 
 import java.util.*;
 
 import static java.util.stream.Collectors.toList;
 
 
-public class PersonRepository implements Repository<Person>, InitializingBean {
+public class PersonRepository implements Repository<Person> {
 
-    CourseService courseService;
-
-    @Autowired
-    public void setCourseService(CourseService courseService) {
-        this.courseService = courseService;
-    }
-
-
-    private final List<Person> repository = new ArrayList<>();
+    private final String nameLog = "Log OnlineSchool";
 
 
     @Override
     public List<Person> getRepository() {
+        List<Person> repository = new ArrayList<>();
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()){
+            Transaction tx;
+            tx = session.beginTransaction();
+            Query<Person> query = session.createQuery("FROM Person", Person.class);
+            repository = query.list();
+            tx.commit();
+
+        } catch (Exception e) {
+            Log.error(nameLog, "Error get repository in PersonRepository", e.getStackTrace());
+        }
         return repository;
     }
 
     @Override
     public Optional<Person> getById(long id) {
-        return repository.stream().filter(element -> element.getID() == id).findAny();
+        Person person = new Person();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()){
+
+            Transaction tx;
+            tx = session.beginTransaction();
+            person = session.get(Person.class, id);
+            tx.commit();
+
+        } catch (Exception e) {
+            Log.error(nameLog, "Error get by id in PersonRepository", e.getStackTrace());
+        }
+
+        return Optional.of(person);
     }
 
     @Override
     public List<Person> sortedByName() {
-        return repository.stream()
+        return getRepository().stream()
                 .sorted(Comparator.comparing(Person::getLastName))
                 .collect(toList());
     }
 
+    public void savePersonToRepository(Person person) {
+        Transaction tx;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()){
 
-    @Override
-    public void afterPropertiesSet() {
+            tx = session.beginTransaction();
+            session.persist(person);
+            tx.commit();
 
-        //create persons
-        getRepository().add(new Person(new String[]{"Наталія", "Романенко"
-                , "+380989584545", "Roma1@gmail.com"}, Role.STUDENT, courseService.getCourseById(1).orElseThrow()));
-        getRepository().get(0).getCourses().add(courseService.getCourseById(2).orElseThrow());
-
-        getRepository().add(new Person(new String[]{"Михайло", "Водерацький"
-                , "+380989584545", "Miha@gmail.com"}, Role.TEACHER, courseService.getCourseById(1).orElseThrow()));
-        getRepository().add(new Person(new String[]{"Олена", "Ломачевський"
-                , "+380989584545", "Olena@gmail.com"}, Role.STUDENT, courseService.getCourseById(1).orElseThrow()));
-        getRepository().add(new Person(new String[]{"Зоя", "Андрієнко"
-                , "+380989584545", "Andry@meta.org"}, Role.STUDENT, courseService.getCourseById(1).orElseThrow()));
-        getRepository().add(new Person(new String[]{"Олена", "Командна"
-                , "+380989584545", "Koman@tele.com"}, Role.TEACHER, courseService.getCourseById(1).orElseThrow()));
-        getRepository().add(new Person(new String[]{"Галина", "Заворотнюк"
-                , "+380989584545", "Depend@ukr.ua"}, Role.STUDENT, courseService.getCourseById(2).orElseThrow()));
-
-
+        } catch (Exception e) {
+            Log.error(nameLog, "Error save to Base in PersonRepository", e.getStackTrace());
+        }
     }
+
+
 }
 

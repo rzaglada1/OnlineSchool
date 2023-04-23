@@ -323,7 +323,7 @@ public class MenuUtils {
 
             Person personTeacher = new Person(regexUtil.personAttribute(),
                     Role.TEACHER, lecture);
-            personService.getAllPerson().add(personTeacher);
+            personService.savePerson(personTeacher);
 
         } catch (NoSuchElementException e) {
             Log.warning(nameLog, "Course not found", e.getStackTrace());
@@ -343,7 +343,7 @@ public class MenuUtils {
             Course course = courseService.getCourseById(inputCourseID).orElseThrow(NoSuchElementException::new);
             Person personStudent = new Person(regexUtil.personAttribute(),
                     Role.STUDENT, course);
-            personService.getAllPerson().add(personStudent);
+            personService.savePerson(personStudent);
         } catch (NoSuchElementException e) {
             Log.warning(nameLog, "Course not found", e.getStackTrace());
         } catch (ValidationException e) {

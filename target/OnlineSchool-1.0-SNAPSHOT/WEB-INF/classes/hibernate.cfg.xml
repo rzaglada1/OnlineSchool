@@ -11,7 +11,12 @@
         <property name="hibernate.connection.password">Ru76S</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 
+        <property name="show_sql">false</property>
+
         <mapping class="models.Course"/>
+        <mapping class="models.Person"/>
+
+
 
     </session-factory>
 </hibernate-configuration>
