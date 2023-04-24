@@ -156,7 +156,7 @@ public class MenuUtils {
         return new Scanner(System.in).next();
     }
 
-    public int inputDigit() {
+    public long inputDigit() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             if (scanner.hasNextInt()) {
@@ -294,7 +294,7 @@ public class MenuUtils {
         System.out.println("Enter name Lecture");
         String nameLecture = inputString();
         System.out.println("Enter Course ID for lecture");
-        int inputCourseID = inputDigit();
+        long inputCourseID = inputDigit();
         try {
             Course course = courseService.getCourseById(inputCourseID).orElseThrow(NoSuchElementException::new);
             LocalDateTime lectureDate = enterDate(STR_ENTER_FORMAT_DATE);
@@ -316,13 +316,15 @@ public class MenuUtils {
         Log.info(nameLog, "Selected   - \"3 - Creating teacher");
 
         System.out.println("Enter ID lecture for teacher");
-        int inputLectureID = inputDigit();
+        long inputLectureID = inputDigit();
 
         try {
             Lecture lecture = lectureService.getLectureById(inputLectureID).orElseThrow(NoSuchElementException::new);
 
+            List<Lecture> lectures = new ArrayList<>();
+            lectures.add(lecture);
             Person personTeacher = new Person(regexUtil.personAttribute(),
-                    Role.TEACHER, lecture);
+                    Role.TEACHER, lectures);
             personService.savePerson(personTeacher);
 
         } catch (NoSuchElementException e) {
@@ -337,7 +339,7 @@ public class MenuUtils {
     public void case4() {
         Log.info(nameLog, "Selected   - \"4 - Creating student");
         System.out.println("Enter ID course for student");
-        int inputCourseID = inputDigit();
+        long inputCourseID = inputDigit();
 
         try {
             Course course = courseService.getCourseById(inputCourseID).orElseThrow(NoSuchElementException::new);
@@ -359,7 +361,7 @@ public class MenuUtils {
         System.out.println("Enter name Homework");
         String nameHomework = inputString();
         System.out.println("Enter lecture ID for homework");
-        int lectureID = inputDigit();
+        long lectureID = inputDigit();
         Lecture lecture;
 
         try {
@@ -379,7 +381,7 @@ public class MenuUtils {
 
         System.out.println("Enter lecture ID for add materials");
 
-        int inputID = inputDigit();
+        long inputID = inputDigit();
         try {
             Lecture lecture = lectureService.getLectureById(inputID).orElseThrow(NoSuchElementException::new);
             System.out.println("Enter name addMaterials");
@@ -400,7 +402,7 @@ public class MenuUtils {
         Log.info(nameLog, "Selected   - \"7 - Get homework and add task by ID lecture\" ");
 
         System.out.print("Enter lecture ID ");
-        int inputLectureID = inputDigit();
+        long inputLectureID = inputDigit();
         try {
             Lecture lecture = lectureService.getLectureById(inputLectureID).orElseThrow(NoSuchElementException::new);
             // filter && printing lecture by ID
@@ -535,7 +537,7 @@ public class MenuUtils {
         courseService.printRepository();
 
         System.out.println("Enter ID course for backup");
-        int inputCourseID = inputDigit();
+        long inputCourseID = inputDigit();
         try {
             courseService.getCourseById(inputCourseID).orElseThrow(NoSuchElementException::new);
             sb.createBackup(
@@ -555,7 +557,7 @@ public class MenuUtils {
 
         ServiceBackupFile sr = new ServiceBackupFile();
         System.out.println("Enter ID course for printingBackup");
-        int inputCourseID = inputDigit();
+        long inputCourseID = inputDigit();
         try {
             courseService.getCourseById(inputCourseID).orElseThrow(NoSuchElementException::new);
             sr.printBackup(inputCourseID, MenuUtils.NAME_FILE_BACKUP);

@@ -15,6 +15,9 @@
 
         <mapping class="models.Course"/>
         <mapping class="models.Person"/>
+        <mapping class="models.Lecture"/>
+        <mapping class="models.AddMaterials"/>
+        <mapping class="models.Homework"/>
 
 
 

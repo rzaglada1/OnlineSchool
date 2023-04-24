@@ -6,7 +6,6 @@ import models.model_enum.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import repositories.HomeWorkRepository;
 import repositories.LectureRepository;
-
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Predicate;
@@ -200,5 +199,8 @@ public class LectureService implements Service {
     }
 
 
+    public void saveLecture(Lecture lecture) {
+        lectureRepository.saveLectureToRepository(lecture);
+    }
 
 }

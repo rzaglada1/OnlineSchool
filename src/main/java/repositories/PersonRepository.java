@@ -1,7 +1,6 @@
 package repositories;
 
 
-import models.Course;
 import models.Person;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

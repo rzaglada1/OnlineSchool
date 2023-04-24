@@ -25,7 +25,7 @@ public class CourseDetailController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        int id = Integer.parseInt(request.getParameter("Id"));
+        long id = Integer.parseInt(request.getParameter("Id"));
         Optional<Course> course = courseService.getCourseById(id);
 
         course.ifPresent(value -> request.setAttribute("course", value));

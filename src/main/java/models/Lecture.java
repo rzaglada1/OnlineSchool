@@ -2,48 +2,58 @@ package models;
 
 
 
-import org.springframework.beans.factory.annotation.Autowired;
-import services.HomeworkService;
+import jakarta.persistence.*;
 import utils.log.Log;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+@Entity
+@Table(name = "lectures", schema = "online_school")
 public class Lecture implements Model, Serializable {
 
-    private HomeworkService homeworkService;
-
-    @Autowired
-    public void setHomeworkService(HomeworkService homeworkService) {
-        this.homeworkService = homeworkService;
-    }
-
-    private final long ID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "id", nullable = false)
+    private long ID;
+    @Column(name = "name")
     private String name;
-
-    private final String DATE_LECTURE_FORMAT = "MMM d, EEEE HH:mm:ss";
-    private final Locale locale = Locale.US;
+    @Column(name = "create_date")
     private final LocalDateTime creationDate;
+    @Column(name = "lecture_date")
     private LocalDateTime lectureDate;
-    private List<AddMaterials> addMaterialsList;
-    private long addMaterialsCount;
 
 
-    private List<Homework> homeworks;
-
-    private static Integer createCount = 0;
-
+    @ManyToOne
+    @JoinColumn(name = "course_id")
     private Course course;
-    private long idCourse;
-    private long personID;
+
+    @ManyToOne
+    @JoinColumn(name = "person_id")
     private Person person;
 
-    public Lecture() {
-        this.ID = createCount++;
-        //creationDate = LocalDateTime.now();
-        creationDate = LocalDateTime.of(2023, 9, 19, 14, 5);
+    @OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<AddMaterials> addMaterialsList;
+    @OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Homework> homeworks;
 
+
+
+    @Transient
+    private final String DATE_LECTURE_FORMAT = "MMM d, EEEE HH:mm:ss";
+    @Transient
+    private final Locale locale = Locale.US;
+    @Transient
+    private long addMaterialsCount;
+    @Transient
+    private long idCourse;
+    @Transient
+    private long personID;
+
+
+    public Lecture() {
+        creationDate = LocalDateTime.now();
     }
 
     public Lecture(String name, Course course, LocalDateTime lectureDate, Person person) {
@@ -62,9 +72,6 @@ public class Lecture implements Model, Serializable {
         return idCourse;
     }
 
-    public static Integer getCreateCount() {
-        return createCount;
-    }
 
     public void setIdCourse(long idCourse) {
         this.idCourse = idCourse;
@@ -88,9 +95,17 @@ public class Lecture implements Model, Serializable {
         this.personID = person.getID();
     }
 
-    public List<Homework> getHomework() {
 
-        return homeworkService.getHomeworkByLectureId(this.ID);
+    public List<AddMaterials> getAddMaterialsList() {
+        return addMaterialsList;
+    }
+
+    public List<Homework> getHomeworks() {
+        return homeworks;
+    }
+
+    public void setHomeworks(List<Homework> homeworks) {
+        this.homeworks = homeworks;
     }
 
     public void setHomework(List<Homework> homeworks) {
@@ -112,6 +127,13 @@ public class Lecture implements Model, Serializable {
     }
 
 
+    public void setID(long ID) {
+        this.ID = ID;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
 
     public void setAddMaterialsCount(long addMaterialsCount) {
         this.addMaterialsCount = addMaterialsCount;
@@ -123,13 +145,12 @@ public class Lecture implements Model, Serializable {
             return "Lecture{" +
                     "LectureName=" + getName() +
                     ", idLecture=" + getID() +
-                    ", personID=" + personID +
-                    ", personName=" + person.getName() +
-                    ", personLastName=" + person.getLastName() +
-                    ", personRole=" + person.getRole() +
-                    ", idCourse=" + idCourse +
-                    ", courseName=" + course.getName() +
-//                    ", dateCreated= " + formatDate(getCreationDate(), DATE_LECTURE_FORMAT, locale) +
+//                    ", personID=" + personID +
+//                    ", personName=" + person.getName() +
+//                    ", personLastName=" + person.getLastName() +
+//                    ", personRole=" + person.getRole() +
+//                    ", idCourse=" + idCourse +
+//                    ", courseName=" + course.getName() +
                     ", dateCreated= " + getCreationDate() +
                     ", dateStartLecture= " + formatDate(getLectureDate(), DATE_LECTURE_FORMAT, locale) +
                     '}' + '\n';
@@ -138,7 +159,7 @@ public class Lecture implements Model, Serializable {
                     "LectureName=" + getName() +
                     ", idLecture=" + getID() +
                     ", idCourse=" + idCourse +
-                    ", courseName=" + course.getName() +
+//                    ", courseName=" + course.getName() +
                     ", dateCreated= " + getCreationDate() +
                     ", dateStartLecture= " + formatDate(getLectureDate(), DATE_LECTURE_FORMAT, locale) +
                     '}' + '\n';

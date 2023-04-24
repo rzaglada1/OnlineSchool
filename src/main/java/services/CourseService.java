@@ -24,7 +24,7 @@ public class CourseService implements Service {
         return courseRepository.getRepository();
     }
 
-    public Optional<Course> getCourseById(Integer id) {
+    public Optional<Course> getCourseById(Long id) {
         return courseRepository.getById(id);
     }
 

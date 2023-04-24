@@ -2,68 +2,72 @@ package repositories;
 
 
 import models.Homework;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+import utils.HibernateUtil;
+import utils.log.Log;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class HomeWorkRepository implements Repository<Homework>, InitializingBean {
+public class HomeWorkRepository implements Repository<Homework> {
 
-
-    private LectureRepository lectureRepository;
-
-    @Autowired
-    public void setLectureRepository(LectureRepository lectureRepository) {
-        this.lectureRepository = lectureRepository;
-    }
-
-    private final List<Homework> repository = new ArrayList<>();
-
+    private final String nameLog = "Log OnlineSchool";
 
     @Override
     public List<Homework> getRepository() {
+        List<Homework> repository = new ArrayList<>();
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()){
+            Transaction tx;
+            tx = session.beginTransaction();
+            Query<Homework> query = session.createQuery("FROM Homework", Homework.class);
+            repository = query.list();
+            tx.commit();
+
+        } catch (Exception e) {
+            Log.error(nameLog, "Error get repository in HomeworkRepository", e.getStackTrace());
+        }
         return repository;
     }
 
 
     @Override
     public Optional<Homework> getById(long id) {
-        return repository.stream().filter(element -> element.getID() == id).findAny();
+        Homework homework = new Homework();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()){
+
+            Transaction tx;
+            tx = session.beginTransaction();
+            homework = session.get(Homework.class, id);
+            tx.commit();
+
+        } catch (Exception e) {
+            Log.error(nameLog, "Error get by id in HomeworkRepository", e.getStackTrace());
+        }
+
+        return Optional.of(homework);
     }
 
     @Override
     public List<Homework> sortedByName() {
-        return repository.stream()
+        return getRepository().stream()
                 .sorted(Comparator.comparing(Homework::getName))
                 .collect(Collectors.toList());
     }
 
+    public void saveHomeworkToRepository(Homework homework) {
+        Transaction tx;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()){
 
-    @Override
-    public void afterPropertiesSet() {
-        //create homeworks
-        try {
+            tx = session.beginTransaction();
+            session.persist(homework);
+            tx.commit();
 
-            getRepository().add(new Homework(
-                    "homeworkLecture"
-                    , lectureRepository.getById(1).orElseThrow()
-            ));
-            getRepository().add(new Homework(
-                    "homeworkLecture"
-                    , lectureRepository.getById(2).orElseThrow()
-            ));
-
-            getRepository().add(new Homework(
-                    "homeworkLecture"
-                    , lectureRepository.getById(2).orElseThrow()
-            ));
-            getRepository().add(new Homework(
-                    "homeworkLecture"
-                    , lectureRepository.getById(3).orElseThrow()
-            ));
-        } catch (NoSuchElementException e) {
-            e.getStackTrace();
+        } catch (Exception e) {
+            Log.error(nameLog, "Error save to Base in HomeworkRepository", e.getStackTrace());
         }
     }
+
 }

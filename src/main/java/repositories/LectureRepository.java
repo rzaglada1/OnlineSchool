@@ -2,77 +2,74 @@ package repositories;
 
 
 import models.Lecture;
-import models.model_enum.Role;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import services.CourseService;
-import services.PersonService;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+import utils.HibernateUtil;
+import utils.log.Log;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class LectureRepository implements Repository<Lecture>, Serializable, InitializingBean {
+public class LectureRepository implements Repository<Lecture>, Serializable {
 
-    private CourseService courseService;
-    private PersonService personService;
-
-    @Autowired
-    public void setCourseService(CourseService courseService) {
-        this.courseService = courseService;
-    }
-
-    @Autowired
-    public void setPersonService(PersonService personService) {
-        this.personService = personService;
-    }
-
-    private final List<Lecture> repository = new ArrayList<>();
-
+    private final String nameLog = "Log OnlineSchool";
 
     @Override
     public List<Lecture> getRepository() {
+        List<Lecture> repository = new ArrayList<>();
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()){
+            Transaction tx;
+            tx = session.beginTransaction();
+            Query<Lecture> query = session.createQuery("FROM Lecture", Lecture.class);
+            repository = query.list();
+            tx.commit();
+
+        } catch (Exception e) {
+            Log.error(nameLog, "Error get repository in LectureRepository", e.getStackTrace());
+        }
         return repository;
     }
 
 
     @Override
     public Optional<Lecture> getById(long id) {
-        return repository.stream().filter(element -> element.getID() == id).findAny();
+        Lecture lecture = new Lecture();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()){
+
+            Transaction tx;
+            tx = session.beginTransaction();
+            lecture = session.get(Lecture.class, id);
+            tx.commit();
+
+        } catch (Exception e) {
+            Log.error(nameLog, "Error get by id in LectureRepository", e.getStackTrace());
+        }
+
+        return Optional.of(lecture);
     }
 
     @Override
     public List<Lecture> sortedByName() {
-        return repository.stream()
+        return getRepository().stream()
                 .sorted(Comparator.comparing(Lecture::getName))
                 .collect(Collectors.toList());
     }
 
 
-    @Override
-    public void afterPropertiesSet() {
-        try {
-            for (int i = 0; i < 5; i++) {
-                getRepository().add(new Lecture(
-                        "Lecture " + i
-                        , courseService.getCourseById(1).orElseThrow()
-                        , LocalDateTime.of(2022, 4, 8 - i, 19, 30)
-                        , personService.getByIdPerson(5, Role.TEACHER).orElseThrow()
-                ));
-            }
+    public void saveLectureToRepository(Lecture lecture) {
+        Transaction tx;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()){
 
-            for (int i = 0; i < 3; i++) {
-                getRepository().add(new Lecture(
-                        "LectureSecond " + i
-                        , courseService.getCourseById(1).orElseThrow()
-                        , LocalDateTime.now()
-                        , personService.getByIdPerson(6, Role.TEACHER).orElseThrow()
-                ));
-            }
+            tx = session.beginTransaction();
+            session.persist(lecture);
+            tx.commit();
 
-        } catch (NoSuchElementException e) {
-            e.getStackTrace();
+        } catch (Exception e) {
+            Log.error(nameLog, "Error save to Base in LectureRepository", e.getStackTrace());
         }
     }
+
 }

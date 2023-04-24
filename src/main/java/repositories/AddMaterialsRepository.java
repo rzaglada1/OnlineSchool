@@ -1,71 +1,75 @@
 package repositories;
 
 import models.AddMaterials;
-import models.model_enum.ResourceType;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import services.AddMaterialsService;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+import utils.HibernateUtil;
+import utils.log.Log;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class AddMaterialsRepository implements Repository<AddMaterials>, InitializingBean {
+public class AddMaterialsRepository implements Repository<AddMaterials> {
 
+    private final String nameLog = "Log OnlineSchool";
 
-    private LectureRepository lectureRepository;
-    private AddMaterialsService addMaterialsService;
-
-
-    @Autowired
-    public void setLectureRepository(LectureRepository lectureRepository) {
-        this.lectureRepository = lectureRepository;
-    }
-
-    @Autowired
-    public void setAddMaterialsService(AddMaterialsService addMaterialsService) {
-        this.addMaterialsService = addMaterialsService;
-    }
-
-    private final List<AddMaterials> repository = new ArrayList<>();
 
 
     @Override
     public List<AddMaterials> getRepository() {
+        List<AddMaterials> repository = new ArrayList<>();
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()){
+            Transaction tx;
+            tx = session.beginTransaction();
+            Query<AddMaterials> query = session.createQuery("FROM AddMaterials ", AddMaterials.class);
+            repository = query.list();
+            tx.commit();
+
+        } catch (Exception e) {
+            Log.error(nameLog, "Error get repository in AddMaterialsRepository", e.getStackTrace());
+        }
         return repository;
     }
 
 
     @Override
     public Optional<AddMaterials> getById(long id) {
-        return repository.stream().filter(element -> element.getID() == id).findAny();
+        AddMaterials addMaterials = new AddMaterials();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()){
+
+            Transaction tx;
+            tx = session.beginTransaction();
+            addMaterials = session.get(AddMaterials.class, id);
+            tx.commit();
+
+        } catch (Exception e) {
+            Log.error(nameLog, "Error get by id in AddMaterialsRepository", e.getStackTrace());
+        }
+
+        return Optional.of(addMaterials);
     }
 
     @Override
     public List<AddMaterials> sortedByName() {
-        return repository.stream()
+        return getRepository().stream()
                 .sorted(Comparator.comparing(AddMaterials::getName))
                 .collect(Collectors.toList());
     }
 
 
-    @Override
-    public void afterPropertiesSet() {
-        //creating materials
-        try {
-            getRepository().add(new AddMaterials("Text book", ResourceType.BOOK
-                    , lectureRepository.getById(1).orElseThrow(NoSuchElementException::new)));
-            getRepository().add(new AddMaterials("Text book", ResourceType.BOOK
-                    , lectureRepository.getById(3).orElseThrow(NoSuchElementException::new)));
-            getRepository().add(new AddMaterials("Text url", ResourceType.URL
-                    , lectureRepository.getById(1).orElseThrow(NoSuchElementException::new)));
-            getRepository().add(new AddMaterials("Text video", ResourceType.VIDEO
-                    , lectureRepository.getById(3).orElseThrow(NoSuchElementException::new)));
-            getRepository().add(new AddMaterials("Text video", ResourceType.VIDEO
-                    , lectureRepository.getById(2).orElseThrow(NoSuchElementException::new)));
+    public void saveAddMaterialsToRepository(AddMaterials addMaterials) {
+        Transaction tx;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()){
 
+            tx = session.beginTransaction();
+            session.persist(addMaterials);
+            tx.commit();
 
-        } catch (NoSuchElementException e) {
-            e.getStackTrace();
+        } catch (Exception e) {
+            Log.error(nameLog, "Error save to Base in AddMaterialsRepository", e.getStackTrace());
         }
     }
+
 }

@@ -39,9 +39,9 @@ public class Person implements Model, Serializable {
     )
     private List<Course> courses = new ArrayList<>();
 
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Lecture> lectures;
 
-    @Transient
-    private Lecture lecture;
     @Transient
     private long courseID;
 
@@ -84,14 +84,14 @@ public class Person implements Model, Serializable {
         this.courses.add(course);
     }
 
-    public Person(String[] personAttribute, Role role, Lecture lecture) {
+    public Person(String[] personAttribute, Role role, List<Lecture> lecture) {
         this();
         this.name = personAttribute[0];
         this.lastName = personAttribute[1];
         this.phone = personAttribute[2];
         this.email = personAttribute[3];
         this.role = role;
-        this.lecture = lecture;
+        this.lectures = lectures;
     }
 
 
@@ -143,12 +143,13 @@ public class Person implements Model, Serializable {
         this.courses = courses;
     }
 
-    public Lecture getLecture() {
-        return lecture;
+
+    public List<Lecture> getLectures() {
+        return lectures;
     }
 
-    public void setLecture(Lecture lecture) {
-        this.lecture = lecture;
+    public void setLectures(List<Lecture> lectures) {
+        this.lectures = lectures;
     }
 
     public long getCourseID() {
@@ -186,18 +187,17 @@ public class Person implements Model, Serializable {
         this.name = name;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Person person = (Person) o;
-        return courseID == person.courseID && Objects.equals(ID, person.ID) && Objects.equals(name, person.name) && Objects.equals(CreationDate, person.CreationDate) && Objects.equals(courses, person.courses) && Objects.equals(lecture, person.lecture) && role == person.role && Objects.equals(lastName, person.lastName) && Objects.equals(phone, person.phone) && Objects.equals(email, person.email);
+        return courseID == person.courseID && Objects.equals(ID, person.ID) && Objects.equals(name, person.name) && Objects.equals(CreationDate, person.CreationDate) && Objects.equals(lastName, person.lastName) && Objects.equals(phone, person.phone) && Objects.equals(email, person.email) && role == person.role && Objects.equals(courses, person.courses) && Objects.equals(lectures, person.lectures);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ID, name, CreationDate, courses, lecture, courseID, role, lastName, phone, email);
+        return Objects.hash(ID, name, CreationDate, lastName, phone, email, role, courses, lectures, courseID);
     }
-
-
 }

@@ -26,31 +26,36 @@ public class Course implements Model, Serializable {
     private List<Person> persons;
 
 
-    @Transient
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Lecture> lectures;
 
     public Course() {
+        creationDate = LocalDateTime.now();
     }
 
 
-    public void setID(Long ID) {
-        this.ID = ID;
-    }
 
     public Course(Long ID, String name, LocalDateTime creationDate) {
+        this();
         this.ID = ID;
         this.name = name;
         this.creationDate = creationDate;
     }
 
     public Course(String name) {
+        this();
         this.name = name;
     }
 
     public Course(long id, String name, LocalDateTime creationDate ) {
+        this();
         this.ID = id;
         this.name = name;
         this.creationDate = creationDate;
+    }
+
+    public void setID(Long ID) {
+        this.ID = ID;
     }
 
     public List<Person> getPersons() {

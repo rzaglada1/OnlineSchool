@@ -1,7 +1,6 @@
 package models;
 
-import utils.log.Log;
-
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -9,25 +8,35 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 
+@Entity
+@Table(name = "homework", schema = "online_school")
 public class Homework implements Model, Serializable {
 
-    private final long ID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "id", nullable = false)
+    private long ID;
+    @Column(name = "name")
     private String name;
+    @Column(name = "create_date")
     private final LocalDateTime CreationDate;
 
+
+
+    @ManyToOne
+    @JoinColumn(name = "lecture_id")
+    private Lecture lecture;
+
+    @Transient
+    private long lectureID;
+    @Transient
     private final String DATE_FORMAT = "MMM d,  HH:mm";
+    @Transient
     private final Locale locale = Locale.US;
+    @Transient
     private LocalDateTime deadlineDate;
 
-    private Course course;
-    private Lecture lecture;
-    private long lectureID;
-
-
-    private static Integer createCount = 0;
-
     public Homework(){
-        this.ID = createCount++;
         CreationDate = LocalDateTime.now();
     }
 
@@ -37,17 +46,19 @@ public class Homework implements Model, Serializable {
         this.lectureID = lecture.getID();
         this.lecture = lecture;
         this.deadlineDate = lecture.getLectureDate().plusDays(1).withHour(12).withMinute(0);
-
-        try {
-            course = lecture.getCourse().orElseThrow(NullPointerException::new);
-        } catch (NullPointerException e ) {
-            Log.error("Model Homework", "NullPointerException", e.getStackTrace());
-        }
     }
 
 
-    public static Integer getCreateCount() {
-        return createCount;
+    public void setID(long ID) {
+        this.ID = ID;
+    }
+
+    public LocalDateTime getDeadlineDate() {
+        return deadlineDate;
+    }
+
+    public void setDeadlineDate(LocalDateTime deadlineDate) {
+        this.deadlineDate = deadlineDate;
     }
 
     public Optional<Long> getLectureID() {
@@ -58,9 +69,6 @@ public class Homework implements Model, Serializable {
         this.lectureID = lectureID;
     }
 
-    public Optional<Course> getCourse() {
-        return Optional.ofNullable(course);
-    }
 
     public LocalDateTime getCreationDate() {
         return CreationDate;
@@ -84,9 +92,6 @@ public class Homework implements Model, Serializable {
         return "Homework{" +
                 "ID=" + ID +
                 ", name='" + name + '\'' +
-                ", lectureID=" + lectureID +
-                ", courseName = " + getCourse().stream().filter(Objects::nonNull).toList() +
-                ", deadline =" + formatDate(deadlineDate, DATE_FORMAT, locale) +
 
                 '}';
     }
@@ -106,16 +111,17 @@ public class Homework implements Model, Serializable {
         this.name = name;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Homework homework = (Homework) o;
-        return Objects.equals(ID, homework.ID) && Objects.equals(name, homework.name) && Objects.equals(lectureID, homework.lectureID) ;
+        return ID == homework.ID && lectureID == homework.lectureID && Objects.equals(name, homework.name) && Objects.equals(CreationDate, homework.CreationDate) && Objects.equals(lecture, homework.lecture) && Objects.equals(DATE_FORMAT, homework.DATE_FORMAT) && Objects.equals(locale, homework.locale) && Objects.equals(deadlineDate, homework.deadlineDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ID, name, lectureID);
+        return Objects.hash(ID, name, CreationDate, lecture, lectureID, DATE_FORMAT, locale, deadlineDate);
     }
 }

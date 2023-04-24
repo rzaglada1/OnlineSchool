@@ -1,6 +1,5 @@
 package services;
 
-
 import models.model_enum.ResourceType;
 import models.AddMaterials;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ public class AddMaterialsService implements Service {
 
     private  AddMaterialsRepository addMaterialsRepository;
 
-   public AddMaterialsService(){};
+   public AddMaterialsService(){}
 
    @Autowired
     public void setAddMaterialsRepository(AddMaterialsRepository addMaterialsRepository) {
@@ -37,19 +36,19 @@ public class AddMaterialsService implements Service {
     }
 
 
-    public List<AddMaterials> sorteAddMaterialsdByName() {
+    public List<AddMaterials> sortedAddMaterialsByName() {
         return addMaterialsRepository.sortedByName();
     }
 
-    public List<AddMaterials> getAddMaterialsByLectureId(int lectureId) {
+    public List<AddMaterials> getAddMaterialsByLectureId(long lectureId) {
         return getAllAddMaterials().stream()
                 .filter(element -> element.getLectureID().isPresent()
                         && element.getLectureID().get() == lectureId).collect(Collectors.toList());
     }
 
-    public void printAddMaterialsByLectureId(int lectureID) {
+    public void printAddMaterialsByLectureId(long lectureID) {
         Predicate<AddMaterials> filterByLectureID = element -> element.getLectureID().isPresent()
-                && element.getLectureID().get() == lectureID;
+                && element.getLecture().getID() == lectureID;
         getAllAddMaterials().stream().filter(filterByLectureID).forEach(System.out::println);
     }
 
@@ -61,12 +60,13 @@ public class AddMaterialsService implements Service {
     }
 
     public Map<ResourceType, Long> countCategory() {
-
-      //  getAllAddMaterials().forEach(System.out::println);
-
         return getAllAddMaterials().stream().collect(
                 Collectors.groupingBy(AddMaterials::getResourceType, Collectors.counting()));
 
+    }
+
+    public void savePerson(AddMaterials addMaterials) {
+        addMaterialsRepository.saveAddMaterialsToRepository(addMaterials);
     }
 
 

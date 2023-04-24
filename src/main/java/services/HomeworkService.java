@@ -3,7 +3,6 @@ package services;
 import models.Homework;
 import org.springframework.beans.factory.annotation.Autowired;
 import repositories.HomeWorkRepository;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -43,4 +42,7 @@ public class HomeworkService {
                         && element.getLectureID().get() == lectureId).collect(Collectors.toList());
     }
 
+    public void saveHomework(Homework homework) {
+        homeWorkRepository.saveHomeworkToRepository(homework);
+    }
 }

@@ -1,57 +1,62 @@
 package models;
 
+import jakarta.persistence.*;
 import models.model_enum.ResourceType;
-import org.springframework.beans.factory.annotation.Autowired;
-import services.LectureService;
-import utils.log.Log;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 
+@Entity
+@Table(name = "add_materials", schema = "online_school")
 public class AddMaterials implements Model, Serializable {
 
-    private  LectureService lectureService;
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "id", nullable = false)
+    private long ID;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "create_date")
+    private final LocalDateTime creationDate;
+
+
+    @ManyToOne
+    @JoinColumn(name = "lecture_id")
+    private Lecture lecture;
+
+    @Column(name = "resource_type")
+    @Enumerated(EnumType.STRING)
+    private ResourceType resourceType;
+
+    @Transient
+    private long lectureID;
 
     public AddMaterials() {
+        creationDate = LocalDateTime.now();
     }
-
-    @Autowired
-    public void setLectureService(LectureService lectureService) {
-        this.lectureService = lectureService;
-    }
-
-    private  long ID;
-    private String name;
-    private static Integer createCount = 0;
-    private  LocalDateTime CreationDate;
-
-
-    private Lecture lecture;
-    private Course course;
-    private  long lectureID;
-    private ResourceType resourceType;
 
 
     public AddMaterials(String name, ResourceType resourceType, Lecture lecture) {
-        this.ID = createCount++;
-        CreationDate = LocalDateTime.now();
+        this();
         this.name = name;
         this.resourceType = resourceType;
         this.lecture = lecture;
         lectureID = lecture.getID();
-        try {
-            course = lecture.getCourse().orElseThrow(NullPointerException::new);
-        }catch (NullPointerException e){
-            Log.error("Model AddMaterials", "NullPointerException  course", e.getStackTrace());
-        }
     }
 
 
-    private Optional<Course> getCourse(long lectureID) {
-        return lectureService
-                .getLectureById(lectureID).orElseThrow(NoSuchElementException::new).getCourse();
+    public void setID(long ID) {
+        this.ID = ID;
+    }
+
+    public void setCreationDate(LocalDateTime creationDate) {
+        creationDate = creationDate;
+    }
+
+    public void setLectureID(long lectureID) {
+        this.lectureID = lectureID;
     }
 
     public Lecture getLecture() {
@@ -63,7 +68,11 @@ public class AddMaterials implements Model, Serializable {
     }
 
     public Optional<Long> getLectureID() {
-        return Optional.ofNullable(lectureID);
+        long id = -1;
+        if (lecture != null) {
+            id = lecture.getID();
+        }
+        return Optional.of(id);
     }
 
 
@@ -76,7 +85,7 @@ public class AddMaterials implements Model, Serializable {
     }
 
     public LocalDateTime getCreationDate() {
-        return CreationDate;
+        return creationDate;
     }
 
     @Override
@@ -94,10 +103,6 @@ public class AddMaterials implements Model, Serializable {
         this.name = name;
     }
 
-    public Optional<Course> getCourse() {
-        return Optional.ofNullable(course);
-    }
-
 
     @Override
     public String toString() {
@@ -105,8 +110,6 @@ public class AddMaterials implements Model, Serializable {
                 "name =" + getName() +
                 ", addMaterialsId=" + getID() +
                 ", ResourceType =" + resourceType +
-                ", lectureID=" + lectureID +
-                ", courseName=" + course.getName() +
                 '}' + '\n';
     }
 
@@ -116,11 +119,11 @@ public class AddMaterials implements Model, Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AddMaterials that = (AddMaterials) o;
-        return Objects.equals(ID, that.ID) && Objects.equals(name, that.name) && Objects.equals(CreationDate, that.CreationDate) && Objects.equals(lecture, that.lecture) && Objects.equals(course, that.course) && Objects.equals(lectureID, that.lectureID) && resourceType == that.resourceType;
+        return ID == that.ID && lectureID == that.lectureID && Objects.equals(name, that.name) && Objects.equals(creationDate, that.creationDate) && Objects.equals(lecture, that.lecture) && resourceType == that.resourceType;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ID, name, CreationDate, lecture, course, lectureID, resourceType);
+        return Objects.hash(ID, name, creationDate, lecture, resourceType, lectureID);
     }
 }
