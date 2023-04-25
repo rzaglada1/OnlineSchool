@@ -1,6 +1,7 @@
 package models;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 
 import java.io.Serializable;
@@ -11,20 +12,21 @@ import java.util.Optional;
 
 @Entity
 @Table(name = "courses", schema = "online_school")
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Course implements Model, Serializable {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
-    private  Long ID;
+    private Long ID;
     @Column(name = "name")
     private String name;
     @Column(name = "create_date")
-    private  LocalDateTime creationDate;
+    private LocalDateTime creationDate;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "courses")
+    @ManyToMany(mappedBy = "courses", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Person> persons;
-
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Lecture> lectures;
@@ -32,7 +34,6 @@ public class Course implements Model, Serializable {
     public Course() {
         creationDate = LocalDateTime.now();
     }
-
 
 
     public Course(Long ID, String name, LocalDateTime creationDate) {
@@ -47,7 +48,7 @@ public class Course implements Model, Serializable {
         this.name = name;
     }
 
-    public Course(long id, String name, LocalDateTime creationDate ) {
+    public Course(long id, String name, LocalDateTime creationDate) {
         this();
         this.ID = id;
         this.name = name;

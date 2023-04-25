@@ -22,10 +22,10 @@ public class PersonRepository implements Repository<Person> {
     public List<Person> getRepository() {
         List<Person> repository = new ArrayList<>();
 
-        try (Session session = HibernateUtil.getSessionFactory().openSession()){
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction tx;
             tx = session.beginTransaction();
-            Query<Person> query = session.createQuery("FROM Person", Person.class);
+            Query<Person> query = session.createQuery("FROM Person p left join fetch p.courses", Person.class);
             repository = query.list();
             tx.commit();
 
@@ -38,17 +38,14 @@ public class PersonRepository implements Repository<Person> {
     @Override
     public Optional<Person> getById(long id) {
         Person person = new Person();
-        try (Session session = HibernateUtil.getSessionFactory().openSession()){
-
-            Transaction tx;
+        Transaction tx;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
             person = session.get(Person.class, id);
             tx.commit();
-
         } catch (Exception e) {
             Log.error(nameLog, "Error get by id in PersonRepository", e.getStackTrace());
         }
-
         return Optional.of(person);
     }
 
@@ -60,15 +57,17 @@ public class PersonRepository implements Repository<Person> {
     }
 
     public void savePersonToRepository(Person person) {
-        Transaction tx;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()){
+        Transaction tx = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 
             tx = session.beginTransaction();
             session.persist(person);
             tx.commit();
-
         } catch (Exception e) {
             Log.error(nameLog, "Error save to Base in PersonRepository", e.getStackTrace());
+            if (tx != null) {
+                tx.rollback();
+            }
         }
     }
 

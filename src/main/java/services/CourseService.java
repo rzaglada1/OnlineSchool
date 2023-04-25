@@ -10,9 +10,10 @@ import java.util.Optional;
 
 public class CourseService implements Service {
 
-    private  CourseRepository courseRepository;
+    private CourseRepository courseRepository;
 
-    public CourseService(){}
+    public CourseService() {
+    }
 
 
     @Autowired

@@ -18,14 +18,12 @@ public class HomeWorkRepository implements Repository<Homework> {
     @Override
     public List<Homework> getRepository() {
         List<Homework> repository = new ArrayList<>();
-
-        try (Session session = HibernateUtil.getSessionFactory().openSession()){
-            Transaction tx;
+        Transaction tx;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
             Query<Homework> query = session.createQuery("FROM Homework", Homework.class);
             repository = query.list();
             tx.commit();
-
         } catch (Exception e) {
             Log.error(nameLog, "Error get repository in HomeworkRepository", e.getStackTrace());
         }
@@ -36,13 +34,11 @@ public class HomeWorkRepository implements Repository<Homework> {
     @Override
     public Optional<Homework> getById(long id) {
         Homework homework = new Homework();
-        try (Session session = HibernateUtil.getSessionFactory().openSession()){
-
-            Transaction tx;
+        Transaction tx;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
             homework = session.get(Homework.class, id);
             tx.commit();
-
         } catch (Exception e) {
             Log.error(nameLog, "Error get by id in HomeworkRepository", e.getStackTrace());
         }
@@ -58,15 +54,16 @@ public class HomeWorkRepository implements Repository<Homework> {
     }
 
     public void saveHomeworkToRepository(Homework homework) {
-        Transaction tx;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()){
-
+        Transaction tx = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
             session.persist(homework);
             tx.commit();
-
         } catch (Exception e) {
             Log.error(nameLog, "Error save to Base in HomeworkRepository", e.getStackTrace());
+            if (tx != null) {
+                tx.rollback();
+            }
         }
     }
 

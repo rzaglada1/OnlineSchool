@@ -19,14 +19,12 @@ public class LectureRepository implements Repository<Lecture>, Serializable {
     @Override
     public List<Lecture> getRepository() {
         List<Lecture> repository = new ArrayList<>();
-
-        try (Session session = HibernateUtil.getSessionFactory().openSession()){
-            Transaction tx;
+        Transaction tx;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
-            Query<Lecture> query = session.createQuery("FROM Lecture", Lecture.class);
+            Query<Lecture> query = session.createQuery("FROM Lecture l left join fetch l.course left join fetch l.person", Lecture.class);
             repository = query.list();
             tx.commit();
-
         } catch (Exception e) {
             Log.error(nameLog, "Error get repository in LectureRepository", e.getStackTrace());
         }
@@ -37,17 +35,14 @@ public class LectureRepository implements Repository<Lecture>, Serializable {
     @Override
     public Optional<Lecture> getById(long id) {
         Lecture lecture = new Lecture();
-        try (Session session = HibernateUtil.getSessionFactory().openSession()){
-
-            Transaction tx;
+        Transaction tx;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
             lecture = session.get(Lecture.class, id);
             tx.commit();
-
         } catch (Exception e) {
             Log.error(nameLog, "Error get by id in LectureRepository", e.getStackTrace());
         }
-
         return Optional.of(lecture);
     }
 
@@ -60,15 +55,16 @@ public class LectureRepository implements Repository<Lecture>, Serializable {
 
 
     public void saveLectureToRepository(Lecture lecture) {
-        Transaction tx;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()){
-
+        Transaction tx = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
             session.persist(lecture);
             tx.commit();
-
         } catch (Exception e) {
             Log.error(nameLog, "Error save to Base in LectureRepository", e.getStackTrace());
+            if (tx != null) {
+                tx.rollback();
+            }
         }
     }
 

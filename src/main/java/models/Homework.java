@@ -1,6 +1,7 @@
 package models;
 
 import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -21,9 +22,7 @@ public class Homework implements Model, Serializable {
     @Column(name = "create_date")
     private final LocalDateTime CreationDate;
 
-
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lecture_id")
     private Lecture lecture;
 
@@ -36,7 +35,7 @@ public class Homework implements Model, Serializable {
     @Transient
     private LocalDateTime deadlineDate;
 
-    public Homework(){
+    public Homework() {
         CreationDate = LocalDateTime.now();
     }
 

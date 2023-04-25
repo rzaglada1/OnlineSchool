@@ -272,11 +272,22 @@ public class MenuUtils {
         System.out.println("================================");
 
         // printing repository objects
-        courseService.printRepository();
-        lectureService.printRepository();
-        addMaterialsService.printRepository();
-        personService.printRepository();
-        homeworkService.printRepository();
+//        courseService.printRepository();
+//        lectureService.printRepository();
+//        personService.printRepository();
+//        addMaterialsService.printRepository();
+//        homeworkService.printRepository();
+
+        System.out.println(courseService.getCourseById(1L));
+        System.out.println(courseService.getCourseById(1L));
+        System.out.println("use_second_level_cache");
+
+        System.out.println(personService.getByIdPerson(1L));
+        System.out.println(lectureService.getLectureById(1L));
+        System.out.println(addMaterialsService.getAddMaterialsById(1L));
+        System.out.println(homeworkService.getHomeworkById(1L));
+
+
     }
 
     public void case1() {
@@ -302,7 +313,7 @@ public class MenuUtils {
                     nameLecture
                     , course
                     , lectureDate,
-                    personService.getByIdPerson(1, Role.TEACHER).orElseThrow()
+                    personService.getByIdPerson(1L).orElseThrow()
             ));
         } catch (NoSuchElementException e) {
             Log.warning(nameLog, "Something wrong", e.getStackTrace());

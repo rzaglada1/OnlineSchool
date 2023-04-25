@@ -1,9 +1,9 @@
 package models;
 
 
-
 import jakarta.persistence.*;
 import utils.log.Log;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -38,8 +38,6 @@ public class Lecture implements Model, Serializable {
     @OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Homework> homeworks;
 
-
-
     @Transient
     private final String DATE_LECTURE_FORMAT = "MMM d, EEEE HH:mm:ss";
     @Transient
@@ -62,7 +60,6 @@ public class Lecture implements Model, Serializable {
         this.course = course;
         this.idCourse = course.getID();
         this.lectureDate = lectureDate;
-        this.idCourse = course.getID();
         this.person = person;
         this.personID = person.getID();
     }
@@ -121,7 +118,6 @@ public class Lecture implements Model, Serializable {
     }
 
 
-
     public void setAddMaterialsList(List<AddMaterials> addMaterialsList) {
         this.addMaterialsList = addMaterialsList;
     }
@@ -165,7 +161,6 @@ public class Lecture implements Model, Serializable {
                     '}' + '\n';
         }
     }
-
 
 
     public Optional<Course> getCourse() {

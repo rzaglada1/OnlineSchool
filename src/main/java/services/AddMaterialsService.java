@@ -14,11 +14,12 @@ import java.util.stream.Collectors;
 public class AddMaterialsService implements Service {
 
 
-    private  AddMaterialsRepository addMaterialsRepository;
+    private AddMaterialsRepository addMaterialsRepository;
 
-   public AddMaterialsService(){}
+    public AddMaterialsService() {
+    }
 
-   @Autowired
+    @Autowired
     public void setAddMaterialsRepository(AddMaterialsRepository addMaterialsRepository) {
         this.addMaterialsRepository = addMaterialsRepository;
     }
@@ -31,7 +32,7 @@ public class AddMaterialsService implements Service {
         getAllAddMaterials().forEach(System.out::println);
     }
 
-    public Optional<AddMaterials> getAddMaterialsById(Integer id) {
+    public Optional<AddMaterials> getAddMaterialsById(Long id) {
         return addMaterialsRepository.getById(id);
     }
 

@@ -6,6 +6,7 @@ import models.model_enum.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import repositories.HomeWorkRepository;
 import repositories.LectureRepository;
+
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Predicate;
@@ -21,7 +22,8 @@ public class LectureService implements Service {
 
     private HomeWorkRepository homeWorkRepository;
 
-    public LectureService(){}
+    public LectureService() {
+    }
 
 
     @Autowired

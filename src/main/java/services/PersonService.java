@@ -20,9 +20,10 @@ import static java.util.stream.Collectors.toList;
 
 public class PersonService {
     String nameLog = "Log OnlineSchool";
-    private  PersonRepository personRepository;
+    private PersonRepository personRepository;
 
-    public PersonService(){}
+    public PersonService() {
+    }
 
 
     @Autowired
@@ -55,8 +56,8 @@ public class PersonService {
         getAllPerson().stream().filter(element -> element.getRole() == Role.TEACHER).forEach(System.out::println);
     }
 
-    public Optional<Person> getByIdPerson(Integer id, Role role) {
-        return getAllPerson().stream().filter(element -> element.getID() == id && element.getRole() == role).findAny();
+    public Optional<Person> getByIdPerson(Long id) {
+        return personRepository.getById(id);
     }
 
     public List<Person> sortedStudentByLastName() {

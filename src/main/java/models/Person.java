@@ -2,6 +2,8 @@ package models;
 
 import jakarta.persistence.*;
 import models.model_enum.Role;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -10,6 +12,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "persons", schema = "online_school")
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Person implements Model, Serializable {
 
 
@@ -31,8 +35,7 @@ public class Person implements Model, Serializable {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "courses_persons"
             , joinColumns = @JoinColumn(name = "person_id")
             , inverseJoinColumns = @JoinColumn(name = "course_id")
@@ -57,7 +60,6 @@ public class Person implements Model, Serializable {
         this.role = role;
         this.courses = courses;
     }
-
 
 
     public Person() {

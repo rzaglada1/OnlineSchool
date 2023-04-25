@@ -3,6 +3,7 @@ package services;
 import models.Homework;
 import org.springframework.beans.factory.annotation.Autowired;
 import repositories.HomeWorkRepository;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -10,9 +11,10 @@ import java.util.stream.Collectors;
 
 public class HomeworkService {
 
-    private  HomeWorkRepository homeWorkRepository;
+    private HomeWorkRepository homeWorkRepository;
 
-    public HomeworkService(){}
+    public HomeworkService() {
+    }
 
 
     @Autowired

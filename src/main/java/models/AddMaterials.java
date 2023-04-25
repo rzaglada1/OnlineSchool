@@ -2,6 +2,7 @@ package models;
 
 import jakarta.persistence.*;
 import models.model_enum.ResourceType;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -22,7 +23,7 @@ public class AddMaterials implements Model, Serializable {
     private final LocalDateTime creationDate;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lecture_id")
     private Lecture lecture;
 
