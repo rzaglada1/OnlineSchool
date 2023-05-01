@@ -20,7 +20,7 @@ public class AddMaterials implements Model, Serializable {
     @Column(name = "name")
     private String name;
     @Column(name = "create_date")
-    private final LocalDateTime creationDate;
+    private LocalDateTime creationDate;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -53,7 +53,7 @@ public class AddMaterials implements Model, Serializable {
     }
 
     public void setCreationDate(LocalDateTime creationDate) {
-        creationDate = creationDate;
+        this.creationDate = creationDate;
     }
 
     public void setLectureID(long lectureID) {

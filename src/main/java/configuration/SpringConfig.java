@@ -1,63 +1,69 @@
 package configuration;
 
-import models.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import repositories.*;
-import services.*;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import utils.MenuUtils;
 import utils.RegexUtil;
 
+import javax.sql.DataSource;
 
 
 @Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories("repositories")
+@ComponentScan(basePackages = {"repositories", "controllers", "models", "services"})
+@PropertySource("classpath:application.properties")
 public class SpringConfig {
 
-    @Bean
-    public CourseRepository courseRepository () {
-        return new CourseRepository();
-    }
-    @Bean
-    public CourseService courseService () {
-        return new CourseService();
+    private Environment environment;
+
+    @Autowired
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
     }
 
     @Bean
-    public LectureRepository lectureRepository () {
-        return new LectureRepository();
-    }
-    @Bean
-    public LectureService lectureService () {
-        return new LectureService();
+    public DataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+
+        dataSource.setDriverClassName(environment.getRequiredProperty("database.driver"));
+        dataSource.setUrl(environment.getRequiredProperty("database.url"));
+        dataSource.setUsername(environment.getRequiredProperty("database.user"));
+        dataSource.setPassword(environment.getRequiredProperty("database.password"));
+
+        return dataSource;
     }
 
     @Bean
-    public PersonRepository personRepository () {
-        return new PersonRepository();
-    }
-    @Bean
-    public PersonService personService () {
-        return new PersonService();
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
+        entityManagerFactoryBean.setDataSource(dataSource());
+        entityManagerFactoryBean.setPackagesToScan("repositories", "models");
+        entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+
+        return entityManagerFactoryBean;
     }
 
 
-    @Bean
-    public AddMaterialsRepository addMaterialsRepository () {
-        return new AddMaterialsRepository();
-    }
-    @Bean
-    public AddMaterialsService addMaterialsService () {
-        return new AddMaterialsService();
-    }
 
     @Bean
-    public HomeWorkRepository homeWorkRepository () {
-        return new HomeWorkRepository();
+    public JpaTransactionManager transactionManager () {
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
+
+        return transactionManager;
     }
-    @Bean
-    public HomeworkService homeworkService () {
-        return new HomeworkService();
-    }
+
 
     //=================================================
 
@@ -71,20 +77,6 @@ public class SpringConfig {
         return new RegexUtil();
     }
 
-    @Bean
-    public Person person(){
-        return new Person();
-    }
-
-    @Bean
-    public Lecture lecture(){
-        return new Lecture();
-    }
-
-    @Bean
-    public AddMaterials addMaterials(){
-        return new AddMaterials();
-    }
 
 
 }

@@ -2,69 +2,13 @@ package repositories;
 
 
 import models.Homework;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
-import utils.HibernateUtil;
-import utils.log.Log;
-
-import java.util.*;
-import java.util.stream.Collectors;
-
-public class HomeWorkRepository implements Repository<Homework> {
-
-    private final String nameLog = "Log OnlineSchool";
-
-    @Override
-    public List<Homework> getRepository() {
-        List<Homework> repository = new ArrayList<>();
-        Transaction tx;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            tx = session.beginTransaction();
-            Query<Homework> query = session.createQuery("FROM Homework", Homework.class);
-            repository = query.list();
-            tx.commit();
-        } catch (Exception e) {
-            Log.error(nameLog, "Error get repository in HomeworkRepository", e.getStackTrace());
-        }
-        return repository;
-    }
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 
-    @Override
-    public Optional<Homework> getById(long id) {
-        Homework homework = new Homework();
-        Transaction tx;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            tx = session.beginTransaction();
-            homework = session.get(Homework.class, id);
-            tx.commit();
-        } catch (Exception e) {
-            Log.error(nameLog, "Error get by id in HomeworkRepository", e.getStackTrace());
-        }
+@Repository
+public interface HomeWorkRepository extends JpaRepository<Homework, Long> {
 
-        return Optional.of(homework);
-    }
 
-    @Override
-    public List<Homework> sortedByName() {
-        return getRepository().stream()
-                .sorted(Comparator.comparing(Homework::getName))
-                .collect(Collectors.toList());
-    }
-
-    public void saveHomeworkToRepository(Homework homework) {
-        Transaction tx = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            tx = session.beginTransaction();
-            session.persist(homework);
-            tx.commit();
-        } catch (Exception e) {
-            Log.error(nameLog, "Error save to Base in HomeworkRepository", e.getStackTrace());
-            if (tx != null) {
-                tx.rollback();
-            }
-        }
-    }
 
 }

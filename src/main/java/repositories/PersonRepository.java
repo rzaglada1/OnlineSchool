@@ -2,75 +2,22 @@ package repositories;
 
 
 import models.Person;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
-import utils.HibernateUtil;
-import utils.log.Log;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
-import java.util.*;
-
-import static java.util.stream.Collectors.toList;
+import java.util.List;
 
 
-public class PersonRepository implements Repository<Person> {
+@Repository
+public interface PersonRepository extends JpaRepository<Person, Long> {
 
-    private final String nameLog = "Log OnlineSchool";
 
-
-    @Override
-    public List<Person> getRepository() {
-        List<Person> repository = new ArrayList<>();
-
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Transaction tx;
-            tx = session.beginTransaction();
-            Query<Person> query = session.createQuery("FROM Person p left join fetch p.courses", Person.class);
-            repository = query.list();
-            tx.commit();
-
-        } catch (Exception e) {
-            Log.error(nameLog, "Error get repository in PersonRepository", e.getStackTrace());
-        }
-        return repository;
-    }
-
-    @Override
-    public Optional<Person> getById(long id) {
-        Person person = new Person();
-        Transaction tx;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            tx = session.beginTransaction();
-            person = session.get(Person.class, id);
-            tx.commit();
-        } catch (Exception e) {
-            Log.error(nameLog, "Error get by id in PersonRepository", e.getStackTrace());
-        }
-        return Optional.of(person);
-    }
-
-    @Override
-    public List<Person> sortedByName() {
-        return getRepository().stream()
-                .sorted(Comparator.comparing(Person::getLastName))
-                .collect(toList());
-    }
-
-    public void savePersonToRepository(Person person) {
-        Transaction tx = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-
-            tx = session.beginTransaction();
-            session.persist(person);
-            tx.commit();
-        } catch (Exception e) {
-            Log.error(nameLog, "Error save to Base in PersonRepository", e.getStackTrace());
-            if (tx != null) {
-                tx.rollback();
-            }
-        }
-    }
-
+    @Query (value = " SELECT p.name, p.last_name, COUNT(cp.person_id)" +
+            "FROM persons AS p  JOIN courses_persons AS  cp on p.id = cp.person_id where p.role = 'STUDENT'" +
+            "GROUP BY p.name, p.last_name " +
+            "ORDER BY p.name", nativeQuery = true)
+    List<Object[]> findByCountCourse ();
 
 }
 

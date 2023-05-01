@@ -3,6 +3,9 @@ package services;
 import models.model_enum.ResourceType;
 import models.AddMaterials;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import repositories.AddMaterialsRepository;
 
 import java.util.List;
@@ -11,7 +14,8 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class AddMaterialsService implements Service {
+@Service
+public class AddMaterialsService  {
 
 
     private AddMaterialsRepository addMaterialsRepository;
@@ -25,7 +29,7 @@ public class AddMaterialsService implements Service {
     }
 
     public List<AddMaterials> getAllAddMaterials() {
-        return addMaterialsRepository.getRepository();
+        return addMaterialsRepository.findAll();
     }
 
     public void printRepository() {
@@ -33,12 +37,13 @@ public class AddMaterialsService implements Service {
     }
 
     public Optional<AddMaterials> getAddMaterialsById(Long id) {
-        return addMaterialsRepository.getById(id);
+        return addMaterialsRepository.findById(id);
     }
 
 
     public List<AddMaterials> sortedAddMaterialsByName() {
-        return addMaterialsRepository.sortedByName();
+        Sort sort = Sort.by("name").ascending();
+        return addMaterialsRepository.findAll(sort);
     }
 
     public List<AddMaterials> getAddMaterialsByLectureId(long lectureId) {
@@ -66,8 +71,9 @@ public class AddMaterialsService implements Service {
 
     }
 
+    @Transactional
     public void savePerson(AddMaterials addMaterials) {
-        addMaterialsRepository.saveAddMaterialsToRepository(addMaterials);
+        addMaterialsRepository.save(addMaterials);
     }
 
 

@@ -2,13 +2,16 @@ package services;
 
 import models.Homework;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import repositories.HomeWorkRepository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
+@Service
 public class HomeworkService {
 
     private HomeWorkRepository homeWorkRepository;
@@ -23,7 +26,7 @@ public class HomeworkService {
     }
 
     public List<Homework> getAllHomework() {
-        return homeWorkRepository.getRepository();
+        return homeWorkRepository.findAll();
     }
 
     public void printRepository() {
@@ -31,11 +34,12 @@ public class HomeworkService {
     }
 
     public Optional<Homework> getHomeworkById(long id) {
-        return homeWorkRepository.getById(id);
+        return homeWorkRepository.findById(id);
     }
 
     public List<Homework> sortedHomeworkByName() {
-        return homeWorkRepository.sortedByName();
+        Sort sort = Sort.by("name").ascending();
+        return homeWorkRepository.findAll(sort);
     }
 
     public List<Homework> getHomeworkByLectureId(long lectureId) {
@@ -44,7 +48,8 @@ public class HomeworkService {
                         && element.getLectureID().get() == lectureId).collect(Collectors.toList());
     }
 
+    @Transactional
     public void saveHomework(Homework homework) {
-        homeWorkRepository.saveHomeworkToRepository(homework);
+        homeWorkRepository.save(homework);
     }
 }

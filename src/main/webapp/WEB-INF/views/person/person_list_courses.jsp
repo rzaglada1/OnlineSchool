@@ -48,20 +48,12 @@
         <h1>Online school</h1>
     </header>
 
-    <nav>
-        <%--        <ul class="nav">--%>
-        <%--            <li>Опція1</li>--%>
-        <%--            <li>Опція2</li>--%>
-        <%--        </ul>--%>
-    </nav>
-
     <main>
 
         <h1>List Persons sorted by name and courses</h1>
         <table class="bold">
             <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
                 <th>Last name</th>
                 <th>Count courses</th>
@@ -70,7 +62,6 @@
             <tbody>
             <c:forEach var="person" items="${personIntegerMap}">
                 <tr>
-                    <td>${person.key.ID}</td>
                     <td>${person.key.name}</td>
                     <td>${person.key.lastName}</td>
                     <td>${person.value}</td>

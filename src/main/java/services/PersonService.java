@@ -4,6 +4,9 @@ package services;
 import models.Person;
 import models.model_enum.Role;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import repositories.PersonRepository;
 import utils.MenuUtils;
 import utils.log.Log;
@@ -18,6 +21,7 @@ import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
+@Service
 public class PersonService {
     String nameLog = "Log OnlineSchool";
     private PersonRepository personRepository;
@@ -32,7 +36,7 @@ public class PersonService {
     }
 
     public List<Person> getAllPerson() {
-        return personRepository.getRepository();
+        return personRepository.findAll();
 
     }
 
@@ -40,12 +44,13 @@ public class PersonService {
         getAllPerson().forEach(System.out::println);
     }
 
-    public Optional<Person> getById(Integer id) {
-        return personRepository.getById(id);
+    public Optional<Person> getById(long id) {
+        return personRepository.findById(id);
     }
 
     public List<Person> sortedByName() {
-        return personRepository.sortedByName();
+        Sort sort = Sort.by("name").ascending();
+        return personRepository.findAll(sort);
     }
 
     public void printRepositoryStudent() {
@@ -57,7 +62,7 @@ public class PersonService {
     }
 
     public Optional<Person> getByIdPerson(Long id) {
-        return personRepository.getById(id);
+        return personRepository.findById(id);
     }
 
     public List<Person> sortedStudentByLastName() {
@@ -124,19 +129,26 @@ public class PersonService {
     }
 
     public Map<Person, Integer> sortedByCourses() {
-        Map<Person, Integer> personLongMap = getAllPerson().stream()
-                .filter(el -> el.getRole().equals(Role.STUDENT))
-                .collect(
-                        Collectors.toMap(p -> p, e -> e.getCourses().size())
-                );
-        return personLongMap.entrySet().stream()
+        Map<Person,Integer> personIntegerMap = new HashMap<>();
+        Person person;
+        for(Object[] objects: personRepository.findByCountCourse()) {
+            person = new Person();
+            String name = (String) objects[0];
+            String lastName = (String) objects[1];
+            int count = Integer.parseInt( objects[2].toString() );
+            person.setName(name);
+            person.setLastName(lastName);
+            personIntegerMap.put(person, count);
+        }
+        return personIntegerMap.entrySet().stream()
                 .sorted(Comparator.comparing(k -> k.getKey().getLastName()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (k, v) -> k, LinkedHashMap::new));
     }
 
 
+    @Transactional
     public void savePerson(Person person) {
-        personRepository.savePersonToRepository(person);
+        personRepository.save(person);
     }
 
 }

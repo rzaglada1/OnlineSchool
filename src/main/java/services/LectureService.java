@@ -4,6 +4,9 @@ package services;
 import models.*;
 import models.model_enum.Role;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import repositories.HomeWorkRepository;
 import repositories.LectureRepository;
 
@@ -13,7 +16,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 
-public class LectureService implements Service {
+@Service
+public class LectureService  {
 
 
     private LectureRepository lectureRepository;
@@ -42,7 +46,7 @@ public class LectureService implements Service {
     }
 
     public List<Lecture> getAllLecture() {
-        return lectureRepository.getRepository();
+        return lectureRepository.findAll();
     }
 
     public void printRepository() {
@@ -50,11 +54,12 @@ public class LectureService implements Service {
     }
 
     public Optional<Lecture> getLectureById(long id) {
-        return lectureRepository.getById(id);
+        return lectureRepository.findById(id);
     }
 
     public List<Lecture> sortedByName() {
-        return lectureRepository.sortedByName();
+        Sort sort = Sort.by("name").ascending();
+        return lectureRepository.findAll(sort);
     }
 
 
@@ -165,7 +170,7 @@ public class LectureService implements Service {
 
     public List<Lecture> firstLectureMaxHomework() throws NoSuchElementException {
 
-        List<Homework> homeworks = homeWorkRepository.getRepository();
+        List<Homework> homeworks = homeWorkRepository.findAll();
 
         // 1) Знайти лекцію, що була створена раніше за всіх
         List<Long> lectureIDMinDate = lectureMinDateCreate();
@@ -201,8 +206,9 @@ public class LectureService implements Service {
     }
 
 
+    @Transactional
     public void saveLecture(Lecture lecture) {
-        lectureRepository.saveLectureToRepository(lecture);
+        lectureRepository.save(lecture);
     }
 
 }

@@ -378,7 +378,7 @@ public class MenuUtils {
         try {
             lectureService.getLectureById(lectureID);
             lecture = lectureService.getLectureById(lectureID).orElseThrow(NoSuchElementException::new);
-            homeWorkRepository.getRepository().add(new Homework(nameHomework, lecture));
+            homeWorkRepository.findAll().add(new Homework(nameHomework, lecture));
         } catch (NoSuchElementException e) {
             Log.warning(nameLog, "Something wrong", e.getStackTrace());
         }
@@ -431,7 +431,7 @@ public class MenuUtils {
             switch (addRemoveHomework()) {
                 case 1 -> {
                     System.out.println("Enter name Homework");
-                    homeWorkRepository.getRepository().add(new Homework(inputString(), lecture));
+                    homeWorkRepository.findAll().add(new Homework(inputString(), lecture));
                 }
                 case 2 -> {
                     System.out.println("Enter name addMaterials");
@@ -443,7 +443,7 @@ public class MenuUtils {
                         e.printStackTrace();
                     }
                 }
-                case 3 -> homeWorkRepository.getRepository()
+                case 3 -> homeWorkRepository.findAll()
                         .removeIf(obj -> obj.getLectureID().orElseThrow(NoSuchElementException::new) == inputLectureID);
                 case 4 -> addMaterialsService.getAllAddMaterials()
                         .removeIf(obj -> obj.getLectureID().orElseThrow(NoSuchElementException::new) == inputLectureID);
