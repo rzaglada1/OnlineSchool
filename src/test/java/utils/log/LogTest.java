@@ -1,5 +1,7 @@
 package utils.log;
 
+import com.online_school.utils.log.Log;
+import com.online_school.utils.log.LogLevel;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

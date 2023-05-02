@@ -1,5 +1,7 @@
 package utils.log;
 
+import com.online_school.utils.log.LogProperty;
+import com.online_school.utils.log.LogToFile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
