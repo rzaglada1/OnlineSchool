@@ -3,6 +3,8 @@ package com.online_school.models;
 
 import com.online_school.utils.log.Log;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -18,6 +20,8 @@ public class Lecture implements Model, Serializable {
     @Column(name = "id", nullable = false)
     private long ID;
     @Column(name = "name")
+    @NotBlank(message = "{message.lecture-notBlank}")
+    @Size(min = 2, max = 50, message = "{message.lecture-size}")
     private String name;
     @Column(name = "create_date")
     private final LocalDateTime creationDate;

@@ -2,6 +2,7 @@ package com.online_school.controllers.course;
 
 import com.online_school.models.Course;
 import com.online_school.services.CourseService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,7 +43,7 @@ public class CourseController {
     }
 
     @PostMapping("/courses/new")
-    public String courseSave(Course course) {
+    public String courseSave(@Valid  Course course) {
         courseService.saveCourse(course);
         return "redirect:/";
     }

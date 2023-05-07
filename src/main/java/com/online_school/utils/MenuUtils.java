@@ -1,7 +1,7 @@
 package com.online_school.utils;
 
 import com.online_school.Main;
-import com.online_school.backup.ServiceBackupFile;
+import com.online_school.controllers.backup.ServiceBackupFile;
 import com.online_school.utils.log.LogProperty;
 import com.online_school.utils.log.LogToFile;
 import com.online_school.models.model_enum.ResourceType;

@@ -2,6 +2,9 @@ package com.online_school.models;
 
 import com.online_school.models.model_enum.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.io.Serializable;
@@ -22,14 +25,23 @@ public class Person implements Model, Serializable {
     @Column(name = "id", nullable = false)
     private Long ID;
     @Column(name = "name")
+    @NotBlank(message = "{message.person-notBlank}")
+    @Size(min = 2, max = 50, message = "{message.person-size}")
     private String name;
     @Column(name = "create_date")
     private final LocalDateTime CreationDate;
     @Column(name = "last_name")
+    @NotBlank(message = "{message.person-notBlank}")
+    @Size(min = 2, max = 50, message = "{message.person-size}")
     private String lastName;
     @Column(name = "phone")
+    @NotBlank(message = "{message.person-notBlank}")
+    @Size(min = 2, max = 50, message = "{message.person-size}")
     private String phone;
     @Column(name = "email")
+    @NotBlank(message = "{message.person-notBlank}")
+    @Size(min = 2, max = 50, message = "{message.person-size}")
+    @Email(message = "{message.person-email}")
     private String email;
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
