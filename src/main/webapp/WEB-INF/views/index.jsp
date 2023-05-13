@@ -77,6 +77,10 @@
             <li>
                 <a href="${pageContext.request.contextPath}/tests">Tests</a>
             </li>
+
+            <li>
+                <a href="${pageContext.request.contextPath}/users/new">New user registration</a>
+            </li>
         </ol>
     </main>
     <footer>

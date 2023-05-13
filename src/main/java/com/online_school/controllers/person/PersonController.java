@@ -5,6 +5,8 @@ import com.online_school.services.PersonService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Map;
@@ -39,6 +41,15 @@ public class PersonController {
         model.addAttribute("persons", persons);
         return "/person/person_list_filter_name_char";
     }
+
+
+
+    @GetMapping("/users/new")
+    public String userForm () {
+        return "/user/user_form";
+    }
+
+
 
 
 }

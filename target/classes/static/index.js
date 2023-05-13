@@ -42,7 +42,6 @@ for(let i = 0; i < questions.length; i++) {
   }
 
   userAnswers[i] = prompt(str);
-  console.log(userAnswers[i]);
   if (userAnswers[i] == null || userAnswers[i].length === 0 || isNaN(userAnswers[i]*10)) {
     i--;
   }
