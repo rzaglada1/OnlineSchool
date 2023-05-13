@@ -74,6 +74,9 @@
                 <a href="${pageContext.request.contextPath}/persons/courses">List Persons sorted by last name and
                     courses</a>
             </li>
+            <li>
+                <a href="${pageContext.request.contextPath}/tests">Tests</a>
+            </li>
         </ol>
     </main>
     <footer>
