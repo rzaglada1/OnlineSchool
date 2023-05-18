@@ -7,7 +7,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
 public class SocketThread implements Runnable {
-    private SocketChannel socketChannel;
+    private final SocketChannel socketChannel;
     String nameLog = "Log OnlineSchool";
     String ip;
 

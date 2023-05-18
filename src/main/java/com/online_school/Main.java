@@ -10,6 +10,8 @@ import org.springframework.context.ApplicationContext;
 @SpringBootApplication
 public class Main {
 
+
+
     private final static String userDir = System.getProperty("user.home");
     public final static String NAME_FILE_BACKUP = userDir + "/serviceOnlineSchool/Backup.";
     public static final String STR_PATH_DIRECTORY = userDir + "/serviceOnlineSchool/";
@@ -21,7 +23,6 @@ public class Main {
     public static ApplicationContext context;
 
     public static void main(String[] args) {
-
 
         ApplicationContext context = SpringApplication.run(Main.class, args);
 
