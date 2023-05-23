@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>List Persons sorted by last name and courses</title>
+    <title>List teachers selected by last name begin with <"N" or "Н"</title>
     <style>
         td, table, th {
             border: 1px solid black;
@@ -26,6 +26,12 @@
             width: 900px;
         }
 
+        .nav {
+            display: flex;
+            gap: 30px;
+            font-weight: 600;
+            font-size: 18px;
+        }
 
         a:hover {
             color: brown;
@@ -42,33 +48,39 @@
 
     <main>
 
-        <h1>List Persons sorted by name and courses</h1>
+        <h1>List teachers selected by last name begin with <"N" or "Н"</h1>
         <table class="bold">
             <thead>
             <tr>
+                <th>Id</th>
                 <th>Name</th>
                 <th>Last name</th>
-                <th>Count courses</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Role</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="person" items="${personIntegerMap}">
-
+                <#list persons as person>
                 <tr>
-                    <td>${person.key.name}</td>
-                    <td>${person.key.lastName}</td>
-                    <td>${person.value}</td>
+                    <td>${person.ID}</td>
+                    <td>${person.name}</td>
+                    <td>${person.lastName}</td>
+                    <td>${person.phone}</td>
+                    <td>${person.email}</td>
+                    <td>${person.role}</td>
                 </tr>
-            </c:forEach>
+                </#list>
 
             </tbody>
 
         </table>
         <br>
-        <a href="${pageContext.request.contextPath}/">Redirect to home page</a>
+        <a href="/">Redirect to home page</a>
 
     </main>
 </div>
-
 </body>
 </html>
+
+

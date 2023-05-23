@@ -1,6 +1,7 @@
+
 <html>
 <head>
-    <title>List Persons sorted by last name and courses</title>
+    <title>List students sorted by last name</title>
     <style>
         td, table, th {
             border: 1px solid black;
@@ -42,33 +43,31 @@
 
     <main>
 
-        <h1>List Persons sorted by name and courses</h1>
+        <h1>Count AddMaterials by category</h1>
         <table class="bold">
             <thead>
             <tr>
-                <th>Name</th>
-                <th>Last name</th>
-                <th>Count courses</th>
+                <th>Category</th>
+                <th>Count</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="person" items="${personIntegerMap}">
 
+                <#list mapMaterials as key, value>
                 <tr>
-                    <td>${person.key.name}</td>
-                    <td>${person.key.lastName}</td>
-                    <td>${person.value}</td>
-                </tr>
-            </c:forEach>
+                    <td>${key}</td>
+                    <td>${value}</td>
 
+                </tr>
+
+                </#list>
             </tbody>
 
         </table>
         <br>
-        <a href="${pageContext.request.contextPath}/">Redirect to home page</a>
+        <a href="/">Redirect to home page</a>
 
     </main>
 </div>
-
 </body>
 </html>

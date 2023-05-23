@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>List Persons sorted by last name and courses</title>
+    <title>Table courses</title>
     <style>
         td, table, th {
             border: 1px solid black;
@@ -26,10 +26,16 @@
             width: 900px;
         }
 
+        .nav {
+            display: flex;
+            gap: 30px;
+            font-weight: 600;
+            font-size: 18px;
+        }
 
         a:hover {
             color: brown;
-            font-size: 18px;
+            font-size: 18px ;
         }
     </style>
 
@@ -41,34 +47,30 @@
     </header>
 
     <main>
-
-        <h1>List Persons sorted by name and courses</h1>
+        <h1>Table courses</h1>
         <table class="bold">
             <thead>
             <tr>
                 <th>Name</th>
-                <th>Last name</th>
-                <th>Count courses</th>
+                <th>Details</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="person" items="${personIntegerMap}">
 
+                <#list courses as course>
                 <tr>
-                    <td>${person.key.name}</td>
-                    <td>${person.key.lastName}</td>
-                    <td>${person.value}</td>
+                    <td>${course.name}</td>
+                    <td><a href="/course_detail/${course.ID}">details...</a></td>
                 </tr>
-            </c:forEach>
+                </#list>
 
             </tbody>
 
         </table>
         <br>
-        <a href="${pageContext.request.contextPath}/">Redirect to home page</a>
+        <a href="/">Redirect to home page</a>
 
     </main>
 </div>
-
 </body>
 </html>

@@ -1,13 +1,9 @@
 <html>
 <head>
-    <title>List Persons sorted by last name and courses</title>
+    <title>Table courses</title>
     <style>
         td, table, th {
             border: 1px solid black;
-        }
-
-        .bold tbody tr:nth-child(2n) {
-            font-weight: bold;
         }
 
         body {
@@ -26,13 +22,19 @@
             width: 900px;
         }
 
+        .nav {
+            display: flex;
+            gap: 30px;
+            font-weight: 600;
+            font-size: 18px;
+        }
 
         a:hover {
             color: brown;
             font-size: 18px;
         }
-    </style>
 
+    </style>
 </head>
 <body>
 <div class="container">
@@ -41,34 +43,27 @@
     </header>
 
     <main>
-
-        <h1>List Persons sorted by name and courses</h1>
-        <table class="bold">
+        <h1>Course detail</h1>
+        <table class="courses">
             <thead>
             <tr>
+                <th>id</th>
                 <th>Name</th>
-                <th>Last name</th>
-                <th>Count courses</th>
+                <th>Data created</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="person" items="${personIntegerMap}">
+            <tr>
+                <td>${course.ID}</td>
+                <td>${course.name}</td>
+                <td>${course.creationDate}</td>
 
-                <tr>
-                    <td>${person.key.name}</td>
-                    <td>${person.key.lastName}</td>
-                    <td>${person.value}</td>
-                </tr>
-            </c:forEach>
-
+            </tr>
             </tbody>
-
         </table>
-        <br>
-        <a href="${pageContext.request.contextPath}/">Redirect to home page</a>
 
+        <a href="/">Redirect to home page</a>
     </main>
 </div>
-
 </body>
 </html>

@@ -12,8 +12,8 @@ import java.util.List;
 public class TestController {
 
 
-        @GetMapping("/tests")
-        public String testsRun(Model model) {
-            return "/test_html/test_html";
-        }
+    @GetMapping("/tests")
+    public String testsRun(Model model) {
+        return "/test_html/test_html";
+    }
 }

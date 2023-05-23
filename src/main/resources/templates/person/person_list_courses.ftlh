@@ -1,3 +1,4 @@
+
 <html>
 <head>
     <title>List Persons sorted by last name and courses</title>
@@ -52,20 +53,19 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="person" items="${personIntegerMap}">
-
+                <#list personIntegerMap as key, value>
                 <tr>
-                    <td>${person.key.name}</td>
-                    <td>${person.key.lastName}</td>
-                    <td>${person.value}</td>
+                    <td>${key.name}</td>
+                    <td>${key.lastName}</td>
+                    <td>${value}</td>
                 </tr>
-            </c:forEach>
+                </#list>
 
             </tbody>
 
         </table>
         <br>
-        <a href="${pageContext.request.contextPath}/">Redirect to home page</a>
+        <a href="/">Redirect to home page</a>
 
     </main>
 </div>
